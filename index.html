@@ -2,817 +2,962 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b10">
 <meta name="background-color" content="#080b10">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Odesa Alert">
-<meta name="description"
-      content="Odesa Alert — повітряні тривоги Одеси та Одеської області">
+<meta name="description" content="Odesa Alert — повітряні тривоги Одеси та Одеської області">
 <link rel="manifest" href="./manifest.json">
 <title>Odesa Alert</title>
 <style>
 *{
   box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+  -webkit-tap-highlight-color:transparent
 }
 html{
   background:#080b10;
-  color-scheme:dark;
+  scroll-behavior:smooth
 }
 body{
   margin:0;
-  min-height:100vh;
-  min-height:100dvh;
   background:#080b10;
-  color:#fff;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
-               "Segoe UI",Roboto,Arial,sans-serif;
-  overflow-x:hidden;
+  color:#f5f7fa;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif
 }
 button{
-  font:inherit;
+  font:inherit
+}
+a{
+  color:inherit
 }
 .app{
-  width:100%;
-  max-width:680px;
-  margin:0 auto;
-  padding:
-    env(safe-area-inset-top)
-    14px
-    calc(88px + env(safe-area-inset-bottom))
-    14px;
+  max-width:620px;
+  min-height:100vh;
+  margin:auto;
+  padding-bottom:100px
 }
-/* HEADER */
 .header{
+  padding:calc(18px + env(safe-area-inset-top)) 18px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+.brand{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  padding:18px 4px 16px;
+  gap:12px
 }
 .logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.logo-icon{
-  width:38px;
-  height:38px;
-  border-radius:12px;
+  width:46px;
+  height:46px;
+  border-radius:15px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#151a23;
-  border:1px solid #252c38;
+  background:linear-gradient(145deg,#ff454f,#a90e1a);
+  box-shadow:0 8px 28px rgba(255,40,50,.25)
+}
+.logo svg{
+  width:27px;
+  height:27px
+}
+.brand h1{
+  margin:0;
   font-size:20px;
+  letter-spacing:-.5px
 }
-.logo-title{
-  font-size:18px;
-  font-weight:800;
-  letter-spacing:-.3px;
-}
-.logo-sub{
-  margin-top:2px;
-  font-size:11px;
-  color:#7f8998;
+.brand p{
+  margin:4px 0 0;
+  color:#7e8997;
+  font-size:12px
 }
 .live{
   display:flex;
   align-items:center;
   gap:6px;
-  padding:7px 10px;
-  border-radius:20px;
-  background:#11161e;
-  border:1px solid #202733;
-  font-size:11px;
-  color:#9aa5b5;
+  color:#5de183;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.7px
 }
 .live-dot{
   width:7px;
   height:7px;
   border-radius:50%;
-  background:#36d67a;
-  box-shadow:0 0 8px rgba(54,214,122,.7);
+  background:#45dc76;
+  box-shadow:0 0 10px #45dc76
 }
-/* STATUS */
 .status-card{
-  position:relative;
-  overflow:hidden;
-  border-radius:24px;
-  padding:24px 20px;
-  margin-bottom:14px;
-  background:#11161e;
-  border:1px solid #242c38;
-  transition:.25s ease;
+  margin:12px 16px;
+  padding:22px;
+  border-radius:25px;
+  background:radial-gradient(circle at 100% 0%,rgba(43,213,105,.14),transparent 45%),#10151d;
+  border:1px solid #1d2632;
+  box-shadow:0 15px 40px rgba(0,0,0,.25);
+  transition:.3s
 }
 .status-card.alert{
-  background:#211316;
-  border-color:#5a272c;
-}
-.status-card.safe{
-  background:#101a16;
-  border-color:#203a2d;
+  background:radial-gradient(circle at 100% 0%,rgba(255,55,65,.22),transparent 45%),#171014;
+  border-color:#542329
 }
 .status-top{
   display:flex;
-  align-items:center;
-  gap:14px;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px
+}
+.status-label{
+  margin-bottom:7px;
+  color:#778291;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.7px
+}
+.status{
+  font-size:29px;
+  line-height:1.1;
+  font-weight:800;
+  letter-spacing:-1px
+}
+.status.green{
+  color:#58df82
+}
+.status.red{
+  color:#ff4b55
+}
+.region{
+  margin-top:8px;
+  color:#9aa4b1;
+  font-size:13px
 }
 .status-icon{
-  width:58px;
-  height:58px;
-  flex:none;
-  border-radius:18px;
+  width:56px;
+  height:56px;
+  flex:0 0 auto;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:27px;
-  background:#17231d;
+  border-radius:18px;
+  background:#13261a;
+  font-size:27px
 }
 .alert .status-icon{
-  background:#34181b;
+  background:#30151a
 }
-.status-label{
-  font-size:12px;
-  color:#8993a2;
-  margin-bottom:5px;
+.info-row{
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid #202a36;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
 }
-.status-title{
-  font-size:25px;
-  line-height:1.1;
-  font-weight:850;
-  letter-spacing:-.7px;
+.info-box{
+  padding:13px;
+  border-radius:15px;
+  background:#0b1016
 }
-.status-card.safe .status-title{
-  color:#55e08a;
+.info-title{
+  color:#687483;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.7px
 }
-.status-card.alert .status-title{
-  color:#ff6670;
+.info-value{
+  margin-top:5px;
+  font-size:15px;
+  font-weight:700
 }
-.region{
-  margin-top:18px;
-  font-size:14px;
-  color:#aab3c0;
-}
-.updated{
-  margin-top:7px;
-  font-size:11px;
-  color:#6f7988;
-}
-.alert-timer{
-  display:none;
-  margin-top:15px;
-  padding-top:14px;
-  border-top:1px solid rgba(255,255,255,.07);
-}
-.alert .alert-timer{
-  display:block;
-}
-.timer-label{
-  color:#8d97a6;
-  font-size:11px;
-}
-.timer-value{
-  margin-top:4px;
-  font-size:22px;
-  font-weight:800;
-}
-/* ACTIONS */
 .actions{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
-  margin-bottom:14px;
+  margin:12px 16px 20px
 }
 .action{
-  min-height:54px;
-  border:1px solid #252d39;
-  border-radius:16px;
-  background:#11161e;
-  color:#fff;
+  min-height:48px;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:8px;
+  border:1px solid #222c38;
+  border-radius:16px;
+  background:#111720;
+  color:white;
   text-decoration:none;
   font-size:13px;
   font-weight:700;
-  cursor:pointer;
+  transition:.15s
 }
 .action:active{
-  transform:scale(.98);
-  background:#171d27;
+  transform:scale(.97)
 }
-/* CARDS */
-.card{
-  background:#10151d;
-  border:1px solid #202833;
-  border-radius:21px;
-  padding:17px;
-  margin-bottom:14px;
+.action.primary{
+  background:#e52c38;
+  border-color:#e52c38
 }
-.card-title{
+.section{
+  margin:0 16px 20px
+}
+.section-head{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:14px;
+  margin-bottom:11px
 }
-.card-title strong{
-  font-size:16px;
+.section-title{
+  font-size:17px;
+  font-weight:750
 }
-.card-title span{
-  font-size:11px;
-  color:#687384;
+.section-link{
+  color:#737f8e;
+  font-size:11px
 }
-/* MAP */
-.map-wrap{
+.map-card{
   overflow:hidden;
-  border-radius:16px;
-  background:#090d13;
-  position:relative;
+  border-radius:22px;
+  background:#10151d;
+  border:1px solid #1d2632
 }
-.map-wrap iframe{
-  display:block;
+.map{
+  position:relative;
+  height:365px;
+  background:#0c1117
+}
+.map iframe{
   width:100%;
-  height:410px;
-  border:0;
+  height:100%;
+  border:0
 }
 .map-loading{
   position:absolute;
   inset:0;
+  z-index:2;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#090d13;
-  color:#7d8796;
-  font-size:12px;
-  pointer-events:none;
-  transition:.2s;
+  background:#0c1117;
+  transition:.3s
 }
-.map-loading.hidden{
-  opacity:0;
+.spinner{
+  width:30px;
+  height:30px;
+  border:3px solid #26313d;
+  border-top-color:#ff3d49;
+  border-radius:50%;
+  animation:spin .8s linear infinite
 }
-/* HISTORY */
-.history-list{
+@keyframes spin{
+  to{
+    transform:rotate(360deg)
+  }
+}
+.history{
   display:flex;
   flex-direction:column;
-  gap:9px;
+  gap:8px
 }
 .history-item{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:12px;
-  padding:12px;
-  border-radius:14px;
-  background:#151a22;
+  align-items:center;
+  padding:14px;
+  border-radius:16px;
+  background:#10151d;
+  border:1px solid #1d2632
 }
 .history-left{
   display:flex;
   align-items:center;
-  gap:10px;
-  min-width:0;
+  gap:11px
 }
-.history-dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:#ff5864;
-  flex:none;
+.history-icon{
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:#13261a
 }
-.history-item.end .history-dot{
-  background:#45d47d;
+.history-icon.alert{
+  background:#291417
 }
 .history-name{
   font-size:13px;
-  font-weight:700;
+  font-weight:650
 }
 .history-time{
   margin-top:3px;
-  color:#6f7988;
-  font-size:10px;
+  color:#687483;
+  font-size:11px
 }
 .history-duration{
-  flex:none;
-  font-size:11px;
-  color:#9ca6b4;
+  color:#9ca7b4;
+  font-size:12px
 }
-.empty{
-  text-align:center;
-  color:#6f7988;
-  padding:22px 10px;
-  font-size:12px;
-}
-/* STATS */
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:8px;
+  gap:8px
 }
 .stat{
-  padding:14px 8px;
-  border-radius:15px;
-  background:#151a22;
-  text-align:center;
+  padding:16px 8px;
+  border-radius:17px;
+  background:#10151d;
+  border:1px solid #1d2632;
+  text-align:center
 }
 .stat-number{
-  font-size:21px;
-  font-weight:850;
+  font-size:20px;
+  font-weight:800
 }
 .stat-label{
   margin-top:4px;
-  color:#737e8d;
+  color:#687483;
   font-size:9px;
+  font-weight:700
 }
-/* SETTINGS */
+.settings{
+  display:flex;
+  flex-direction:column;
+  gap:8px
+}
 .setting{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
-  padding:13px 0;
-  border-bottom:1px solid #1d242e;
+  padding:15px;
+  border-radius:17px;
+  background:#10151d;
+  border:1px solid #1d2632
 }
-.setting:last-child{
-  border-bottom:0;
+.setting-left{
+  display:flex;
+  align-items:center;
+  gap:12px
+}
+.setting-icon{
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:#181f28;
+  font-size:17px
 }
 .setting-title{
   font-size:13px;
-  font-weight:700;
+  font-weight:650
 }
 .setting-sub{
   margin-top:3px;
-  color:#687384;
-  font-size:10px;
+  color:#687483;
+  font-size:10px
 }
 .switch{
-  width:48px;
-  height:28px;
-  flex:none;
+  position:relative;
+  width:46px;
+  height:27px;
+  border:0;
   border-radius:20px;
-  padding:3px;
-  background:#292f39;
+  background:#303944;
   cursor:pointer;
-  transition:.2s;
+  padding:0
+}
+.switch::after{
+  content:"";
+  position:absolute;
+  top:4px;
+  left:4px;
+  width:19px;
+  height:19px;
+  border-radius:50%;
+  background:white;
+  transition:.2s
 }
 .switch.active{
-  background:#36c975;
+  background:#e52c38
 }
-.switch-knob{
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  background:#fff;
-  transition:.2s;
+.switch.active::after{
+  left:23px
 }
-.switch.active .switch-knob{
-  transform:translateX(20px);
+.info-card{
+  padding:18px;
+  border-radius:20px;
+  background:#10151d;
+  border:1px solid #1d2632
 }
-/* FOOTER */
-.info{
-  color:#677181;
-  text-align:center;
+.info-card p{
+  margin:0;
+  color:#8d98a6;
+  font-size:12px;
+  line-height:1.55
+}
+.info-card strong{
+  color:#e7ebef
+}
+.footer{
+  padding:8px 20px 20px;
+  color:#4f5966;
   font-size:10px;
-  line-height:1.55;
-  padding:5px 10px 20px;
+  line-height:1.5;
+  text-align:center
 }
-.info strong{
-  color:#8a95a5;
-}
-/* BOTTOM NAV */
 .bottom-nav{
   position:fixed;
-  z-index:50;
+  z-index:20;
   left:50%;
   bottom:0;
+  width:min(620px,100%);
   transform:translateX(-50%);
-  width:min(680px,100%);
-  padding:
-    8px
-    14px
-    calc(8px + env(safe-area-inset-bottom));
-  background:rgba(8,11,16,.94);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  border-top:1px solid #1b222c;
-}
-.nav-inner{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:5px;
+  grid-template-columns:repeat(5,1fr);
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(8,11,16,.94);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  border-top:1px solid #1c2530
 }
-.nav-btn{
-  border:0;
-  background:transparent;
-  color:#667181;
-  padding:8px 2px;
-  border-radius:12px;
-  cursor:pointer;
+.nav-item{
+  padding:5px;
+  color:#697583;
+  text-decoration:none;
   font-size:9px;
-}
-.nav-btn.active{
-  color:#fff;
-  background:#151a22;
+  text-align:center
 }
 .nav-icon{
   display:block;
-  font-size:18px;
   margin-bottom:3px;
+  font-size:19px
 }
-/* CONNECTION */
-.connection{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  margin-top:9px;
-  font-size:10px;
-  color:#687384;
+.nav-item.active{
+  color:#ff4a54
 }
-.connection-dot{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:#697483;
+.install{
+  display:none;
+  position:fixed;
+  z-index:50;
+  left:14px;
+  right:14px;
+  bottom:calc(78px + env(safe-area-inset-bottom));
+  padding:16px;
+  border:1px solid #2a3542;
+  border-radius:20px;
+  background:#111720;
+  box-shadow:0 15px 40px rgba(0,0,0,.45)
 }
-.connection.online .connection-dot{
-  background:#42d57b;
+.install.show{
+  display:block
 }
-.connection.offline .connection-dot{
-  background:#ff5964;
+.install-title{
+  font-size:14px;
+  font-weight:750
 }
-/* REFRESH */
-.refresh-btn{
-  border:0;
-  background:#151a22;
-  color:#aab3c0;
-  border-radius:10px;
-  padding:6px 9px;
+.install-text{
+  margin-top:5px;
+  color:#8994a1;
   font-size:11px;
-  cursor:pointer;
+  line-height:1.4
 }
-.refresh-btn:active{
-  transform:scale(.95);
+.install-buttons{
+  display:flex;
+  gap:8px;
+  margin-top:12px
 }
-@media(max-width:380px){
-  .status-title{
-    font-size:22px;
-  }
-  .map-wrap iframe{
-    height:350px;
+.install button{
+  flex:1;
+  padding:10px;
+  border:0;
+  border-radius:12px;
+  background:#e52c38;
+  color:white;
+  font-size:12px;
+  font-weight:700
+}
+.install .close{
+  background:#202a35
+}
+@media(min-width:621px){
+  .bottom-nav{
+    border-left:1px solid #1c2530;
+    border-right:1px solid #1c2530
   }
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <header class="header">
+<header class="header" id="top">
+  <div class="brand">
     <div class="logo">
-      <div class="logo-icon">🚨</div>
-      <div>
-        <div class="logo-title">Odesa Alert</div>
-        <div class="logo-sub">Одеса та Одеська область</div>
-      </div>
+      <svg viewBox="0 0 64 64" fill="none">
+        <path
+          d="M32 6L52 14V29C52 42 44 53 32 58C20 53 12 42 12 29V14L32 6Z"
+          stroke="white"
+          stroke-width="5"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M32 18V35"
+          stroke="white"
+          stroke-width="6"
+          stroke-linecap="round"
+        />
+        <circle
+          cx="32"
+          cy="44"
+          r="3"
+          fill="white"
+        />
+      </svg>
     </div>
-    <div class="live">
-      <span class="live-dot"></span>
-      LIVE
+    <div>
+      <h1>Odesa Alert</h1>
+      <p>
+        Одеса та Одеська область
+      </p>
     </div>
-  </header>
-  <section
-    id="statusCard"
-    class="status-card safe"
-  >
-    <div class="status-top">
-      <div
-        id="statusIcon"
-        class="status-icon"
-      >
-        🟢
-      </div>
-      <div>
-        <div class="status-label">
-          Поточний статус
-        </div>
-        <div
-          id="statusTitle"
-          class="status-title"
-        >
-          Завантаження…
-        </div>
-      </div>
-    </div>
-    <div
-      id="region"
-      class="region"
-    >
-      Одеська область
-    </div>
-    <div
-      id="updated"
-      class="updated"
-    >
-      Перевіряємо дані…
-    </div>
-    <div class="connection" id="connection">
-      <span class="connection-dot"></span>
-      <span id="connectionText">
-        Підключення…
-      </span>
-    </div>
-    <div class="alert-timer">
-      <div class="timer-label">
-        Тривалість тривоги
-      </div>
-      <div
-        id="alertTimer"
-        class="timer-value"
-      >
-        00:00:00
-      </div>
-    </div>
-  </section>
-  <div class="actions">
-    <a
-      class="action"
-      href="https://mapa.ua/embed"
-      target="_blank"
-      rel="noopener"
-    >
-      🗺️ Відкрити карту
-    </a>
-    <a
-      class="action"
-      href="https://t.me/stovpovamapBot"
-      target="_blank"
-      rel="noopener"
-    >
-      ✈️ Telegram
-    </a>
   </div>
-  <section
-    class="card"
-    id="mapSection"
-  >
-    <div class="card-title">
-      <strong>Карта тривог</strong>
-      <button
-        class="refresh-btn"
-        id="refreshButton"
+  <div class="live">
+    <span class="live-dot"></span>
+    LIVE
+  </div>
+</header>
+<section
+  class="status-card"
+  id="statusCard"
+>
+  <div class="status-top">
+    <div>
+      <div class="status-label">
+        ПОТОЧНИЙ СТАТУС
+      </div>
+      <div
+        class="status green"
+        id="statusText"
       >
-        ↻ Оновити
-      </button>
+        🟢 Спокійно
+      </div>
+      <div
+        class="region"
+        id="regionText"
+      >
+        Одеська область
+      </div>
     </div>
-    <div class="map-wrap">
+    <div
+      class="status-icon"
+      id="statusIcon"
+    >
+      🛡️
+    </div>
+  </div>
+  <div class="info-row">
+    <div class="info-box">
+      <div class="info-title">
+        Час Київ
+      </div>
+      <div
+        class="info-value"
+        id="kyivTime"
+      >
+        --:--:--
+      </div>
+    </div>
+    <div class="info-box">
+      <div class="info-title">
+        Оновлено
+      </div>
+      <div
+        class="info-value"
+        id="updated"
+      >
+        завантаження...
+      </div>
+    </div>
+  </div>
+</section>
+<div class="actions">
+  <a
+    class="action primary"
+    href="https://mapa.ua/embed"
+    target="_blank"
+    rel="noopener"
+  >
+    🗺 Відкрити карту
+  </a>
+  <a
+    class="action"
+    href="https://t.me/stovpovamapBot"
+    target="_blank"
+    rel="noopener"
+  >
+    🤖 Telegram
+  </a>
+</div>
+<section
+  class="section"
+  id="map"
+>
+  <div class="section-head">
+    <div class="section-title">
+      Карта тривог
+    </div>
+    <div class="section-link">
+      MAPA.UA
+    </div>
+  </div>
+  <div class="map-card">
+    <div class="map">
+      <div
+        class="map-loading"
+        id="mapLoading"
+      >
+        <div class="spinner"></div>
+      </div>
       <iframe
-        id="mapFrame"
         src="https://mapa.ua/embed"
-        loading="lazy"
         allowfullscreen
+        loading="lazy"
         title="Карта повітряних тривог України"
       ></iframe>
+    </div>
+  </div>
+</section>
+<section
+  class="section"
+  id="history"
+>
+  <div class="section-head">
+    <div class="section-title">
+      Останні події
+    </div>
+    <div class="section-link">
+      сьогодні
+    </div>
+  </div>
+  <div
+    class="history"
+    id="historyList"
+  >
+    <div class="history-item">
+      <div class="history-left">
+        <div class="history-icon">
+          ⏳
+        </div>
+        <div>
+          <div class="history-name">
+            Завантаження історії
+          </div>
+          <div class="history-time">
+            Будь ласка, зачекайте
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="section-head">
+    <div class="section-title">
+      Статистика
+    </div>
+    <div class="section-link">
+      сьогодні
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat">
       <div
-        id="mapLoading"
-        class="map-loading"
+        class="stat-number"
+        id="statAlerts"
       >
-        Завантаження карти…
-      </div>
-    </div>
-  </section>
-  <section
-    class="card"
-    id="historySection"
-  >
-    <div class="card-title">
-      <strong>Історія</strong>
-      <span id="historyCount">
-        0 подій
-      </span>
-    </div>
-    <div
-      id="historyList"
-      class="history-list"
-    >
-      <div class="empty">
-        Завантаження історії…
-      </div>
-    </div>
-  </section>
-  <section
-    class="card"
-    id="statsSection"
-  >
-    <div class="card-title">
-      <strong>Статистика сьогодні</strong>
-      <span id="statsDate">
         —
-      </span>
-    </div>
-    <div class="stats">
-      <div class="stat">
-        <div
-          id="statAlerts"
-          class="stat-number"
-        >
-          0
-        </div>
-        <div class="stat-label">
-          ТРИВОГ
-        </div>
       </div>
-      <div class="stat">
-        <div
-          id="statMinutes"
-          class="stat-number"
-        >
-          0
-        </div>
-        <div class="stat-label">
-          ХВИЛИН
-        </div>
-      </div>
-      <div class="stat">
-        <div
-          id="statAverage"
-          class="stat-number"
-        >
-          0
-        </div>
-        <div class="stat-label">
-          СЕРЕДНЯ
-        </div>
+      <div class="stat-label">
+        ТРИВОГИ
       </div>
     </div>
-  </section>
-  <section
-    class="card"
-    id="settingsSection"
-  >
-    <div class="card-title">
-      <strong>Налаштування</strong>
-    </div>
-    <div
-      class="setting"
-      id="notificationsSetting"
-    >
-      <div>
-        <div class="setting-title">
-          🔔 Сповіщення
-        </div>
-        <div
-          id="notificationText"
-          class="setting-sub"
-        >
-          Натисніть для увімкнення
-        </div>
-      </div>
+    <div class="stat">
       <div
-        id="notificationsSwitch"
+        class="stat-number"
+        id="statTotal"
+      >
+        —
+      </div>
+      <div class="stat-label">
+        ЗАГАЛОМ
+      </div>
+    </div>
+    <div class="stat">
+      <div
+        class="stat-number"
+        id="statAverage"
+      >
+        —
+      </div>
+      <div class="stat-label">
+        СЕРЕДНЯ
+      </div>
+    </div>
+  </div>
+</section>
+<section
+  class="section"
+  id="settings"
+>
+  <div class="section-head">
+    <div class="section-title">
+      Налаштування
+    </div>
+  </div>
+  <div class="settings">
+    <div class="setting">
+      <div class="setting-left">
+        <div class="setting-icon">
+          🔔
+        </div>
+        <div>
+          <div class="setting-title">
+            Сповіщення
+          </div>
+          <div
+            class="setting-sub"
+            id="notificationText"
+          >
+            Натисніть для увімкнення
+          </div>
+        </div>
+      </div>
+      <button
         class="switch"
-      >
-        <div class="switch-knob"></div>
-      </div>
+        id="notificationsSwitch"
+        type="button"
+        aria-label="Сповіщення"
+      ></button>
     </div>
-    <div
-      class="setting"
-      id="vibrationSetting"
-    >
-      <div>
-        <div class="setting-title">
-          📳 Вібрація
+    <div class="setting">
+      <div class="setting-left">
+        <div class="setting-icon">
+          📳
         </div>
-        <div
-          id="vibrationText"
-          class="setting-sub"
-        >
-          Вібрація при зміні статусу
+        <div>
+          <div class="setting-title">
+            Вібрація
+          </div>
+          <div class="setting-sub">
+            При зміні статусу
+          </div>
         </div>
       </div>
-      <div
-        id="vibrationSwitch"
+      <button
         class="switch active"
-      >
-        <div class="switch-knob"></div>
-      </div>
+        id="vibrationSwitch"
+        type="button"
+        aria-label="Вібрація"
+      ></button>
     </div>
-  </section>
-  <div class="info">
-    <strong>Odesa Alert</strong><br>
-    Дані про повітряні тривоги отримуються
-    з NEPTUN API.<br>
-    Інформація може надходити із затримкою.
-    У разі загрози орієнтуйтеся на офіційні повідомлення.
+  </div>
+</section>
+<section
+  class="section"
+  id="info"
+>
+  <div class="section-head">
+    <div class="section-title">
+      Про Odesa Alert
+    </div>
+  </div>
+  <div class="info-card">
+    <p>
+      <strong>Odesa Alert</strong>
+      — інформаційна панель для швидкого перегляду ситуації з повітряними тривогами в Одесі та Одеській області.
+      <br><br>
+      Дані про статус тривог отримуються через
+      <a
+        href="https://neptun.in.ua/"
+        target="_blank"
+        rel="noopener"
+        style="color:#ff4b55;text-decoration:none;font-weight:700;"
+      >
+        NEPTUN
+      </a>.
+      <br><br>
+      Дані можуть оновлюватися із затримкою.
+      У разі загрози завжди орієнтуйтеся на офіційні повідомлення та сигнали повітряної тривоги.
+      <br><br>
+      Сервіс не є офіційним державним ресурсом.
+    </p>
+  </div>
+</section>
+<div class="footer">
+  Odesa Alert · Інформаційний сервіс
+  <br>
+  Версія 1.0
+</div>
+</div>
+<div
+  class="install"
+  id="installBox"
+>
+  <div class="install-title">
+    📱 Встановити Odesa Alert
+  </div>
+  <div class="install-text">
+    Додай застосунок на головний екран для швидкого запуску.
+  </div>
+  <div class="install-buttons">
+    <button
+      id="installButton"
+      type="button"
+    >
+      Встановити
+    </button>
+    <button
+      class="close"
+      id="closeInstall"
+      type="button"
+    >
+      Пізніше
+    </button>
   </div>
 </div>
 <nav class="bottom-nav">
-  <div class="nav-inner">
-    <button
-      class="nav-btn active"
-      data-target="statusCard"
-    >
-      <span class="nav-icon">🚨</span>
-      Статус
-    </button>
-    <button
-      class="nav-btn"
-      data-target="mapSection"
-    >
-      <span class="nav-icon">🗺️</span>
-      Карта
-    </button>
-    <button
-      class="nav-btn"
-      data-target="historySection"
-    >
-      <span class="nav-icon">📋</span>
-      Історія
-    </button>
-    <button
-      class="nav-btn"
-      data-target="settingsSection"
-    >
-      <span class="nav-icon">⚙️</span>
-      Налаштування
-    </button>
-  </div>
+  <a
+    class="nav-item active"
+    href="#top"
+  >
+    <span class="nav-icon">⌂</span>
+    Головна
+  </a>
+  <a
+    class="nav-item"
+    href="#map"
+  >
+    <span class="nav-icon">🗺</span>
+    Карта
+  </a>
+  <a
+    class="nav-item"
+    href="#history"
+  >
+    <span class="nav-icon">◷</span>
+    Історія
+  </a>
+  <a
+    class="nav-item"
+    href="#settings"
+  >
+    <span class="nav-icon">⚙</span>
+    Налаштування
+  </a>
+  <a
+    class="nav-item"
+    href="#info"
+  >
+    <span class="nav-icon">ⓘ</span>
+    Інфо
+  </a>
 </nav>
 <script>
 "use strict";
 /* =========================================
-   CONFIG
+   НАСТРОЙКИ
 ========================================= */
 const DATA_URL = "./status.json";
-const POLL_INTERVAL = 10000;
-const FETCH_TIMEOUT = 6000;
 let previousStatus = null;
 let serviceWorkerRegistration = null;
-let currentAlertStartedAt = null;
 /* =========================================
-   DOM
+   ВРЕМЯ КИЕВ
 ========================================= */
-const statusCard =
-  document.getElementById("statusCard");
-const statusIcon =
-  document.getElementById("statusIcon");
-const statusTitle =
-  document.getElementById("statusTitle");
-const region =
-  document.getElementById("region");
-const updated =
-  document.getElementById("updated");
-const connection =
-  document.getElementById("connection");
-const connectionText =
-  document.getElementById("connectionText");
-const alertTimer =
-  document.getElementById("alertTimer");
-const historyList =
-  document.getElementById("historyList");
-const historyCount =
-  document.getElementById("historyCount");
-const statAlerts =
-  document.getElementById("statAlerts");
-const statMinutes =
-  document.getElementById("statMinutes");
-const statAverage =
-  document.getElementById("statAverage");
-const statsDate =
-  document.getElementById("statsDate");
-const notificationsSwitch =
-  document.getElementById("notificationsSwitch");
-const notificationText =
-  document.getElementById("notificationText");
-const vibrationSwitch =
-  document.getElementById("vibrationSwitch");
-const vibrationText =
-  document.getElementById("vibrationText");
-const refreshButton =
-  document.getElementById("refreshButton");
-const mapFrame =
-  document.getElementById("mapFrame");
-const mapLoading =
-  document.getElementById("mapLoading");
+function updateKyivTime(){
+  const element =
+    document.getElementById("kyivTime");
+  if(!element){
+    return;
+  }
+  element.textContent =
+    new Intl.DateTimeFormat(
+      "uk-UA",
+      {
+        timeZone:"Europe/Kyiv",
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit"
+      }
+    ).format(new Date());
+}
+updateKyivTime();
+setInterval(
+  updateKyivTime,
+  1000
+);
 /* =========================================
-   CONNECTION UI
+   SERVICE WORKER
 ========================================= */
-function setConnection(
-  online,
-  text
-){
-  connection.classList.toggle(
-    "online",
-    online
-  );
-  connection.classList.toggle(
-    "offline",
-    !online
-  );
-  connectionText.textContent =
-    text;
+async function registerServiceWorker(){
+  if(!("serviceWorker" in navigator)){
+    console.warn(
+      "Service Worker не підтримується"
+    );
+    return null;
+  }
+  try{
+    serviceWorkerRegistration =
+      await navigator.serviceWorker.register(
+        "./service-worker.js",
+        {
+          scope:"./"
+        }
+      );
+    serviceWorkerRegistration =
+      await navigator.serviceWorker.ready;
+    console.log(
+      "Service Worker готовий:",
+      serviceWorkerRegistration
+    );
+    return serviceWorkerRegistration;
+  }catch(error){
+    console.error(
+      "Service Worker error:",
+      error
+    );
+    return null;
+  }
 }
 /* =========================================
-   FORMAT DATE
+   MAP
+========================================= */
+const mapFrame =
+  document.querySelector(
+    ".map iframe"
+  );
+if(mapFrame){
+  mapFrame.addEventListener(
+    "load",
+    () => {
+      const loader =
+        document.getElementById(
+          "mapLoading"
+        );
+      if(!loader){
+        return;
+      }
+      loader.style.opacity = "0";
+      setTimeout(
+        () => {
+          loader.style.display = "none";
+        },
+        300
+      );
+    }
+  );
+}
+/* =========================================
+   ДАТА
 ========================================= */
 function formatDate(value){
   if(!value){
@@ -833,14 +978,41 @@ function formatDate(value){
       timeZone:"Europe/Kyiv",
       day:"2-digit",
       month:"2-digit",
-      year:"numeric",
       hour:"2-digit",
       minute:"2-digit"
     }
   ).format(date);
 }
 /* =========================================
-   TODAY
+   МИНУТЫ
+========================================= */
+function formatMinutes(minutes){
+  if(
+    minutes === undefined ||
+    minutes === null ||
+    !Number.isFinite(
+      Number(minutes)
+    )
+  ){
+    return "—";
+  }
+  minutes =
+    Number(minutes);
+  if(minutes < 60){
+    return (
+      Math.round(minutes) +
+      " хв"
+    );
+  }
+  return (
+    Math.floor(minutes / 60) +
+    "ч " +
+    Math.round(minutes % 60) +
+    "м"
+  );
+}
+/* =========================================
+   ПРОВЕРКА СЕГОДНЯ
 ========================================= */
 function isToday(value){
   if(!value){
@@ -848,343 +1020,81 @@ function isToday(value){
   }
   const date =
     new Date(value);
-  const now =
-    new Date();
-  const formatter =
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return false;
+  }
+  const parts =
     new Intl.DateTimeFormat(
-      "uk-UA",
+      "en-CA",
       {
         timeZone:"Europe/Kyiv",
         year:"numeric",
         month:"2-digit",
         day:"2-digit"
       }
+    ).formatToParts(date);
+  const result = {};
+  parts.forEach(
+    part => {
+      if(part.type !== "literal"){
+        result[part.type] = part.value;
+      }
+    }
+  );
+  const today =
+    new Intl.DateTimeFormat(
+      "en-CA",
+      {
+        timeZone:"Europe/Kyiv",
+        year:"numeric",
+        month:"2-digit",
+        day:"2-digit"
+      }
+    ).formatToParts(
+      new Date()
     );
+  const current = {};
+  today.forEach(
+    part => {
+      if(part.type !== "literal"){
+        current[part.type] = part.value;
+      }
+    }
+  );
   return (
-    formatter.format(date) ===
-    formatter.format(now)
+    result.year === current.year &&
+    result.month === current.month &&
+    result.day === current.day
   );
 }
 /* =========================================
-   MINUTES
+   СТАТИСТИКА
 ========================================= */
-function formatMinutes(minutes){
-  const value =
-    Number(minutes || 0);
-  if(value < 60){
-    return `${value} хв`;
+function calculateTodayStats(history){
+  if(!Array.isArray(history)){
+    return {
+      alerts:0,
+      total_minutes:0,
+      average_minutes:0
+    };
   }
-  const hours =
-    Math.floor(value / 60);
-  const mins =
-    value % 60;
-  if(mins === 0){
-    return `${hours} год`;
-  }
-  return `${hours} год ${mins} хв`;
-}
-/* =========================================
-   TIMER
-========================================= */
-function updateAlertTimer(){
-  if(!currentAlertStartedAt){
-    alertTimer.textContent =
-      "00:00:00";
-    return;
-  }
-  const start =
-    new Date(
-      currentAlertStartedAt
-    ).getTime();
-  if(
-    Number.isNaN(start)
-  ){
-    return;
-  }
-  const now =
-    Date.now();
-  let seconds =
-    Math.max(
-      0,
-      Math.floor(
-        (now - start) / 1000
-      )
-    );
-  const hours =
-    Math.floor(seconds / 3600);
-  seconds %= 3600;
-  const minutes =
-    Math.floor(seconds / 60);
-  seconds %= 60;
-  alertTimer.textContent =
-    [
-      hours,
-      minutes,
-      seconds
-    ]
-      .map(
-        value =>
-          String(value)
-            .padStart(2,"0")
-      )
-      .join(":");
-}
-setInterval(
-  updateAlertTimer,
-  1000
-);
-/* =========================================
-   STATUS
-========================================= */
-function applyStatus(data){
-  const status =
-    data.status === "alert"
-      ? "alert"
-      : "safe";
-  statusCard.classList.toggle(
-    "alert",
-    status === "alert"
-  );
-  statusCard.classList.toggle(
-    "safe",
-    status === "safe"
-  );
-  if(status === "alert"){
-    statusIcon.textContent =
-      "🔴";
-    statusTitle.textContent =
-      "ПОВІТРЯНА ТРИВОГА";
-    currentAlertStartedAt =
-      data.alert_started_at ||
-      currentAlertStartedAt;
-  }else{
-    statusIcon.textContent =
-      "🟢";
-    statusTitle.textContent =
-      "ТРЕВОГИ НЕМАЄ";
-    currentAlertStartedAt =
-      null;
-  }
-  region.textContent =
-    data.region ||
-    "Одеська область";
-  if(data.updated_at){
-    updated.textContent =
-      "Дані оновлено: " +
-      formatDate(
-        data.updated_at
-      );
-  }else{
-    updated.textContent =
-      "Очікуємо дані…";
-  }
-  if(
-    previousStatus !== null &&
-    previousStatus !== status
-  ){
-    if(
-      status === "alert"
-    ){
-      handleNewAlert();
-    }else{
-      handleAlertEnd();
-    }
-    vibrateStatusChange();
-  }
-  previousStatus =
-    status;
-  updateAlertTimer();
-}
-/* =========================================
-   LOCAL STATUS CACHE
-========================================= */
-function saveLocalStatus(data){
-  try{
-    localStorage.setItem(
-      "lastStatusData",
-      JSON.stringify(data)
-    );
-  }catch(error){
-    console.warn(
-      "Local cache error:",
-      error
-    );
-  }
-}
-function loadLocalStatus(){
-  try{
-    const raw =
-      localStorage.getItem(
-        "lastStatusData"
-      );
-    if(!raw){
-      return null;
-    }
-    return JSON.parse(raw);
-  }catch(error){
-    return null;
-  }
-}
-/* =========================================
-   FETCH WITH TIMEOUT
-========================================= */
-async function fetchStatus(){
-  const controller =
-    new AbortController();
-  const timeout =
-    setTimeout(
-      () => controller.abort(),
-      FETCH_TIMEOUT
-    );
-  try{
-    const response =
-      await fetch(
-        DATA_URL +
-        "?t=" +
-        Date.now(),
-        {
-          cache:"no-store",
-          signal:
-            controller.signal
-        }
-      );
-    if(!response.ok){
-      throw new Error(
-        "HTTP " +
-        response.status
-      );
-    }
-    const data =
-      await response.json();
-    return data;
-  }finally{
-    clearTimeout(
-      timeout
-    );
-  }
-}
-/* =========================================
-   LOAD STATUS
-========================================= */
-async function loadStatus(){
-  try{
-    const data =
-      await fetchStatus();
-    saveLocalStatus(
-      data
-    );
-    applyStatus(
-      data
-    );
-    renderHistory(
-      data.history || []
-    );
-    calculateTodayStats(
-      data.history || []
-    );
-    setConnection(
-      true,
-      "Підключено • дані актуальні"
-    );
-  }catch(error){
-    console.error(
-      "Status error:",
-      error
-    );
-    setConnection(
-      false,
-      "Немає з'єднання • показано останні дані"
-    );
-    const cached =
-      loadLocalStatus();
-    if(
-      cached &&
-      previousStatus === null
-    ){
-      applyStatus(
-        cached
-      );
-      renderHistory(
-        cached.history || []
-      );
-      calculateTodayStats(
-        cached.history || []
-      );
-    }
-  }
-}
-/* =========================================
-   HISTORY
-========================================= */
-function renderHistory(history){
-  const items =
-    Array.isArray(history)
-      ? history.slice(0,20)
-      : [];
-  historyCount.textContent =
-    `${items.length} подій`;
-  if(!items.length){
-    historyList.innerHTML =
-      `<div class="empty">
-        Історія поки порожня
-      </div>`;
-    return;
-  }
-  historyList.innerHTML =
-    items
-      .map(item => {
-        const isAlert =
-          item.type === "alert";
-        const title =
-          isAlert
-            ? "Повітряна тривога"
-            : "Відбій тривоги";
-        const duration =
-          item.duration_minutes !== null &&
-          item.duration_minutes !== undefined
-            ? formatMinutes(
-                item.duration_minutes
-              )
-            : "триває";
-        return `
-          <div class="history-item ${
-            isAlert ? "" : "end"
-          }">
-            <div class="history-left">
-              <span class="history-dot"></span>
-              <div>
-                <div class="history-name">
-                  ${title}
-                </div>
-                <div class="history-time">
-                  ${formatDate(item.time)}
-                </div>
-              </div>
-            </div>
-            <div class="history-duration">
-              ${duration}
-            </div>
-          </div>
-        `;
-      })
-      .join("");
-}
-/* =========================================
-   TODAY STATS
-========================================= */
-function calculateTodayStats(
-  history
-){
-  const alerts =
+  const completed =
     history.filter(
       item =>
+        item &&
         item.type === "alert" &&
         item.duration_minutes !== null &&
         item.duration_minutes !== undefined &&
         isToday(item.time)
     );
-  const total =
-    alerts.reduce(
+  const alerts =
+    completed.length;
+  const total_minutes =
+    completed.reduce(
       (sum,item) =>
         sum +
         Number(
@@ -1192,34 +1102,132 @@ function calculateTodayStats(
         ),
       0
     );
-  const count =
-    alerts.length;
-  const average =
-    count
+  const average_minutes =
+    alerts
       ? Math.round(
-          total / count
+          total_minutes / alerts
         )
       : 0;
-  statAlerts.textContent =
-    count;
-  statMinutes.textContent =
-    total;
-  statAverage.textContent =
-    average;
-  statsDate.textContent =
-    new Intl.DateTimeFormat(
-      "uk-UA",
-      {
-        timeZone:"Europe/Kyiv",
-        day:"numeric",
-        month:"long"
-      }
-    ).format(
-      new Date()
-    );
+  return {
+    alerts,
+    total_minutes,
+    average_minutes
+  };
 }
 /* =========================================
-   NOTIFICATIONS
+   СТАТУС
+========================================= */
+function applyStatus(data){
+  if(
+    !data ||
+    typeof data !== "object"
+  ){
+    return;
+  }
+  const card =
+    document.getElementById(
+      "statusCard"
+    );
+  const text =
+    document.getElementById(
+      "statusText"
+    );
+  const icon =
+    document.getElementById(
+      "statusIcon"
+    );
+  const region =
+    document.getElementById(
+      "regionText"
+    );
+  const updated =
+    document.getElementById(
+      "updated"
+    );
+  const isAlert =
+    data.status === "alert";
+  if(isAlert){
+    card.classList.add(
+      "alert"
+    );
+    text.className =
+      "status red";
+    text.textContent =
+      "🔴 Повітряна тривога";
+    icon.textContent =
+      "🚨";
+  }else{
+    card.classList.remove(
+      "alert"
+    );
+    text.className =
+      "status green";
+    text.textContent =
+      "🟢 Спокійно";
+    icon.textContent =
+      "🛡️";
+  }
+  region.textContent =
+    data.region ||
+    "Одеська область";
+  if(data.updated_at){
+    const updatedDate =
+      new Date(
+        data.updated_at
+      );
+    if(
+      !Number.isNaN(
+        updatedDate.getTime()
+      )
+    ){
+      updated.textContent =
+        new Intl.DateTimeFormat(
+          "uk-UA",
+          {
+            timeZone:"Europe/Kyiv",
+            hour:"2-digit",
+            minute:"2-digit"
+          }
+        ).format(
+          updatedDate
+        );
+    }
+  }else{
+    updated.textContent =
+      "щойно";
+  }
+  /* НОВА ТРИВОГА */
+  if(
+    previousStatus !== null &&
+    previousStatus !== data.status &&
+    data.status === "alert"
+  ){
+    handleNewAlert();
+  }
+  /* ВИБРАЦИЯ */
+  if(
+    previousStatus !== null &&
+    previousStatus !== data.status &&
+    localStorage.getItem(
+      "vibration"
+    ) !== "off" &&
+    "vibrate" in navigator
+  ){
+    try{
+      navigator.vibrate(
+        [500,200,500]
+      );
+    }catch(error){
+      console.log(
+        "Vibration unavailable"
+      );
+    }
+  }
+  previousStatus =
+    data.status;
+}
+/* =========================================
+   НОВОЕ УВЕДОМЛЕНИЕ
 ========================================= */
 async function handleNewAlert(){
   if(
@@ -1235,8 +1243,7 @@ async function handleNewAlert(){
     return;
   }
   if(
-    Notification.permission !==
-    "granted"
+    Notification.permission !== "granted"
   ){
     return;
   }
@@ -1252,6 +1259,10 @@ async function handleNewAlert(){
       {
         body:
           "Повітряна тривога — Одеса та Одеська область",
+        icon:
+          "./icon.svg",
+        badge:
+          "./icon.svg",
         tag:
           "odesa-alert",
         renotify:
@@ -1270,51 +1281,177 @@ async function handleNewAlert(){
     );
   }
 }
-async function handleAlertEnd(){
-  if(
-    localStorage.getItem(
-      "notifications"
-    ) !== "on"
-  ){
-    return;
-  }
-  if(
-    !("Notification" in window)
-  ){
-    return;
-  }
-  if(
-    Notification.permission !==
-    "granted"
-  ){
-    return;
-  }
-  try{
-    const registration =
-      serviceWorkerRegistration ||
-      await navigator.serviceWorker.ready;
-    await registration.showNotification(
-      "🟢 Відбій тривоги",
-      {
-        body:
-          "Повітряна тривога завершена.",
-        tag:
-          "odesa-alert-end",
-        data:{
-          url:"./"
-        }
-      }
+/* =========================================
+   ИСТОРИЯ
+========================================= */
+function renderHistory(history){
+  const list =
+    document.getElementById(
+      "historyList"
     );
+  if(!list){
+    return;
+  }
+  if(
+    !Array.isArray(history) ||
+    history.length === 0
+  ){
+    list.innerHTML = `
+      <div class="history-item">
+        <div class="history-left">
+          <div class="history-icon">
+            🟢
+          </div>
+          <div>
+            <div class="history-name">
+              Подій ще немає
+            </div>
+            <div class="history-time">
+              Очікування даних
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  list.innerHTML =
+    history
+      .slice(0,20)
+      .map(item => {
+        const isAlert =
+          item &&
+          item.type === "alert";
+        return `
+          <div class="history-item">
+            <div class="history-left">
+              <div class="history-icon ${
+                isAlert ? "alert" : ""
+              }">
+                ${
+                  isAlert
+                    ? "🔴"
+                    : "🟢"
+                }
+              </div>
+              <div>
+                <div class="history-name">
+                  ${
+                    isAlert
+                      ? "Повітряна тривога"
+                      : "Відбій тривоги"
+                  }
+                </div>
+                <div class="history-time">
+                  ${formatDate(item?.time)}
+                </div>
+              </div>
+            </div>
+            <div class="history-duration">
+              ${
+                item?.duration_minutes !== undefined &&
+                item?.duration_minutes !== null
+                  ? formatMinutes(
+                      item.duration_minutes
+                    )
+                  : ""
+              }
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+}
+/* =========================================
+   ЗАГРУЗКА STATUS.JSON
+========================================= */
+async function loadStatus(){
+  try{
+    const response =
+      await fetch(
+        DATA_URL +
+        "?t=" +
+        Date.now(),
+        {
+          cache:"no-store"
+        }
+      );
+    if(!response.ok){
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+    }
+    const data =
+      await response.json();
+    applyStatus(data);
+    renderHistory(
+      data.history || []
+    );
+    /*
+       Статистика считается
+       непосредственно из history,
+       чтобы "сьогодні" действительно
+       означало сегодняшний день.
+    */
+    const todayStats =
+      calculateTodayStats(
+        data.history || []
+      );
+    const statAlerts =
+      document.getElementById(
+        "statAlerts"
+      );
+    const statTotal =
+      document.getElementById(
+        "statTotal"
+      );
+    const statAverage =
+      document.getElementById(
+        "statAverage"
+      );
+    if(statAlerts){
+      statAlerts.textContent =
+        todayStats.alerts;
+    }
+    if(statTotal){
+      statTotal.textContent =
+        formatMinutes(
+          todayStats.total_minutes
+        );
+    }
+    if(statAverage){
+      statAverage.textContent =
+        formatMinutes(
+          todayStats.average_minutes
+        );
+    }
   }catch(error){
     console.error(
-      "Notification error:",
+      "Status error:",
       error
     );
+    const updated =
+      document.getElementById(
+        "updated"
+      );
+    if(updated){
+      updated.textContent =
+        "помилка";
+    }
   }
 }
 /* =========================================
-   NOTIFICATION UI
+   УВЕДОМЛЕНИЯ
 ========================================= */
+const notificationsSwitch =
+  document.getElementById(
+    "notificationsSwitch"
+  );
+const notificationText =
+  document.getElementById(
+    "notificationText"
+  );
 function updateNotificationUI(){
   const enabled =
     localStorage.getItem(
@@ -1324,24 +1461,26 @@ function updateNotificationUI(){
     "active",
     enabled
   );
-  notificationText.textContent =
-    enabled
-      ? "Сповіщення увімкнено"
-      : "Натисніть для увімкнення";
+  if(enabled){
+    notificationText.textContent =
+      "Сповіщення увімкнено";
+  }else{
+    notificationText.textContent =
+      "Натисніть для увімкнення";
+  }
 }
+/* =========================================
+   ВКЛЮЧЕНИЕ УВЕДОМЛЕНИЙ
+========================================= */
 async function enableNotifications(){
   try{
-    if(
-      !("Notification" in window)
-    ){
+    if(!("Notification" in window)){
       alert(
         "Ваш iPhone не підтримує сповіщення для цього режиму."
       );
       return;
     }
-    if(
-      !("serviceWorker" in navigator)
-    ){
+    if(!("serviceWorker" in navigator)){
       alert(
         "Service Worker не підтримується."
       );
@@ -1356,11 +1495,19 @@ async function enableNotifications(){
       );
       return;
     }
+    console.log(
+      "Notification permission BEFORE:",
+      Notification.permission
+    );
     let permission =
       Notification.permission;
     if(permission === "default"){
       permission =
         await Notification.requestPermission();
+      console.log(
+        "Notification permission AFTER:",
+        permission
+      );
     }
     if(permission === "granted"){
       localStorage.setItem(
@@ -1386,11 +1533,19 @@ async function enableNotifications(){
       );
       return;
     }
+    alert(
+      "Не вдалося визначити дозвіл на сповіщення."
+    );
   }catch(error){
     console.error(
       "Notification error:",
       error
     );
+    localStorage.setItem(
+      "notifications",
+      "off"
+    );
+    updateNotificationUI();
     alert(
       "Помилка сповіщень.\n\n" +
       "Спробуйте відкрити Odesa Alert з головного екрана iPhone."
@@ -1398,93 +1553,7 @@ async function enableNotifications(){
   }
 }
 /* =========================================
-   VIBRATION
-========================================= */
-function updateVibrationUI(){
-  const enabled =
-    localStorage.getItem(
-      "vibration"
-    ) !== "off";
-  vibrationSwitch.classList.toggle(
-    "active",
-    enabled
-  );
-  vibrationText.textContent =
-    enabled
-      ? "Вібрація при зміні статусу"
-      : "Вібрація вимкнена";
-}
-function vibrateStatusChange(){
-  if(
-    localStorage.getItem(
-      "vibration"
-    ) === "off"
-  ){
-    return;
-  }
-  if(
-    "vibrate" in navigator
-  ){
-    navigator.vibrate(
-      [200,100,300]
-    );
-  }
-}
-/* =========================================
-   SERVICE WORKER
-========================================= */
-async function registerServiceWorker(){
-  if(
-    !("serviceWorker" in navigator)
-  ){
-    return;
-  }
-  try{
-    const registration =
-      await navigator.serviceWorker.register(
-        "./service-worker.js",
-        {
-          updateViaCache:"none"
-        }
-      );
-    serviceWorkerRegistration =
-      registration;
-    console.log(
-      "Service Worker registered"
-    );
-  }catch(error){
-    console.error(
-      "Service Worker error:",
-      error
-    );
-  }
-}
-/* =========================================
-   MAP
-========================================= */
-mapFrame.addEventListener(
-  "load",
-  () => {
-    mapLoading.classList.add(
-      "hidden"
-    );
-  }
-);
-/* =========================================
-   REFRESH
-========================================= */
-refreshButton.addEventListener(
-  "click",
-  async () => {
-    refreshButton.textContent =
-      "↻ Оновлення…";
-    await loadStatus();
-    refreshButton.textContent =
-      "↻ Оновити";
-  }
-);
-/* =========================================
-   SETTINGS
+   КНОПКА УВЕДОМЛЕНИЙ
 ========================================= */
 notificationsSwitch.addEventListener(
   "click",
@@ -1499,11 +1568,29 @@ notificationsSwitch.addEventListener(
         "off"
       );
       updateNotificationUI();
-    }else{
-      await enableNotifications();
+      return;
     }
+    await enableNotifications();
   }
 );
+updateNotificationUI();
+/* =========================================
+   ВИБРАЦИЯ
+========================================= */
+const vibrationSwitch =
+  document.getElementById(
+    "vibrationSwitch"
+  );
+function updateVibrationUI(){
+  const enabled =
+    localStorage.getItem(
+      "vibration"
+    ) !== "off";
+  vibrationSwitch.classList.toggle(
+    "active",
+    enabled
+  );
+}
 vibrationSwitch.addEventListener(
   "click",
   () => {
@@ -1520,116 +1607,106 @@ vibrationSwitch.addEventListener(
     updateVibrationUI();
   }
 );
+updateVibrationUI();
 /* =========================================
-   BOTTOM NAV
+   PWA INSTALL
+========================================= */
+let deferredPrompt = null;
+const installBox =
+  document.getElementById(
+    "installBox"
+  );
+const installButton =
+  document.getElementById(
+    "installButton"
+  );
+const closeInstall =
+  document.getElementById(
+    "closeInstall"
+  );
+window.addEventListener(
+  "beforeinstallprompt",
+  event => {
+    event.preventDefault();
+    deferredPrompt =
+      event;
+    installBox.classList.add(
+      "show"
+    );
+  }
+);
+installButton.addEventListener(
+  "click",
+  async () => {
+    if(!deferredPrompt){
+      alert(
+        "На iPhone: Safari → Поділитися → На початковий екран."
+      );
+      return;
+    }
+    try{
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+    }catch(error){
+      console.error(
+        "Install error:",
+        error
+      );
+    }
+    deferredPrompt =
+      null;
+    installBox.classList.remove(
+      "show"
+    );
+  }
+);
+closeInstall.addEventListener(
+  "click",
+  () => {
+    installBox.classList.remove(
+      "show"
+    );
+  }
+);
+/* =========================================
+   NAVIGATION
 ========================================= */
 document
   .querySelectorAll(
-    ".nav-btn"
+    ".nav-item"
   )
-  .forEach(button => {
-    button.addEventListener(
+  .forEach(item => {
+    item.addEventListener(
       "click",
       () => {
         document
           .querySelectorAll(
-            ".nav-btn"
+            ".nav-item"
           )
-          .forEach(
-            item =>
-              item.classList.remove(
-                "active"
-              )
-          );
-        button.classList.add(
+          .forEach(nav => {
+            nav.classList.remove(
+              "active"
+            );
+          });
+        item.classList.add(
           "active"
         );
-        const target =
-          document.getElementById(
-            button.dataset.target
-          );
-        if(target){
-          target.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-          });
-        }
       }
     );
   });
 /* =========================================
-   APP RETURN
+   START
 ========================================= */
-document.addEventListener(
-  "visibilitychange",
-  () => {
-    if(
-      document.visibilityState ===
-      "visible"
-    ){
-      loadStatus();
-    }
-  }
-);
+(async () => {
+  await registerServiceWorker();
+  await loadStatus();
+})();
 /* =========================================
-   ONLINE / OFFLINE
+   ОБНОВЛЕНИЕ КАЖДЫЕ 10 СЕКУНД
 ========================================= */
-window.addEventListener(
-  "online",
-  () => {
-    setConnection(
-      true,
-      "Підключення відновлено"
-    );
-    loadStatus();
-  }
-);
-window.addEventListener(
-  "offline",
-  () => {
-    setConnection(
-      false,
-      "Немає з'єднання"
-    );
-  }
-);
-/* =========================================
-   STARTUP
-========================================= */
-updateNotificationUI();
-updateVibrationUI();
-/*
-   ВАЖНО:
-   Service Worker НЕ блокує загрузку статуса.
-*/
-const cached =
-  loadLocalStatus();
-if(cached){
-  applyStatus(
-    cached
-  );
-  renderHistory(
-    cached.history || []
-  );
-  calculateTodayStats(
-    cached.history || []
-  );
-}
-/*
-   Сразу запускаем запрос данных.
-*/
-loadStatus();
-/*
-   Service Worker регистрируем
-   отдельно, в фоне.
-*/
-registerServiceWorker();
-/*
-   Проверка каждые 10 секунд.
-*/
 setInterval(
   loadStatus,
-  POLL_INTERVAL
+  10000
 );
 </script>
 </body>
