@@ -22,10 +22,7 @@ def minutes_between(start, end):
     if not start or not end:
         return 0
     seconds = (end - start).total_seconds()
-    return max(
-        0,
-        round(seconds / 60)
-    )
+    return max(0, round(seconds / 60))
 def load_status():
     if not os.path.exists(STATUS_FILE):
         return {
@@ -37,7 +34,9 @@ def load_status():
             "stats": {
                 "alerts": 0,
                 "total_minutes": 0,
-                "average_minutes": 0
+                "average_minutes": 0,
+                "today_alerts": 0,
+                "today_minutes": 0
             },
             "source": "NEPTUN"
         }
@@ -69,13 +68,20 @@ def get_neptun():
     )
     response.raise_for_status()
     return response.json()
+def belongs_to_odessa(item):
+    values = [
+        item.get("name"),
+        item.get("oblast"),
+        item.get("region"),
+        item.get("region_name"),
+        item.get("oblast_name")
+    ]
+    for value in values:
+        if value and str(value).strip().lower() == REGION_NAME.lower():
+            return True
+    return False
 def item_is_active(item):
-    """
-    Проверяем, является ли запись активной тревогой.
-    В разных версиях API состояние может храниться
-    в разных полях, поэтому проверяем несколько вариантов.
-    """
-    # Явные boolean-поля
+    # Явные поля активности
     for key in (
         "active",
         "is_active",
@@ -86,8 +92,8 @@ def item_is_active(item):
             if isinstance(value, bool):
                 return value
             if isinstance(value, str):
-                value_lower = value.lower().strip()
-                if value_lower in (
+                value = value.lower().strip()
+                if value in (
                     "true",
                     "1",
                     "active",
@@ -95,18 +101,17 @@ def item_is_active(item):
                     "тривога"
                 ):
                     return True
-                if value_lower in (
+                if value in (
                     "false",
                     "0",
                     "inactive",
                     "safe",
-                    "end",
                     "ended",
                     "finished",
                     "відбій"
                 ):
                     return False
-    # Поля status/state
+    # status / state
     for key in (
         "status",
         "state"
@@ -114,25 +119,23 @@ def item_is_active(item):
         if key in item:
             value = item.get(key)
             if isinstance(value, str):
-                value_lower = value.lower().strip()
-                if value_lower in (
+                value = value.lower().strip()
+                if value in (
                     "alert",
                     "active",
                     "alarm",
-                    "тривога",
-                    "active_alert"
+                    "тривога"
                 ):
                     return True
-                if value_lower in (
+                if value in (
                     "safe",
                     "inactive",
                     "ended",
                     "finished",
-                    "end",
                     "відбій"
                 ):
                     return False
-    # Если есть время окончания — тревога закончилась
+    # Наличие даты окончания
     for key in (
         "finished_at",
         "finishedAt",
@@ -141,29 +144,11 @@ def item_is_active(item):
         "end",
         "ended"
     ):
-        if key in item and item.get(key):
+        if item.get(key):
             return False
-    # Если есть since и нет признаков окончания,
-    # считаем запись активной.
+    # Если есть since — считаем активной
     if item.get("since"):
         return True
-    return False
-def belongs_to_odessa(item):
-    """
-    Проверяет, относится ли запись к Одесской области.
-    """
-    names = [
-        item.get("name"),
-        item.get("oblast"),
-        item.get("region"),
-        item.get("region_name"),
-        item.get("oblast_name")
-    ]
-    for value in names:
-        if not value:
-            continue
-        if str(value).strip().lower() == REGION_NAME.lower():
-            return True
     return False
 def odessa_alert_active(data):
     oblasts = data.get(
@@ -174,9 +159,7 @@ def odessa_alert_active(data):
         "raions",
         []
     )
-    # ==========================================
-    # ОДЕССКАЯ ОБЛАСТЬ
-    # ==========================================
+    # Проверяем область
     for item in oblasts:
         if belongs_to_odessa(item):
             active = item_is_active(item)
@@ -188,9 +171,7 @@ def odessa_alert_active(data):
             )
             if active:
                 return True
-    # ==========================================
-    # РАЙОНЫ ОДЕССКОЙ ОБЛАСТИ
-    # ==========================================
+    # Проверяем районы
     for item in raions:
         if belongs_to_odessa(item):
             active = item_is_active(item)
@@ -204,31 +185,27 @@ def odessa_alert_active(data):
                 return True
     return False
 def get_started_time(data):
-    oblasts = data.get(
-        "oblasts",
-        []
-    )
-    raions = data.get(
-        "raions",
-        []
-    )
     dates = []
-    for item in oblasts:
-        if belongs_to_odessa(item):
-            if item_is_active(item):
-                parsed = parse_date(
-                    item.get("since")
-                )
-                if parsed:
-                    dates.append(parsed)
-    for item in raions:
-        if belongs_to_odessa(item):
-            if item_is_active(item):
-                parsed = parse_date(
-                    item.get("since")
-                )
-                if parsed:
-                    dates.append(parsed)
+    for item in data.get("oblasts", []):
+        if (
+            belongs_to_odessa(item)
+            and item_is_active(item)
+        ):
+            parsed = parse_date(
+                item.get("since")
+            )
+            if parsed:
+                dates.append(parsed)
+    for item in data.get("raions", []):
+        if (
+            belongs_to_odessa(item)
+            and item_is_active(item)
+        ):
+            parsed = parse_date(
+                item.get("since")
+            )
+            if parsed:
+                dates.append(parsed)
     if not dates:
         return None
     return min(dates)
@@ -237,15 +214,14 @@ def update_statistics(data):
         "history",
         []
     )
-    completed = [
-        item
-        for item in history
+    completed = []
+    for item in history:
         if (
             item.get("type") == "alert"
             and item.get("duration_minutes") is not None
-        )
-    ]
-    total = sum(
+        ):
+            completed.append(item)
+    total_minutes = sum(
         int(
             item.get(
                 "duration_minutes",
@@ -254,20 +230,40 @@ def update_statistics(data):
         )
         for item in completed
     )
-    count = len(completed)
-    average = (
-        round(total / count)
-        if count
+    alerts = len(completed)
+    average_minutes = (
+        round(total_minutes / alerts)
+        if alerts
         else 0
     )
+    # Сегодня по UTC
+    today = now_utc().date()
+    today_alerts = 0
+    today_minutes = 0
+    for item in completed:
+        started = parse_date(
+            item.get("time")
+        )
+        if not started:
+            continue
+        if started.astimezone(timezone.utc).date() == today:
+            today_alerts += 1
+            today_minutes += int(
+                item.get(
+                    "duration_minutes",
+                    0
+                )
+            )
     data["stats"] = {
-        "alerts": count,
-        "total_minutes": total,
-        "average_minutes": average
+        "alerts": alerts,
+        "total_minutes": total_minutes,
+        "average_minutes": average_minutes,
+        "today_alerts": today_alerts,
+        "today_minutes": today_minutes
     }
 def main():
     # ==========================================
-    # ПРЕДЫДУЩИЙ СТАТУС
+    # Предыдущий статус
     # ==========================================
     data = load_status()
     previous_status = data.get(
@@ -280,14 +276,14 @@ def main():
         )
     )
     # ==========================================
-    # ПОЛУЧАЕМ NEPTUN
+    # NEPTUN
     # ==========================================
     neptun = get_neptun()
     print(
         "NEPTUN data received successfully"
     )
     # ==========================================
-    # ПРОВЕРЯЕМ ОДЕССКУЮ ОБЛАСТЬ
+    # Текущий статус
     # ==========================================
     active = odessa_alert_active(
         neptun
@@ -368,14 +364,28 @@ def main():
             "history",
             []
         )
-        # Закрываем последнюю незавершённую тревогу
+        # Находим последнюю незавершённую тревогу
+        found = False
         for item in data["history"]:
             if (
                 item.get("type") == "alert"
                 and item.get("duration_minutes") is None
             ):
                 item["duration_minutes"] = duration
+                found = True
                 break
+        # Если начало почему-то потерялось,
+        # создаём полноценную запись
+        if not found:
+            data["history"].insert(
+                0,
+                {
+                    "type": "alert",
+                    "time": iso(started),
+                    "duration_minutes": duration
+                }
+            )
+        # Отдельное событие отбоя
         data["history"].insert(
             0,
             {
@@ -388,8 +398,13 @@ def main():
         print(
             "ALERT ENDED"
         )
+        print(
+            "Duration:",
+            duration,
+            "minutes"
+        )
     # ==========================================
-    # ОБНОВЛЯЕМ ДАННЫЕ
+    # Сохраняем
     # ==========================================
     data["status"] = new_status
     data["region"] = REGION_NAME
@@ -401,10 +416,9 @@ def main():
         "history",
         []
     )
-    # Последние 50 событий
     data["history"] = data[
         "history"
-    ][:50]
+    ][:100]
     update_statistics(
         data
     )
@@ -418,6 +432,10 @@ def main():
     print(
         "Updated:",
         data["updated_at"]
+    )
+    print(
+        "Statistics:",
+        data["stats"]
     )
 if __name__ == "__main__":
     main()
