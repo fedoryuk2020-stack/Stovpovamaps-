@@ -100,7 +100,8 @@ a{
 }
 .status-card.alert{
   background:radial-gradient(circle at 100% 0%,rgba(255,55,65,.22),transparent 45%),#171014;
-  border-color:#542329
+  border-color:#542329;
+  box-shadow:0 15px 45px rgba(255,40,50,.12)
 }
 .status-top{
   display:flex;
@@ -145,6 +146,20 @@ a{
 }
 .alert .status-icon{
   background:#30151a
+}
+.alert-duration{
+  display:none;
+  margin-top:15px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:#251318;
+  border:1px solid #482129;
+  color:#ff7a82;
+  font-size:12px;
+  font-weight:700
+}
+.status-card.alert .alert-duration{
+  display:block
 }
 .info-row{
   margin-top:22px;
@@ -295,7 +310,8 @@ a{
 }
 .history-duration{
   color:#9ca7b4;
-  font-size:12px
+  font-size:12px;
+  text-align:right
 }
 .stats{
   display:grid;
@@ -318,6 +334,132 @@ a{
   color:#687483;
   font-size:9px;
   font-weight:700
+}
+/* =========================================
+   АКТИВНІСТЬ ЗА ДОБУ
+========================================= */
+.activity-card{
+  padding:16px;
+  border-radius:20px;
+  background:#10151d;
+  border:1px solid #1d2632
+}
+.activity-summary{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-bottom:16px
+}
+.activity-mini{
+  padding:12px;
+  border-radius:14px;
+  background:#0b1016
+}
+.activity-mini-title{
+  color:#687483;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.5px
+}
+.activity-mini-value{
+  margin-top:5px;
+  font-size:15px;
+  font-weight:800
+}
+.timeline{
+  position:relative;
+  height:48px;
+  border-radius:13px;
+  overflow:hidden;
+  background:#0b1016;
+  border:1px solid #18212b
+}
+.timeline-hour{
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:#18212b
+}
+.timeline-alert{
+  position:absolute;
+  top:7px;
+  bottom:7px;
+  min-width:3px;
+  border-radius:7px;
+  background:#e52c38;
+  box-shadow:0 0 10px rgba(229,44,56,.25)
+}
+.timeline-now{
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:2px;
+  background:#ffffff;
+  opacity:.7;
+  z-index:4
+}
+.timeline-labels{
+  display:flex;
+  justify-content:space-between;
+  margin-top:7px;
+  color:#596574;
+  font-size:8px
+}
+.no-activity{
+  padding:10px 0 2px;
+  color:#687483;
+  font-size:11px;
+  text-align:center
+}
+/* =========================================
+   7 ДНІВ
+========================================= */
+.week-card{
+  padding:16px;
+  border-radius:20px;
+  background:#10151d;
+  border:1px solid #1d2632
+}
+.week-list{
+  display:flex;
+  flex-direction:column;
+  gap:11px
+}
+.week-row{
+  display:grid;
+  grid-template-columns:52px 1fr 55px;
+  align-items:center;
+  gap:9px
+}
+.week-day{
+  color:#9aa4b1;
+  font-size:10px;
+  font-weight:700
+}
+.week-bar{
+  height:9px;
+  overflow:hidden;
+  border-radius:10px;
+  background:#0b1016
+}
+.week-fill{
+  height:100%;
+  min-width:0;
+  border-radius:10px;
+  background:#e52c38;
+  transition:width .4s
+}
+.week-minutes{
+  color:#8e99a6;
+  font-size:10px;
+  text-align:right
+}
+.week-empty{
+  color:#687483;
+  font-size:11px;
+  text-align:center;
+  padding:4px
 }
 .settings{
   display:flex;
@@ -516,9 +658,7 @@ a{
     </div>
     <div>
       <h1>Odesa Alert</h1>
-      <p>
-        Одеса та Одеська область
-      </p>
+      <p>Одеса та Одеська область</p>
     </div>
   </div>
   <div class="live">
@@ -554,6 +694,12 @@ a{
     >
       🛡️
     </div>
+  </div>
+  <div
+    class="alert-duration"
+    id="alertDuration"
+  >
+    🚨 Триває: 0 хв
   </div>
   <div class="info-row">
     <div class="info-box">
@@ -705,6 +851,82 @@ a{
     </div>
   </div>
 </section>
+<section class="section">
+  <div class="section-head">
+    <div class="section-title">
+      Активність за добу
+    </div>
+    <div
+      class="section-link"
+      id="activityDate"
+    >
+      сьогодні
+    </div>
+  </div>
+  <div class="activity-card">
+    <div class="activity-summary">
+      <div class="activity-mini">
+        <div class="activity-mini-title">
+          ТРИВОГ
+        </div>
+        <div
+          class="activity-mini-value"
+          id="activityAlerts"
+        >
+          0
+        </div>
+      </div>
+      <div class="activity-mini">
+        <div class="activity-mini-title">
+          ЗАГАЛОМ
+        </div>
+        <div
+          class="activity-mini-value"
+          id="activityMinutes"
+        >
+          0 хв
+        </div>
+      </div>
+    </div>
+    <div
+      class="timeline"
+      id="timeline"
+    ></div>
+    <div class="timeline-labels">
+      <span>00:00</span>
+      <span>06:00</span>
+      <span>12:00</span>
+      <span>18:00</span>
+      <span>24:00</span>
+    </div>
+    <div
+      class="no-activity"
+      id="noActivity"
+    >
+      Сьогодні тривог не зафіксовано
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="section-head">
+    <div class="section-title">
+      Останні 7 днів
+    </div>
+    <div class="section-link">
+      статистика
+    </div>
+  </div>
+  <div class="week-card">
+    <div
+      class="week-list"
+      id="weekList"
+    >
+      <div class="week-empty">
+        Завантаження...
+      </div>
+    </div>
+  </div>
+</section>
 <section
   class="section"
   id="settings"
@@ -796,7 +1018,7 @@ a{
 <div class="footer">
   Odesa Alert · Інформаційний сервіс
   <br>
-  Версія 1.0
+  Версія 1.1
 </div>
 </div>
 <div
@@ -870,6 +1092,7 @@ a{
 const DATA_URL = "./status.json";
 let previousStatus = null;
 let serviceWorkerRegistration = null;
+let currentStatusData = null;
 /* =========================================
    ВРЕМЯ КИЕВ
 ========================================= */
@@ -916,8 +1139,7 @@ async function registerServiceWorker(){
     serviceWorkerRegistration =
       await navigator.serviceWorker.ready;
     console.log(
-      "Service Worker готовий:",
-      serviceWorkerRegistration
+      "Service Worker готовий"
     );
     return serviceWorkerRegistration;
   }catch(error){
@@ -959,9 +1181,9 @@ if(mapFrame){
 /* =========================================
    ДАТА
 ========================================= */
-function formatDate(value){
+function parseDate(value){
   if(!value){
-    return "—";
+    return null;
   }
   const date =
     new Date(value);
@@ -970,6 +1192,14 @@ function formatDate(value){
       date.getTime()
     )
   ){
+    return null;
+  }
+  return date;
+}
+function formatDate(value){
+  const date =
+    parseDate(value);
+  if(!date){
     return "—";
   }
   return new Intl.DateTimeFormat(
@@ -997,35 +1227,47 @@ function formatMinutes(minutes){
     return "—";
   }
   minutes =
-    Number(minutes);
+    Math.max(
+      0,
+      Math.round(
+        Number(minutes)
+      )
+    );
   if(minutes < 60){
     return (
-      Math.round(minutes) +
+      minutes +
       " хв"
     );
   }
+  const hours =
+    Math.floor(
+      minutes / 60
+    );
+  const mins =
+    minutes % 60;
+  if(mins === 0){
+    return (
+      hours +
+      " год"
+    );
+  }
   return (
-    Math.floor(minutes / 60) +
-    "ч " +
-    Math.round(minutes % 60) +
-    "м"
+    hours +
+    " год " +
+    mins +
+    " хв"
   );
 }
 /* =========================================
-   ПРОВЕРКА СЕГОДНЯ
+   КИЕВСКАЯ ДАТА
 ========================================= */
-function isToday(value){
-  if(!value){
-    return false;
-  }
+function kyivDateKey(value){
   const date =
-    new Date(value);
-  if(
-    Number.isNaN(
-      date.getTime()
-    )
-  ){
-    return false;
+    value instanceof Date
+      ? value
+      : parseDate(value);
+  if(!date){
+    return null;
   }
   const parts =
     new Intl.DateTimeFormat(
@@ -1040,12 +1282,183 @@ function isToday(value){
   const result = {};
   parts.forEach(
     part => {
-      if(part.type !== "literal"){
-        result[part.type] = part.value;
+      if(
+        part.type !== "literal"
+      ){
+        result[part.type] =
+          part.value;
       }
     }
   );
+  return (
+    result.year +
+    "-" +
+    result.month +
+    "-" +
+    result.day
+  );
+}
+function isToday(value){
+  const key =
+    kyivDateKey(value);
   const today =
+    kyivDateKey(new Date());
+  return (
+    key !== null &&
+    key === today
+  );
+}
+/* =========================================
+   ПОЛУЧЕНИЕ ДЛИТЕЛЬНОСТИ
+========================================= */
+function getItemDuration(item){
+  if(
+    item &&
+    item.duration_minutes !== undefined &&
+    item.duration_minutes !== null &&
+    Number.isFinite(
+      Number(item.duration_minutes)
+    )
+  ){
+    return Math.max(
+      0,
+      Number(item.duration_minutes)
+    );
+  }
+  return null;
+}
+/* =========================================
+   СТАТИСТИКА ЗА СЕГОДНЯ
+========================================= */
+function calculateTodayStats(
+  history,
+  data
+){
+  if(!Array.isArray(history)){
+    return {
+      alerts:0,
+      total_minutes:0,
+      average_minutes:0
+    };
+  }
+  let alerts = 0;
+  let totalMinutes = 0;
+  history.forEach(
+    item => {
+      if(
+        !item ||
+        item.type !== "alert" ||
+        !isToday(item.time)
+      ){
+        return;
+      }
+      let duration =
+        getItemDuration(item);
+      /*
+         Якщо тривога ще активна,
+         рахуємо її поточну
+         тривалість.
+      */
+      if(
+        duration === null &&
+        data &&
+        data.status === "alert" &&
+        data.alert_started_at &&
+        kyivDateKey(
+          data.alert_started_at
+        ) === kyivDateKey(
+          new Date()
+        )
+      ){
+        const start =
+          parseDate(
+            data.alert_started_at
+          );
+        if(start){
+          duration =
+            Math.max(
+              0,
+              Math.round(
+                (
+                  Date.now() -
+                  start.getTime()
+                ) / 60000
+              )
+            );
+        }
+      }
+      /*
+         Якщо duration всё ещё
+         неизвестна — не считаем.
+      */
+      if(duration === null){
+        return;
+      }
+      alerts++;
+      totalMinutes += duration;
+    }
+  );
+  /*
+     Якщо поточна тривога активна,
+     но её alert-запись отсутствует
+     в history — добавляем её.
+  */
+  if(
+    data &&
+    data.status === "alert" &&
+    data.alert_started_at &&
+    !history.some(
+      item =>
+        item &&
+        item.type === "alert" &&
+        item.time === data.alert_started_at
+    )
+  ){
+    const start =
+      parseDate(
+        data.alert_started_at
+      );
+    if(
+      start &&
+      kyivDateKey(start) ===
+      kyivDateKey(new Date())
+    ){
+      const duration =
+        Math.max(
+          0,
+          Math.round(
+            (
+              Date.now() -
+              start.getTime()
+            ) / 60000
+          )
+        );
+      alerts++;
+      totalMinutes += duration;
+    }
+  }
+  return {
+    alerts,
+    total_minutes:
+      Math.round(
+        totalMinutes
+      ),
+    average_minutes:
+      alerts
+        ? Math.round(
+            totalMinutes /
+            alerts
+          )
+        : 0
+  };
+}
+/* =========================================
+   СТАТИСТИКА ПО ДНЯМ
+========================================= */
+function getDayKeyOffset(offset){
+  const now =
+    new Date();
+  const parts =
     new Intl.DateTimeFormat(
       "en-CA",
       {
@@ -1054,65 +1467,166 @@ function isToday(value){
         month:"2-digit",
         day:"2-digit"
       }
-    ).formatToParts(
-      new Date()
+    ).formatToParts(now);
+  const y =
+    Number(
+      parts.find(
+        p => p.type === "year"
+      ).value
     );
-  const current = {};
-  today.forEach(
-    part => {
-      if(part.type !== "literal"){
-        current[part.type] = part.value;
-      }
-    }
+  const m =
+    Number(
+      parts.find(
+        p => p.type === "month"
+      ).value
+    );
+  const d =
+    Number(
+      parts.find(
+        p => p.type === "day"
+      ).value
+    );
+  const utc =
+    new Date(
+      Date.UTC(
+        y,
+        m - 1,
+        d
+      )
+    );
+  utc.setUTCDate(
+    utc.getUTCDate() +
+    offset
   );
   return (
-    result.year === current.year &&
-    result.month === current.month &&
-    result.day === current.day
+    utc.getUTCFullYear() +
+    "-" +
+    String(
+      utc.getUTCMonth() + 1
+    ).padStart(2,"0") +
+    "-" +
+    String(
+      utc.getUTCDate()
+    ).padStart(2,"0")
   );
 }
-/* =========================================
-   СТАТИСТИКА
-========================================= */
-function calculateTodayStats(history){
-  if(!Array.isArray(history)){
-    return {
+function getDayLabel(
+  key
+){
+  const parts =
+    key.split("-");
+  const date =
+    new Date(
+      Date.UTC(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        Number(parts[2])
+      )
+    );
+  const weekday =
+    new Intl.DateTimeFormat(
+      "uk-UA",
+      {
+        weekday:"short",
+        timeZone:"UTC"
+      }
+    ).format(date);
+  return weekday
+    .replace(".","")
+    .slice(0,2)
+    .toUpperCase();
+}
+function calculateWeekStats(
+  history,
+  data
+){
+  const result = {};
+  for(
+    let offset = -6;
+    offset <= 0;
+    offset++
+  ){
+    result[
+      getDayKeyOffset(offset)
+    ] = {
       alerts:0,
-      total_minutes:0,
-      average_minutes:0
+      minutes:0
     };
   }
-  const completed =
-    history.filter(
-      item =>
-        item &&
-        item.type === "alert" &&
-        item.duration_minutes !== null &&
-        item.duration_minutes !== undefined &&
-        isToday(item.time)
+  if(Array.isArray(history)){
+    history.forEach(
+      item => {
+        if(
+          !item ||
+          item.type !== "alert"
+        ){
+          return;
+        }
+        const key =
+          kyivDateKey(
+            item.time
+          );
+        if(
+          !key ||
+          !result[key]
+        ){
+          return;
+        }
+        const duration =
+          getItemDuration(item);
+        if(duration === null){
+          return;
+        }
+        result[key].alerts++;
+        result[key].minutes += duration;
+      }
     );
-  const alerts =
-    completed.length;
-  const total_minutes =
-    completed.reduce(
-      (sum,item) =>
-        sum +
-        Number(
-          item.duration_minutes || 0
-        ),
-      0
-    );
-  const average_minutes =
-    alerts
-      ? Math.round(
-          total_minutes / alerts
-        )
-      : 0;
-  return {
-    alerts,
-    total_minutes,
-    average_minutes
-  };
+  }
+  /*
+     Активная тревога сегодня.
+  */
+  if(
+    data &&
+    data.status === "alert" &&
+    data.alert_started_at
+  ){
+    const key =
+      kyivDateKey(
+        data.alert_started_at
+      );
+    if(result[key]){
+      const start =
+        parseDate(
+          data.alert_started_at
+        );
+      if(start){
+        const minutes =
+          Math.max(
+            0,
+            Math.round(
+              (
+                Date.now() -
+                start.getTime()
+              ) / 60000
+            )
+          );
+        const exists =
+          Array.isArray(history) &&
+          history.some(
+            item =>
+              item &&
+              item.type === "alert" &&
+              item.time ===
+                data.alert_started_at
+          );
+        if(!exists){
+          result[key].alerts++;
+          result[key].minutes += minutes;
+        }
+      }
+    }
+  }
+  return result;
 }
 /* =========================================
    СТАТУС
@@ -1124,6 +1638,8 @@ function applyStatus(data){
   ){
     return;
   }
+  currentStatusData =
+    data;
   const card =
     document.getElementById(
       "statusCard"
@@ -1172,14 +1688,10 @@ function applyStatus(data){
     "Одеська область";
   if(data.updated_at){
     const updatedDate =
-      new Date(
+      parseDate(
         data.updated_at
       );
-    if(
-      !Number.isNaN(
-        updatedDate.getTime()
-      )
-    ){
+    if(updatedDate){
       updated.textContent =
         new Intl.DateTimeFormat(
           "uk-UA",
@@ -1196,7 +1708,9 @@ function applyStatus(data){
     updated.textContent =
       "щойно";
   }
-  /* НОВА ТРИВОГА */
+  /*
+     Нова тривога.
+  */
   if(
     previousStatus !== null &&
     previousStatus !== data.status &&
@@ -1204,7 +1718,9 @@ function applyStatus(data){
   ){
     handleNewAlert();
   }
-  /* ВИБРАЦИЯ */
+  /*
+     Вібрація.
+  */
   if(
     previousStatus !== null &&
     previousStatus !== data.status &&
@@ -1225,7 +1741,57 @@ function applyStatus(data){
   }
   previousStatus =
     data.status;
+  updateAlertDuration();
 }
+/* =========================================
+   ТАЙМЕР АКТИВНОЙ ТРЕВОГИ
+========================================= */
+function updateAlertDuration(){
+  const element =
+    document.getElementById(
+      "alertDuration"
+    );
+  if(!element){
+    return;
+  }
+  if(
+    !currentStatusData ||
+    currentStatusData.status !== "alert" ||
+    !currentStatusData.alert_started_at
+  ){
+    element.textContent =
+      "🚨 Триває: 0 хв";
+    return;
+  }
+  const start =
+    parseDate(
+      currentStatusData.alert_started_at
+    );
+  if(!start){
+    element.textContent =
+      "🚨 Триває";
+    return;
+  }
+  const minutes =
+    Math.max(
+      0,
+      Math.round(
+        (
+          Date.now() -
+          start.getTime()
+        ) / 60000
+      )
+    );
+  element.textContent =
+    "🚨 Триває: " +
+    formatMinutes(
+      minutes
+    );
+}
+setInterval(
+  updateAlertDuration,
+  1000
+);
 /* =========================================
    НОВОЕ УВЕДОМЛЕНИЕ
 ========================================= */
@@ -1254,15 +1820,17 @@ async function handleNewAlert(){
     if(!registration){
       return;
     }
+    /*
+       Не передаём SVG icon/badge.
+       Это предотвращает проблемы
+       с showNotification на некоторых
+       версиях iOS.
+    */
     await registration.showNotification(
       "🚨 Odesa Alert",
       {
         body:
           "Повітряна тривога — Одеса та Одеська область",
-        icon:
-          "./icon.svg",
-        badge:
-          "./icon.svg",
         tag:
           "odesa-alert",
         renotify:
@@ -1284,7 +1852,9 @@ async function handleNewAlert(){
 /* =========================================
    ИСТОРИЯ
 ========================================= */
-function renderHistory(history){
+function renderHistory(
+  history
+){
   const list =
     document.getElementById(
       "historyList"
@@ -1318,52 +1888,456 @@ function renderHistory(history){
   list.innerHTML =
     history
       .slice(0,20)
-      .map(item => {
-        const isAlert =
-          item &&
-          item.type === "alert";
-        return `
-          <div class="history-item">
-            <div class="history-left">
-              <div class="history-icon ${
-                isAlert ? "alert" : ""
-              }">
-                ${
+      .map(
+        item => {
+          const isAlert =
+            item &&
+            item.type === "alert";
+          const duration =
+            getItemDuration(
+              item
+            );
+          return `
+            <div class="history-item">
+              <div class="history-left">
+                <div class="history-icon ${
                   isAlert
-                    ? "🔴"
-                    : "🟢"
-                }
-              </div>
-              <div>
-                <div class="history-name">
+                    ? "alert"
+                    : ""
+                }">
                   ${
                     isAlert
-                      ? "Повітряна тривога"
-                      : "Відбій тривоги"
+                      ? "🔴"
+                      : "🟢"
                   }
                 </div>
-                <div class="history-time">
-                  ${formatDate(item?.time)}
+                <div>
+                  <div class="history-name">
+                    ${
+                      isAlert
+                        ? "Повітряна тривога"
+                        : "Відбій тривоги"
+                    }
+                  </div>
+                  <div class="history-time">
+                    ${formatDate(item?.time)}
+                  </div>
                 </div>
               </div>
+              <div class="history-duration">
+                ${
+                  duration !== null
+                    ? formatMinutes(
+                        duration
+                      )
+                    : isAlert
+                      ? "триває"
+                      : ""
+                }
+              </div>
             </div>
-            <div class="history-duration">
-              ${
-                item?.duration_minutes !== undefined &&
-                item?.duration_minutes !== null
-                  ? formatMinutes(
-                      item.duration_minutes
-                    )
-                  : ""
-              }
-            </div>
-          </div>
-        `;
-      })
+          `;
+        }
+      )
       .join("");
 }
 /* =========================================
-   ЗАГРУЗКА STATUS.JSON
+   АКТИВНІСТЬ ЗА ДОБУ
+========================================= */
+function renderTodayActivity(
+  history,
+  data
+){
+  const stats =
+    calculateTodayStats(
+      history,
+      data
+    );
+  const alertsElement =
+    document.getElementById(
+      "activityAlerts"
+    );
+  const minutesElement =
+    document.getElementById(
+      "activityMinutes"
+    );
+  const noActivity =
+    document.getElementById(
+      "noActivity"
+    );
+  if(alertsElement){
+    alertsElement.textContent =
+      stats.alerts;
+  }
+  if(minutesElement){
+    minutesElement.textContent =
+      formatMinutes(
+        stats.total_minutes
+      );
+  }
+  renderTimeline(
+    history,
+    data,
+    noActivity
+  );
+}
+/* =========================================
+   TIMELINE
+========================================= */
+function renderTimeline(
+  history,
+  data,
+  noActivity
+){
+  const timeline =
+    document.getElementById(
+      "timeline"
+    );
+  if(!timeline){
+    return;
+  }
+  timeline.innerHTML = "";
+  /*
+     Вертикальные линии 6/12/18.
+  */
+  [6,12,18].forEach(
+    hour => {
+      const line =
+        document.createElement(
+          "div"
+        );
+      line.className =
+        "timeline-hour";
+      line.style.left =
+        (
+          hour / 24 * 100
+        ) + "%";
+      timeline.appendChild(
+        line
+      );
+    }
+  );
+  const now =
+    new Date();
+  if(isToday(now)){
+    const currentHour =
+      getKyivHour(now);
+    const currentMinute =
+      getKyivMinute(now);
+    const percent =
+      (
+        (
+          currentHour * 60 +
+          currentMinute
+        ) /
+        1440
+      ) * 100;
+    const nowLine =
+      document.createElement(
+        "div"
+      );
+    nowLine.className =
+      "timeline-now";
+    nowLine.style.left =
+      Math.min(
+        99.5,
+        percent
+      ) + "%";
+    timeline.appendChild(
+      nowLine
+    );
+  }
+  let hasActivity = false;
+  if(Array.isArray(history)){
+    history.forEach(
+      item => {
+        if(
+          !item ||
+          item.type !== "alert" ||
+          !isToday(item.time)
+        ){
+          return;
+        }
+        const start =
+          parseDate(
+            item.time
+          );
+        if(!start){
+          return;
+        }
+        let end = null;
+        const duration =
+          getItemDuration(
+            item
+          );
+        if(duration !== null){
+          end =
+            new Date(
+              start.getTime() +
+              duration * 60000
+            );
+        }else if(
+          data &&
+          data.status === "alert" &&
+          data.alert_started_at === item.time
+        ){
+          end =
+            new Date();
+        }
+        if(!end){
+          return;
+        }
+        const startKey =
+          kyivDateKey(start);
+        if(
+          startKey !==
+          kyivDateKey(new Date())
+        ){
+          return;
+        }
+        /*
+           Если тревога вышла
+           за 24 часа — ограничиваем.
+        */
+        const startMinutes =
+          Math.max(
+            0,
+            getKyivHour(start) * 60 +
+            getKyivMinute(start)
+          );
+        const endMinutes =
+          Math.min(
+            1440,
+            getKyivHour(end) * 60 +
+            getKyivMinute(end)
+          );
+        if(
+          endMinutes <= startMinutes
+        ){
+          return;
+        }
+        const bar =
+          document.createElement(
+            "div"
+          );
+        bar.className =
+          "timeline-alert";
+        bar.style.left =
+          (
+            startMinutes /
+            1440 *
+            100
+          ) + "%";
+        bar.style.width =
+          (
+            (
+              endMinutes -
+              startMinutes
+            ) /
+            1440 *
+            100
+          ) + "%";
+        timeline.appendChild(
+          bar
+        );
+        hasActivity = true;
+      }
+    );
+  }
+  /*
+     Если активная тревога отсутствует
+     в history — добавляем её отдельно.
+  */
+  if(
+    data &&
+    data.status === "alert" &&
+    data.alert_started_at &&
+    !(
+      Array.isArray(history) &&
+      history.some(
+        item =>
+          item &&
+          item.type === "alert" &&
+          item.time ===
+            data.alert_started_at
+      )
+    )
+  ){
+    const start =
+      parseDate(
+        data.alert_started_at
+      );
+    if(
+      start &&
+      isToday(start)
+    ){
+      const startMinutes =
+        getKyivHour(start) * 60 +
+        getKyivMinute(start);
+      const nowMinutes =
+        getKyivHour(new Date()) * 60 +
+        getKyivMinute(new Date());
+      if(nowMinutes > startMinutes){
+        const bar =
+          document.createElement(
+            "div"
+          );
+        bar.className =
+          "timeline-alert";
+        bar.style.left =
+          (
+            startMinutes /
+            1440 *
+            100
+          ) + "%";
+        bar.style.width =
+          (
+            (
+              nowMinutes -
+              startMinutes
+            ) /
+            1440 *
+            100
+          ) + "%";
+        timeline.appendChild(
+          bar
+        );
+        hasActivity = true;
+      }
+    }
+  }
+  /*
+     Линии должны быть выше красных
+     блоков.
+  */
+  timeline
+    .querySelectorAll(
+      ".timeline-hour"
+    )
+    .forEach(
+      line => {
+        line.style.zIndex = "2";
+      }
+    );
+  if(noActivity){
+    noActivity.style.display =
+      hasActivity
+        ? "none"
+        : "block";
+  }
+}
+function getKyivHour(
+  date
+){
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-US",
+      {
+        timeZone:"Europe/Kyiv",
+        hour:"2-digit",
+        hour12:false
+      }
+    ).formatToParts(date);
+  const value =
+    parts.find(
+      part =>
+        part.type === "hour"
+    )?.value;
+  return Number(value || 0);
+}
+function getKyivMinute(
+  date
+){
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-US",
+      {
+        timeZone:"Europe/Kyiv",
+        minute:"2-digit"
+      }
+    ).formatToParts(date);
+  const value =
+    parts.find(
+      part =>
+        part.type === "minute"
+    )?.value;
+  return Number(value || 0);
+}
+/* =========================================
+   7 ДНЕЙ
+========================================= */
+function renderWeekStats(
+  history,
+  data
+){
+  const list =
+    document.getElementById(
+      "weekList"
+    );
+  if(!list){
+    return;
+  }
+  const week =
+    calculateWeekStats(
+      history,
+      data
+    );
+  const keys =
+    Object.keys(
+      week
+    );
+  const maxMinutes =
+    Math.max(
+      1,
+      ...keys.map(
+        key =>
+          week[key].minutes
+      )
+    );
+  list.innerHTML =
+    keys
+      .map(
+        key => {
+          const day =
+            week[key];
+          const width =
+            day.minutes > 0
+              ? Math.max(
+                  3,
+                  (
+                    day.minutes /
+                    maxMinutes
+                  ) * 100
+                )
+              : 0;
+          return `
+            <div class="week-row">
+              <div class="week-day">
+                ${getDayLabel(key)}
+              </div>
+              <div class="week-bar">
+                <div
+                  class="week-fill"
+                  style="width:${width}%"
+                ></div>
+              </div>
+              <div class="week-minutes">
+                ${
+                  day.minutes > 0
+                    ? formatMinutes(
+                        day.minutes
+                      )
+                    : "0 хв"
+                }
+              </div>
+            </div>
+          `;
+        }
+      )
+      .join("");
+}
+/* =========================================
+   STATUS.JSON
 ========================================= */
 async function loadStatus(){
   try{
@@ -1384,19 +2358,35 @@ async function loadStatus(){
     }
     const data =
       await response.json();
-    applyStatus(data);
+    currentStatusData =
+      data;
+    applyStatus(
+      data
+    );
+    const history =
+      Array.isArray(
+        data.history
+      )
+        ? data.history
+        : [];
     renderHistory(
-      data.history || []
+      history
+    );
+    renderTodayActivity(
+      history,
+      data
+    );
+    renderWeekStats(
+      history,
+      data
     );
     /*
-       Статистика считается
-       непосредственно из history,
-       чтобы "сьогодні" действительно
-       означало сегодняшний день.
+       Основная статистика.
     */
     const todayStats =
       calculateTodayStats(
-        data.history || []
+        history,
+        data
       );
     const statAlerts =
       document.getElementById(
@@ -1422,9 +2412,11 @@ async function loadStatus(){
     }
     if(statAverage){
       statAverage.textContent =
-        formatMinutes(
-          todayStats.average_minutes
-        );
+        todayStats.alerts
+          ? formatMinutes(
+              todayStats.average_minutes
+            )
+          : "0 хв";
     }
   }catch(error){
     console.error(
@@ -1453,10 +2445,26 @@ const notificationText =
     "notificationText"
   );
 function updateNotificationUI(){
+  const permission =
+    "Notification" in window
+      ? Notification.permission
+      : "denied";
+  /*
+     Если браузер уже запретил
+     уведомления — выключаем
+     локальный переключатель.
+  */
+  if(permission === "denied"){
+    localStorage.setItem(
+      "notifications",
+      "off"
+    );
+  }
   const enabled =
     localStorage.getItem(
       "notifications"
-    ) === "on";
+    ) === "on" &&
+    permission === "granted";
   notificationsSwitch.classList.toggle(
     "active",
     enabled
@@ -1464,6 +2472,11 @@ function updateNotificationUI(){
   if(enabled){
     notificationText.textContent =
       "Сповіщення увімкнено";
+  }else if(
+    permission === "denied"
+  ){
+    notificationText.textContent =
+      "Дозвіл заблоковано";
   }else{
     notificationText.textContent =
       "Натисніть для увімкнення";
@@ -1476,7 +2489,7 @@ async function enableNotifications(){
   try{
     if(!("Notification" in window)){
       alert(
-        "Ваш iPhone не підтримує сповіщення для цього режиму."
+        "Цей браузер не підтримує сповіщення."
       );
       return;
     }
@@ -1486,29 +2499,36 @@ async function enableNotifications(){
       );
       return;
     }
-    const registration =
-      serviceWorkerRegistration ||
-      await navigator.serviceWorker.ready;
-    if(!registration){
+    /*
+       Важливо:
+       showNotification() тут НЕ викликаємо.
+       Спочатку тільки отримуємо дозвіл.
+    */
+    if(
+      Notification.permission ===
+      "denied"
+    ){
+      localStorage.setItem(
+        "notifications",
+        "off"
+      );
+      updateNotificationUI();
       alert(
-        "Odesa Alert ще не готовий. Оновіть сторінку."
+        "Сповіщення заблоковані.\n\n" +
+        "Відкрийте Налаштування iPhone → Сповіщення → Odesa Alert та дозвольте сповіщення."
       );
       return;
     }
-    console.log(
-      "Notification permission BEFORE:",
-      Notification.permission
-    );
     let permission =
       Notification.permission;
     if(permission === "default"){
       permission =
         await Notification.requestPermission();
-      console.log(
-        "Notification permission AFTER:",
-        permission
-      );
     }
+    console.log(
+      "Notification permission:",
+      permission
+    );
     if(permission === "granted"){
       localStorage.setItem(
         "notifications",
@@ -1528,8 +2548,7 @@ async function enableNotifications(){
       updateNotificationUI();
       alert(
         "Сповіщення заблоковані.\n\n" +
-        "Відкрийте:\n" +
-        "Налаштування → Сповіщення → Odesa Alert → Дозволити сповіщення."
+        "Відкрийте Налаштування → Сповіщення → Odesa Alert → Дозволити сповіщення."
       );
       return;
     }
@@ -1547,8 +2566,8 @@ async function enableNotifications(){
     );
     updateNotificationUI();
     alert(
-      "Помилка сповіщень.\n\n" +
-      "Спробуйте відкрити Odesa Alert з головного екрана iPhone."
+      "Не вдалося увімкнути сповіщення.\n\n" +
+      "Перевірте дозвіл на сповіщення для Odesa Alert."
     );
   }
 }
@@ -1675,25 +2694,29 @@ document
   .querySelectorAll(
     ".nav-item"
   )
-  .forEach(item => {
-    item.addEventListener(
-      "click",
-      () => {
-        document
-          .querySelectorAll(
-            ".nav-item"
-          )
-          .forEach(nav => {
-            nav.classList.remove(
-              "active"
+  .forEach(
+    item => {
+      item.addEventListener(
+        "click",
+        () => {
+          document
+            .querySelectorAll(
+              ".nav-item"
+            )
+            .forEach(
+              nav => {
+                nav.classList.remove(
+                  "active"
+                );
+              }
             );
-          });
-        item.classList.add(
-          "active"
-        );
-      }
-    );
-  });
+          item.classList.add(
+            "active"
+          );
+        }
+      );
+    }
+  );
 /* =========================================
    START
 ========================================= */
@@ -1707,6 +2730,65 @@ document
 setInterval(
   loadStatus,
   10000
+);
+/* =========================================
+   ОБНОВЛЕНИЕ TIMELINE КАЖДУЮ МИНУТУ
+========================================= */
+setInterval(
+  () => {
+    if(currentStatusData){
+      const history =
+        Array.isArray(
+          currentStatusData.history
+        )
+          ? currentStatusData.history
+          : [];
+      renderTodayActivity(
+        history,
+        currentStatusData
+      );
+      renderWeekStats(
+        history,
+        currentStatusData
+      );
+      const stats =
+        calculateTodayStats(
+          history,
+          currentStatusData
+        );
+      const statAlerts =
+        document.getElementById(
+          "statAlerts"
+        );
+      const statTotal =
+        document.getElementById(
+          "statTotal"
+        );
+      const statAverage =
+        document.getElementById(
+          "statAverage"
+        );
+      if(statAlerts){
+        statAlerts.textContent =
+          stats.alerts;
+      }
+      if(statTotal){
+        statTotal.textContent =
+          formatMinutes(
+            stats.total_minutes
+          );
+      }
+      if(statAverage){
+        statAverage.textContent =
+          stats.alerts
+            ? formatMinutes(
+                stats.average_minutes
+              )
+            : "0 хв";
+      }
+    }
+  },
+  60000
 );
 </script>
 </body>
