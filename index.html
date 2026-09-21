@@ -898,6 +898,9 @@ setInterval(
 ========================================= */
 async function registerServiceWorker(){
   if(!("serviceWorker" in navigator)){
+    console.warn(
+      "Service Worker не підтримується"
+    );
     return null;
   }
   try{
@@ -908,7 +911,12 @@ async function registerServiceWorker(){
           scope:"./"
         }
       );
-    await navigator.serviceWorker.ready;
+    serviceWorkerRegistration =
+      await navigator.serviceWorker.ready;
+    console.log(
+      "Service Worker готовий:",
+      serviceWorkerRegistration
+    );
     return serviceWorkerRegistration;
   }catch(error){
     console.error(
@@ -1079,10 +1087,7 @@ function applyStatus(data){
     updated.textContent =
       "щойно";
   }
-  /*
-    Только изменение
-    safe → alert
-  */
+  /* НОВА ТРИВОГА */
   if(
     previousStatus !== null &&
     previousStatus !== data.status &&
@@ -1090,9 +1095,7 @@ function applyStatus(data){
   ){
     handleNewAlert();
   }
-  /*
-    Вибрация
-  */
+  /* ВИБРАЦИЯ */
   if(
     previousStatus !== null &&
     previousStatus !== data.status &&
@@ -1101,9 +1104,15 @@ function applyStatus(data){
     ) !== "off" &&
     "vibrate" in navigator
   ){
-    navigator.vibrate(
-      [500,200,500]
-    );
+    try{
+      navigator.vibrate(
+        [500,200,500]
+      );
+    }catch(error){
+      console.log(
+        "Vibration unavailable"
+      );
+    }
   }
   previousStatus =
     data.status;
@@ -1133,6 +1142,9 @@ async function handleNewAlert(){
     const registration =
       serviceWorkerRegistration ||
       await navigator.serviceWorker.ready;
+    if(!registration){
+      return;
+    }
     await registration.showNotification(
       "🚨 Odesa Alert",
       {
@@ -1340,46 +1352,131 @@ function updateNotificationUI(){
       "Натисніть для увімкнення";
   }
 }
+/*
+   ПРОВЕРКА PWA
+*/
+function isStandalone(){
+  return (
+    window.matchMedia &&
+    window.matchMedia(
+      "(display-mode: standalone)"
+    ).matches
+  ) ||
+  window.navigator.standalone === true;
+}
+/*
+   ВКЛЮЧЕНИЕ УВЕДОМЛЕНИЙ
+*/
 async function enableNotifications(){
-  if(
-    !("Notification" in window)
-  ){
-    alert(
-      "Цей браузер не підтримує сповіщення."
-    );
-    return;
-  }
   try{
+    /* Проверяем HTTPS */
+    if(
+      location.protocol !== "https:" &&
+      location.hostname !== "localhost"
+    ){
+      alert(
+        "Сповіщення працюють лише через HTTPS."
+      );
+      return;
+    }
+    /* Проверяем Notification API */
+    if(
+      !("Notification" in window)
+    ){
+      alert(
+        "Цей браузер не підтримує сповіщення."
+      );
+      return;
+    }
+    /*
+       На iPhone уведомления для PWA
+       должны включаться из установленного
+       приложения.
+    */
+    const iphone =
+      /iPhone|iPad|iPod/i.test(
+        navigator.userAgent
+      );
+    if(
+      iphone &&
+      !isStandalone()
+    ){
+      alert(
+        "На iPhone спочатку додайте Odesa Alert на початковий екран через Safari → Поділитися → На початковий екран. Потім відкрийте Odesa Alert з іконки та увімкніть сповіщення."
+      );
+      return;
+    }
+    /*
+       Проверяем Service Worker
+    */
+    if(
+      !("serviceWorker" in navigator)
+    ){
+      alert(
+        "Service Worker не підтримується цим браузером."
+      );
+      return;
+    }
+    /*
+       Получаем регистрацию
+    */
+    let registration =
+      serviceWorkerRegistration;
+    if(!registration){
+      registration =
+        await navigator.serviceWorker.ready;
+    }
+    if(!registration){
+      throw new Error(
+        "Service Worker registration missing"
+      );
+    }
+    serviceWorkerRegistration =
+      registration;
+    /*
+       Запрашиваем разрешение
+    */
     let permission =
       Notification.permission;
-    if(permission === "default"){
+    if(
+      permission === "default"
+    ){
       permission =
         await Notification.requestPermission();
     }
-    if(permission !== "granted"){
+    console.log(
+      "Notification permission:",
+      permission
+    );
+    if(
+      permission !== "granted"
+    ){
       localStorage.setItem(
         "notifications",
         "off"
       );
       updateNotificationUI();
       alert(
-        "Дозвіл на сповіщення не надано."
+        "Дозвіл на сповіщення не надано. Перевірте Налаштування iPhone → Сповіщення → Odesa Alert."
       );
       return;
     }
+    /*
+       Сохраняем состояние
+    */
     localStorage.setItem(
       "notifications",
       "on"
     );
     updateNotificationUI();
-    const registration =
-      serviceWorkerRegistration ||
-      await navigator.serviceWorker.ready;
+    /*
+       ТЕСТОВОЕ УВЕДОМЛЕНИЕ
+    */
     await registration.showNotification(
       "🔔 Odesa Alert",
       {
         body:
-          "Сповіщення увімкнено.",
+          "Сповіщення увімкнено. Odesa Alert готовий повідомляти про тривогу.",
         icon:
           "./icon.svg",
         badge:
@@ -1398,11 +1495,19 @@ async function enableNotifications(){
       "Notification error:",
       error
     );
+    localStorage.setItem(
+      "notifications",
+      "off"
+    );
+    updateNotificationUI();
     alert(
-      "Не вдалося увімкнути сповіщення."
+      "Не вдалося увімкнути сповіщення. Відкрийте Odesa Alert саме з головного екрана iPhone та перевірте дозволи в Налаштуваннях → Сповіщення."
     );
   }
 }
+/*
+   КНОПКА УВЕДОМЛЕНИЙ
+*/
 notificationsSwitch.addEventListener(
   "click",
   async () => {
@@ -1550,8 +1655,7 @@ document
   await loadStatus();
 })();
 /*
-  Обновляем статус каждые 30 секунд,
-  пока приложение открыто.
+   Обновляем статус каждые 30 секунд
 */
 setInterval(
   loadStatus,
