@@ -1,1029 +1,1179 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
-  >
-
-  <meta name="theme-color" content="#080b10">
-  <meta name="background-color" content="#080b10">
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Odesa Alert">
-
-  <meta
-    name="description"
-    content="Odesa Alert — інформаційна панель повітряних тривог Одеси та Одеської області."
-  >
-
-  <link rel="manifest" href="./manifest.json">
-
-  <title>Odesa Alert</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      background: #080b10;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #080b10;
-      color: #f5f7fa;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Display",
-        "SF Pro Text",
-        "Segoe UI",
-        sans-serif;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    button {
-      font: inherit;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 600px;
-      min-height: 100vh;
-      margin: 0 auto;
-      padding-bottom: 100px;
-    }
-
-    /* HEADER */
-
-    .header {
-      padding:
-        calc(18px + env(safe-area-inset-top))
-        18px
-        12px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 45px;
-      height: 45px;
-      border-radius: 15px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 23px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #ff454f,
-          #a80d19
-        );
-
-      box-shadow:
-        0 8px 28px rgba(255, 40, 50, .24);
-    }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 20px;
-      line-height: 1.1;
-      letter-spacing: -.5px;
-    }
-
-    .brand p {
-      margin: 4px 0 0;
-      color: #7e8997;
-      font-size: 12px;
-    }
-
-    .live {
-      display: flex;
-      align-items: center;
-      gap: 6px;
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+
+<meta name="theme-color" content="#080b10">
+<meta name="background-color" content="#080b10">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Odesa Alert">
+
+<meta name="description"
+      content="Odesa Alert — повітряні тривоги Одеси та Одеської області">
+
+<link rel="manifest" href="./manifest.json">
+
+<title>Odesa Alert</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html{
+  background:#080b10;
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:#080b10;
+  color:#f5f7fa;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
+               "SF Pro Text","Segoe UI",sans-serif;
+}
+
+button{
+  font:inherit;
+}
+
+a{
+  color:inherit;
+}
+
+.app{
+  max-width:620px;
+  min-height:100vh;
+  margin:auto;
+  padding-bottom:100px;
+}
+
+/* HEADER */
+
+.header{
+  padding:
+    calc(18px + env(safe-area-inset-top))
+    18px
+    12px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:46px;
+  height:46px;
+  border-radius:15px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:linear-gradient(145deg,#ff454f,#a90e1a);
+
+  box-shadow:0 8px 28px rgba(255,40,50,.25);
+}
+
+.logo svg{
+  width:27px;
+  height:27px;
+}
+
+.brand h1{
+  margin:0;
+  font-size:20px;
+  letter-spacing:-.5px;
+}
+
+.brand p{
+  margin:4px 0 0;
+  color:#7e8997;
+  font-size:12px;
+}
+
+.live{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  color:#5de183;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.7px;
+}
+
+.live-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#45dc76;
+  box-shadow:0 0 10px #45dc76;
+}
+
+/* STATUS */
+
+.status-card{
+  margin:12px 16px;
+
+  padding:22px;
+
+  border-radius:25px;
+
+  background:
+    radial-gradient(circle at 100% 0%,
+      rgba(43,213,105,.14),
+      transparent 45%),
+    #10151d;
+
+  border:1px solid #1d2632;
+
+  box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+  transition:.3s;
+}
+
+.status-card.alert{
+  background:
+    radial-gradient(circle at 100% 0%,
+      rgba(255,55,65,.22),
+      transparent 45%),
+    #171014;
+
+  border-color:#542329;
+}
+
+.status-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+}
+
+.status-label{
+  margin-bottom:7px;
+
+  color:#778291;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.7px;
+}
+
+.status{
+  font-size:29px;
+  line-height:1.1;
+  font-weight:800;
+  letter-spacing:-1px;
+}
 
-      color: #65e58b;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .7px;
-    }
+.status.green{
+  color:#58df82;
+}
+
+.status.red{
+  color:#ff4b55;
+}
 
-    .live-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #45dc76;
-      box-shadow: 0 0 10px #45dc76;
-    }
+.region{
+  margin-top:8px;
+  color:#9aa4b1;
+  font-size:13px;
+}
+
+.status-icon{
+  width:56px;
+  height:56px;
+
+  flex:0 0 auto;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:18px;
+  background:#13261a;
+
+  font-size:27px;
+}
+
+.alert .status-icon{
+  background:#30151a;
+}
+
+.info-row{
+  margin-top:22px;
+  padding-top:18px;
+
+  border-top:1px solid #202a36;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.info-box{
+  padding:13px;
+  border-radius:15px;
+  background:#0b1016;
+}
+
+.info-title{
+  color:#687483;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.7px;
+}
+
+.info-value{
+  margin-top:5px;
+  font-size:15px;
+  font-weight:700;
+}
+
+/* ACTIONS */
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  gap:10px;
+  margin:12px 16px 20px;
+}
+
+.action{
+  min-height:48px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid #222c38;
+  border-radius:16px;
+
+  background:#111720;
+  color:white;
+
+  text-decoration:none;
+
+  font-size:13px;
+  font-weight:700;
+
+  transition:.15s;
+}
+
+.action:active{
+  transform:scale(.97);
+}
+
+.action.primary{
+  background:#e52c38;
+  border-color:#e52c38;
+}
+
+/* SECTIONS */
+
+.section{
+  margin:0 16px 20px;
+}
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:11px;
+}
+
+.section-title{
+  font-size:17px;
+  font-weight:750;
+}
+
+.section-link{
+  color:#737f8e;
+  font-size:11px;
+}
+
+/* MAP */
+
+.map-card{
+  overflow:hidden;
+  border-radius:22px;
+
+  background:#10151d;
+  border:1px solid #1d2632;
+}
+
+.map{
+  position:relative;
+  height:365px;
+  background:#0c1117;
+}
+
+.map iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.map-loading{
+  position:absolute;
+  inset:0;
+  z-index:2;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-    /* STATUS */
+  background:#0c1117;
+  transition:.3s;
+}
+
+.spinner{
+  width:30px;
+  height:30px;
 
-    .status-card {
-      margin: 12px 16px;
+  border:3px solid #26313d;
+  border-top-color:#ff3d49;
 
-      padding: 22px;
+  border-radius:50%;
 
-      border-radius: 25px;
+  animation:spin .8s linear infinite;
+}
 
-      background:
-        radial-gradient(
-          circle at 100% 0%,
-          rgba(43,213,105,.14),
-          transparent 45%
-        ),
-        #10151d;
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
 
-      border: 1px solid #1d2632;
+/* HISTORY */
 
-      box-shadow:
-        0 15px 40px rgba(0,0,0,.25);
-    }
+.history{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
 
-    .status-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 15px;
-    }
+.history-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 
-    .status-label {
-      margin-bottom: 7px;
+  padding:14px;
 
-      color: #778291;
+  border-radius:16px;
 
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .5px;
-    }
+  background:#10151d;
+  border:1px solid #1d2632;
+}
 
-    .status {
-      font-size: 29px;
-      line-height: 1.1;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
+.history-left{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
 
-    .status.green {
-      color: #58df82;
-    }
+.history-icon{
+  width:36px;
+  height:36px;
 
-    .status.red {
-      color: #ff4b55;
-    }
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-    .region {
-      margin-top: 8px;
+  border-radius:12px;
 
-      color: #9aa4b1;
-      font-size: 13px;
-    }
+  background:#13261a;
+}
 
-    .status-icon {
-      flex: 0 0 auto;
+.history-icon.alert{
+  background:#291417;
+}
 
-      width: 56px;
-      height: 56px;
+.history-name{
+  font-size:13px;
+  font-weight:650;
+}
 
-      border-radius: 18px;
+.history-time{
+  margin-top:3px;
+  color:#687483;
+  font-size:11px;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.history-duration{
+  color:#9ca7b4;
+  font-size:12px;
+}
 
-      background: #13261a;
+/* STATS */
 
-      font-size: 27px;
-    }
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
 
-    .info-row {
-      margin-top: 22px;
-      padding-top: 18px;
+.stat{
+  padding:16px 8px;
 
-      border-top: 1px solid #202a36;
+  border-radius:17px;
 
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+  background:#10151d;
+  border:1px solid #1d2632;
 
-    .info-box {
-      padding: 13px;
+  text-align:center;
+}
 
-      border-radius: 15px;
+.stat-number{
+  font-size:20px;
+  font-weight:800;
+}
 
-      background: #0b1016;
-    }
+.stat-label{
+  margin-top:4px;
 
-    .info-title {
-      color: #687483;
+  color:#687483;
 
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: .7px;
-      text-transform: uppercase;
-    }
+  font-size:9px;
+  font-weight:700;
+}
 
-    .info-value {
-      margin-top: 5px;
+/* SETTINGS */
 
-      font-size: 15px;
-      font-weight: 700;
-    }
+.settings{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
 
-    /* BUTTONS */
+.setting{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+  padding:15px;
 
-      margin: 12px 16px 20px;
-    }
+  border-radius:17px;
 
-    .action {
-      min-height: 48px;
+  background:#10151d;
+  border:1px solid #1d2632;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.setting-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-      border-radius: 16px;
+.setting-icon{
+  width:36px;
+  height:36px;
 
-      border: 1px solid #222c38;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-      background: #111720;
+  border-radius:12px;
 
-      color: white;
+  background:#181f28;
 
-      text-decoration: none;
+  font-size:17px;
+}
 
-      font-size: 13px;
-      font-weight: 700;
+.setting-title{
+  font-size:13px;
+  font-weight:650;
+}
 
-      transition: transform .15s ease;
-    }
+.setting-sub{
+  margin-top:3px;
+  color:#687483;
+  font-size:10px;
+}
 
-    .action:active {
-      transform: scale(.97);
-    }
+/* SWITCH */
 
-    .action.primary {
-      background: #e52c38;
-      border-color: #e52c38;
-    }
+.switch{
+  position:relative;
 
-    /* SECTIONS */
+  width:46px;
+  height:27px;
 
-    .section {
-      margin: 0 16px 20px;
-    }
+  border:0;
+  border-radius:20px;
 
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  background:#303944;
 
-      margin-bottom: 11px;
-    }
+  cursor:pointer;
+}
 
-    .section-title {
-      font-size: 17px;
-      font-weight: 750;
-    }
+.switch::after{
+  content:"";
 
-    .section-link {
-      color: #737f8e;
-      font-size: 11px;
-    }
+  position:absolute;
 
-    /* MAP */
+  top:4px;
+  left:4px;
 
-    .map-card {
-      overflow: hidden;
+  width:19px;
+  height:19px;
 
-      border-radius: 22px;
+  border-radius:50%;
 
-      background: #10151d;
+  background:white;
 
-      border: 1px solid #1d2632;
-    }
+  transition:.2s;
+}
 
-    .map {
-      position: relative;
-      height: 365px;
+.switch.active{
+  background:#e52c38;
+}
 
-      background: #0c1117;
-    }
+.switch.active::after{
+  left:23px;
+}
 
-    .map iframe {
-      width: 100%;
-      height: 100%;
+/* INFO */
 
-      border: 0;
-    }
+.info-card{
+  padding:18px;
 
-    .map-loading {
-      position: absolute;
-      inset: 0;
+  border-radius:20px;
 
-      z-index: 2;
+  background:#10151d;
+  border:1px solid #1d2632;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.info-card p{
+  margin:0;
 
-      background: #0c1117;
+  color:#8d98a6;
 
-      transition: opacity .3s ease;
-    }
+  font-size:12px;
+  line-height:1.55;
+}
 
-    .spinner {
-      width: 30px;
-      height: 30px;
+.info-card strong{
+  color:#e7ebef;
+}
 
-      border: 3px solid #26313d;
-      border-top-color: #ff3d49;
+/* FOOTER */
 
-      border-radius: 50%;
+.footer{
+  padding:8px 20px 20px;
 
-      animation: spin .8s linear infinite;
-    }
+  color:#4f5966;
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+  font-size:10px;
+  line-height:1.5;
 
-    /* HISTORY */
+  text-align:center;
+}
 
-    .history {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+/* BOTTOM */
 
-    .history-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+.bottom-nav{
+  position:fixed;
+  z-index:20;
 
-      padding: 14px;
+  left:50%;
+  bottom:0;
 
-      border-radius: 16px;
+  width:min(620px,100%);
 
-      background: #10151d;
+  transform:translateX(-50%);
 
-      border: 1px solid #1d2632;
-    }
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
 
-    .history-left {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-    }
+  padding:
+    8px
+    8px
+    calc(8px + env(safe-area-inset-bottom));
 
-    .history-icon {
-      width: 36px;
-      height: 36px;
+  background:rgba(8,11,16,.94);
 
-      flex: 0 0 auto;
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  border-top:1px solid #1c2530;
+}
 
-      border-radius: 12px;
+.nav-item{
+  padding:5px;
 
-      background: #13261a;
-    }
+  color:#697583;
 
-    .history-icon.alert {
-      background: #291417;
-    }
+  text-decoration:none;
 
-    .history-name {
-      font-size: 13px;
-      font-weight: 650;
-    }
+  font-size:9px;
+  text-align:center;
+}
 
-    .history-time {
-      margin-top: 3px;
+.nav-icon{
+  display:block;
+  margin-bottom:3px;
+  font-size:19px;
+}
 
-      color: #687483;
+.nav-item.active{
+  color:#ff4a54;
+}
 
-      font-size: 11px;
-    }
+/* INSTALL */
 
-    .history-duration {
-      color: #9ca7b4;
-      font-size: 12px;
-    }
+.install{
+  display:none;
 
-    /* STATS */
+  position:fixed;
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
+  z-index:50;
 
-    .stat {
-      padding: 16px 8px;
+  left:14px;
+  right:14px;
 
-      border-radius: 17px;
+  bottom:calc(78px + env(safe-area-inset-bottom));
 
-      background: #10151d;
+  padding:16px;
 
-      border: 1px solid #1d2632;
+  border:1px solid #2a3542;
+  border-radius:20px;
 
-      text-align: center;
-    }
+  background:#111720;
 
-    .stat-number {
-      font-size: 20px;
-      font-weight: 800;
-    }
+  box-shadow:0 15px 40px rgba(0,0,0,.45);
+}
 
-    .stat-label {
-      margin-top: 4px;
+.install.show{
+  display:block;
+}
 
-      color: #687483;
+.install-title{
+  font-size:14px;
+  font-weight:750;
+}
 
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: .3px;
-    }
+.install-text{
+  margin-top:5px;
 
-    /* INFO */
+  color:#8994a1;
 
-    .info-card {
-      padding: 18px;
+  font-size:11px;
+  line-height:1.4;
+}
 
-      border-radius: 20px;
+.install-buttons{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
 
-      background: #10151d;
+.install button{
+  flex:1;
 
-      border: 1px solid #1d2632;
-    }
+  padding:10px;
 
-    .info-card p {
-      margin: 0;
+  border:0;
+  border-radius:12px;
 
-      color: #8d98a6;
+  background:#e52c38;
+  color:white;
 
-      font-size: 12px;
-      line-height: 1.55;
-    }
+  font-size:12px;
+  font-weight:700;
+}
 
-    .info-card strong {
-      color: #e7ebef;
-    }
+.install .close{
+  background:#202a35;
+}
 
-    /* FOOTER */
-
-    .footer {
-      padding: 8px 20px 20px;
-
-      color: #4f5966;
-
-      font-size: 10px;
-      line-height: 1.5;
-
-      text-align: center;
-    }
-
-    /* BOTTOM NAV */
-
-    .bottom-nav {
-      position: fixed;
-
-      z-index: 20;
-
-      left: 50%;
-      bottom: 0;
-
-      width: min(600px, 100%);
-
-      transform: translateX(-50%);
-
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-
-      padding:
-        8px
-        8px
-        calc(8px + env(safe-area-inset-bottom));
-
-      background: rgba(8,11,16,.94);
-
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-
-      border-top: 1px solid #1c2530;
-    }
-
-    .nav-item {
-      padding: 5px;
-
-      color: #697583;
-
-      text-decoration: none;
-
-      font-size: 10px;
-
-      text-align: center;
-    }
-
-    .nav-icon {
-      display: block;
-
-      margin-bottom: 3px;
-
-      font-size: 20px;
-    }
-
-    .nav-item.active {
-      color: #ff4a54;
-    }
-
-    /* INSTALL BUTTON */
-
-    .install-banner {
-      display: none;
-
-      position: fixed;
-
-      z-index: 30;
-
-      left: 14px;
-      right: 14px;
-      bottom: calc(76px + env(safe-area-inset-bottom));
-
-      padding: 15px;
-
-      border: 1px solid #2a3542;
-
-      border-radius: 18px;
-
-      background: #111720;
-
-      box-shadow: 0 15px 40px rgba(0,0,0,.45);
-    }
-
-    .install-banner.show {
-      display: block;
-    }
-
-    .install-title {
-      font-size: 14px;
-      font-weight: 750;
-    }
-
-    .install-text {
-      margin-top: 4px;
-
-      color: #8994a1;
-
-      font-size: 11px;
-      line-height: 1.4;
-    }
-
-    .install-buttons {
-      display: flex;
-      gap: 8px;
-
-      margin-top: 12px;
-    }
-
-    .install-button {
-      flex: 1;
-
-      padding: 10px;
-
-      border: 0;
-      border-radius: 12px;
-
-      background: #e52c38;
-
-      color: white;
-
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .install-close {
-      background: #202a35;
-    }
-
-    @media (min-width: 601px) {
-      .bottom-nav {
-        border-left: 1px solid #1c2530;
-        border-right: 1px solid #1c2530;
-      }
-    }
-  </style>
+@media(min-width:621px){
+  .bottom-nav{
+    border-left:1px solid #1c2530;
+    border-right:1px solid #1c2530;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<div class="app" id="top">
+<div class="app">
 
-  <!-- HEADER -->
+<header class="header" id="top">
 
-  <header class="header">
+  <div class="brand">
 
-    <div class="brand">
-
-      <div class="logo">
-        🚨
-      </div>
-
-      <div>
-        <h1>Odesa Alert</h1>
-        <p>Одеса та Одеська область</p>
-      </div>
-
+    <div class="logo">
+      <svg viewBox="0 0 64 64" fill="none">
+        <path
+          d="M32 6L52 14V29C52 42 44 53 32 58C20 53 12 42 12 29V14L32 6Z"
+          stroke="white"
+          stroke-width="5"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M32 18V35"
+          stroke="white"
+          stroke-width="6"
+          stroke-linecap="round"
+        />
+        <circle cx="32" cy="44" r="3" fill="white"/>
+      </svg>
     </div>
 
-    <div class="live">
-      <span class="live-dot"></span>
-      LIVE
+    <div>
+      <h1>Odesa Alert</h1>
+      <p>Одеса та Одеська область</p>
     </div>
 
-  </header>
+  </div>
+
+  <div class="live">
+    <span class="live-dot"></span>
+    LIVE
+  </div>
+
+</header>
 
 
-  <!-- STATUS -->
+<!-- STATUS -->
 
-  <section class="status-card">
+<section
+  class="status-card"
+  id="statusCard"
+>
 
-    <div class="status-top">
+  <div class="status-top">
 
-      <div>
+    <div>
 
-        <div class="status-label">
-          ПОТОЧНИЙ СТАТУС
-        </div>
-
-        <div
-          id="statusText"
-          class="status green"
-        >
-          🟢 Спокійно
-        </div>
-
-        <div class="region">
-          Одеська область
-        </div>
-
+      <div class="status-label">
+        ПОТОЧНИЙ СТАТУС
       </div>
 
       <div
-        id="statusIcon"
-        class="status-icon"
+        class="status green"
+        id="statusText"
       >
-        🛡️
+        🟢 Спокійно
+      </div>
+
+      <div class="region">
+        Одеська область
       </div>
 
     </div>
 
-
-    <div class="info-row">
-
-      <div class="info-box">
-
-        <div class="info-title">
-          Час Київ
-        </div>
-
-        <div
-          id="kyivTime"
-          class="info-value"
-        >
-          --:--:--
-        </div>
-
-      </div>
-
-
-      <div class="info-box">
-
-        <div class="info-title">
-          Оновлено
-        </div>
-
-        <div
-          id="updated"
-          class="info-value"
-        >
-          щойно
-        </div>
-
-      </div>
-
+    <div
+      class="status-icon"
+      id="statusIcon"
+    >
+      🛡️
     </div>
-
-  </section>
-
-
-  <!-- ACTIONS -->
-
-  <div class="actions">
-
-    <a
-      class="action primary"
-      href="https://mapa.ua/embed"
-      target="_blank"
-      rel="noopener"
-    >
-      🗺 Відкрити карту
-    </a>
-
-    <a
-      class="action"
-      href="https://t.me/stovpovamapBot"
-      target="_blank"
-      rel="noopener"
-    >
-      🤖 Telegram
-    </a>
 
   </div>
 
 
-  <!-- MAP -->
+  <div class="info-row">
 
-  <section
-    class="section"
-    id="map"
-  >
+    <div class="info-box">
 
-    <div class="section-head">
-
-      <div class="section-title">
-        Карта тривог
+      <div class="info-title">
+        Час Київ
       </div>
 
-      <div class="section-link">
-        MAPA.UA
-      </div>
-
-    </div>
-
-
-    <div class="map-card">
-
-      <div class="map">
-
-        <div
-          class="map-loading"
-          id="mapLoading"
-        >
-          <div class="spinner"></div>
-        </div>
-
-
-        <iframe
-          src="https://mapa.ua/embed"
-          allowfullscreen
-          loading="lazy"
-          title="Карта повітряних тривог України — MAPA.UA"
-        ></iframe>
-
+      <div
+        class="info-value"
+        id="kyivTime"
+      >
+        --:--:--
       </div>
 
     </div>
 
-  </section>
+    <div class="info-box">
 
-
-  <!-- HISTORY -->
-
-  <section
-    class="section"
-    id="history"
-  >
-
-    <div class="section-head">
-
-      <div class="section-title">
-        Останні події
+      <div class="info-title">
+        Оновлено
       </div>
 
-      <div class="section-link">
-        сьогодні
+      <div
+        class="info-value"
+        id="updated"
+      >
+        щойно
       </div>
 
     </div>
-
-
-    <div class="history">
-
-      <div class="history-item">
-
-        <div class="history-left">
-
-          <div class="history-icon">
-            🟢
-          </div>
-
-          <div>
-
-            <div class="history-name">
-              Відбій тривоги
-            </div>
-
-            <div class="history-time">
-              Сьогодні · 18:42
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="history-duration">
-          27 хв
-        </div>
-
-      </div>
-
-
-      <div class="history-item">
-
-        <div class="history-left">
-
-          <div class="history-icon alert">
-            🔴
-          </div>
-
-          <div>
-
-            <div class="history-name">
-              Повітряна тривога
-            </div>
-
-            <div class="history-time">
-              Сьогодні · 18:15
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="history-duration">
-          27 хв
-        </div>
-
-      </div>
-
-
-      <div class="history-item">
-
-        <div class="history-left">
-
-          <div class="history-icon">
-            🟢
-          </div>
-
-          <div>
-
-            <div class="history-name">
-              Відбій тривоги
-            </div>
-
-            <div class="history-time">
-              Сьогодні · 14:26
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="history-duration">
-          41 хв
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- STATISTICS -->
-
-  <section class="section">
-
-    <div class="section-head">
-
-      <div class="section-title">
-        Статистика
-      </div>
-
-      <div class="section-link">
-        сьогодні
-      </div>
-
-    </div>
-
-
-    <div class="stats">
-
-      <div class="stat">
-        <div class="stat-number">3</div>
-        <div class="stat-label">ТРИВОГИ</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-number">1ч 48м</div>
-        <div class="stat-label">ЗАГАЛОМ</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-number">36м</div>
-        <div class="stat-label">СЕРЕДНЯ</div>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- INFO -->
-
-  <section
-    class="section"
-    id="info"
-  >
-
-    <div class="section-head">
-
-      <div class="section-title">
-        Про сервіс
-      </div>
-
-    </div>
-
-
-    <div class="info-card">
-
-      <p>
-        <strong>Odesa Alert</strong> —
-        інформаційна панель для швидкого перегляду
-        ситуації з повітряними тривогами в Одесі
-        та Одеській області.
-        <br><br>
-
-        Дані можуть оновлюватися із затримкою.
-        У разі загрози завжди орієнтуйтеся на офіційні
-        повідомлення та сигнали повітряної тривоги.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <div class="footer">
-
-    Odesa Alert · Інформаційний сервіс
-    <br>
-
-    Не є офіційним державним ресурсом
 
   </div>
+
+</section>
+
+
+<!-- ACTIONS -->
+
+<div class="actions">
+
+  <a
+    class="action primary"
+    href="https://mapa.ua/embed"
+    target="_blank"
+    rel="noopener"
+  >
+    🗺 Відкрити карту
+  </a>
+
+  <a
+    class="action"
+    href="https://t.me/stovpovamapBot"
+    target="_blank"
+    rel="noopener"
+  >
+    🤖 Telegram
+  </a>
 
 </div>
 
 
-<!-- INSTALL BANNER -->
+<!-- MAP -->
+
+<section
+  class="section"
+  id="map"
+>
+
+  <div class="section-head">
+
+    <div class="section-title">
+      Карта тривог
+    </div>
+
+    <div class="section-link">
+      MAPA.UA
+    </div>
+
+  </div>
+
+  <div class="map-card">
+
+    <div class="map">
+
+      <div
+        class="map-loading"
+        id="mapLoading"
+      >
+        <div class="spinner"></div>
+      </div>
+
+      <iframe
+        src="https://mapa.ua/embed"
+        allowfullscreen
+        loading="lazy"
+        title="Карта повітряних тривог України"
+      ></iframe>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section
+  class="section"
+  id="history"
+>
+
+  <div class="section-head">
+
+    <div class="section-title">
+      Останні події
+    </div>
+
+    <div class="section-link">
+      сьогодні
+    </div>
+
+  </div>
+
+  <div
+    class="history"
+    id="historyList"
+  >
+
+    <div class="history-item">
+
+      <div class="history-left">
+
+        <div class="history-icon">
+          🟢
+        </div>
+
+        <div>
+
+          <div class="history-name">
+            Відбій тривоги
+          </div>
+
+          <div class="history-time">
+            Сьогодні · 18:42
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="history-duration">
+        27 хв
+      </div>
+
+    </div>
+
+
+    <div class="history-item">
+
+      <div class="history-left">
+
+        <div class="history-icon alert">
+          🔴
+        </div>
+
+        <div>
+
+          <div class="history-name">
+            Повітряна тривога
+          </div>
+
+          <div class="history-time">
+            Сьогодні · 18:15
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="history-duration">
+        27 хв
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- STATISTICS -->
+
+<section class="section">
+
+  <div class="section-head">
+
+    <div class="section-title">
+      Статистика
+    </div>
+
+    <div class="section-link">
+      сьогодні
+    </div>
+
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+
+      <div
+        class="stat-number"
+        id="statAlerts"
+      >
+        3
+      </div>
+
+      <div class="stat-label">
+        ТРИВОГИ
+      </div>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-number">
+        1ч 48м
+      </div>
+
+      <div class="stat-label">
+        ЗАГАЛОМ
+      </div>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-number">
+        36м
+      </div>
+
+      <div class="stat-label">
+        СЕРЕДНЯ
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section
+  class="section"
+  id="settings"
+>
+
+  <div class="section-head">
+
+    <div class="section-title">
+      Налаштування
+    </div>
+
+  </div>
+
+  <div class="settings">
+
+    <div class="setting">
+
+      <div class="setting-left">
+
+        <div class="setting-icon">
+          🔔
+        </div>
+
+        <div>
+
+          <div class="setting-title">
+            Сповіщення
+          </div>
+
+          <div class="setting-sub">
+            Підготовлено для push
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        class="switch"
+        id="notificationsSwitch"
+        aria-label="Сповіщення"
+      ></button>
+
+    </div>
+
+
+    <div class="setting">
+
+      <div class="setting-left">
+
+        <div class="setting-icon">
+          📳
+        </div>
+
+        <div>
+
+          <div class="setting-title">
+            Вібрація
+          </div>
+
+          <div class="setting-sub">
+            При зміні статусу
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        class="switch active"
+        id="vibrationSwitch"
+        aria-label="Вібрація"
+      ></button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- INFO -->
+
+<section
+  class="section"
+  id="info"
+>
+
+  <div class="section-head">
+
+    <div class="section-title">
+      Про Odesa Alert
+    </div>
+
+  </div>
+
+  <div class="info-card">
+
+    <p>
+      <strong>Odesa Alert</strong> —
+      інформаційна панель для швидкого перегляду
+      ситуації з повітряними тривогами в Одесі
+      та Одеській області.
+      <br><br>
+
+      Дані можуть оновлюватися із затримкою.
+      У разі загрози завжди орієнтуйтеся на офіційні
+      повідомлення та сигнали повітряної тривоги.
+      <br><br>
+
+      Сервіс не є офіційним державним ресурсом.
+    </p>
+
+  </div>
+
+</section>
+
+
+<div class="footer">
+  Odesa Alert · Інформаційний сервіс
+  <br>
+  Версія 1.0
+</div>
+
+</div>
+
+
+<!-- INSTALL -->
 
 <div
-  id="installBanner"
-  class="install-banner"
+  class="install"
+  id="installBox"
 >
 
   <div class="install-title">
@@ -1031,22 +1181,19 @@
   </div>
 
   <div class="install-text">
-    Додай Odesa Alert на головний екран,
-    щоб запускати його як звичайний застосунок.
+    Додай застосунок на головний екран
+    для швидкого запуску.
   </div>
 
   <div class="install-buttons">
 
-    <button
-      id="installButton"
-      class="install-button"
-    >
+    <button id="installButton">
       Встановити
     </button>
 
     <button
+      class="close"
       id="closeInstall"
-      class="install-button install-close"
     >
       Пізніше
     </button>
@@ -1056,37 +1203,45 @@
 </div>
 
 
-<!-- BOTTOM NAV -->
+<!-- NAV -->
 
 <nav class="bottom-nav">
 
   <a
-    href="#top"
     class="nav-item active"
+    href="#top"
   >
     <span class="nav-icon">⌂</span>
     Головна
   </a>
 
   <a
-    href="#map"
     class="nav-item"
+    href="#map"
   >
     <span class="nav-icon">🗺</span>
     Карта
   </a>
 
   <a
-    href="#history"
     class="nav-item"
+    href="#history"
   >
     <span class="nav-icon">◷</span>
     Історія
   </a>
 
   <a
-    href="#info"
     class="nav-item"
+    href="#settings"
+  >
+    <span class="nav-icon">⚙</span>
+    Налаштування
+  </a>
+
+  <a
+    class="nav-item"
+    href="#info"
   >
     <span class="nav-icon">ⓘ</span>
     Інфо
@@ -1097,21 +1252,21 @@
 
 <script>
 
-/* =========================================
+/* =========================
    KYIV TIME
-========================================= */
+========================= */
 
-function updateKyivTime() {
+function updateKyivTime(){
 
   const now = new Date();
 
   const time = new Intl.DateTimeFormat(
     "uk-UA",
     {
-      timeZone: "Europe/Kyiv",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
+      timeZone:"Europe/Kyiv",
+      hour:"2-digit",
+      minute:"2-digit",
+      second:"2-digit"
     }
   ).format(now);
 
@@ -1120,37 +1275,41 @@ function updateKyivTime() {
 
 updateKyivTime();
 
-setInterval(updateKyivTime, 1000);
+setInterval(updateKyivTime,1000);
 
 
-/* =========================================
+/* =========================
    MAP LOADING
-========================================= */
+========================= */
 
-const mapFrame = document.querySelector("iframe");
+const mapFrame =
+  document.querySelector(".map iframe");
 
-mapFrame.addEventListener("load", () => {
+mapFrame.addEventListener("load",()=>{
 
   const loader =
     document.getElementById("mapLoading");
 
-  loader.style.opacity = "0";
+  loader.style.opacity="0";
 
-  setTimeout(() => {
-    loader.style.display = "none";
-  }, 300);
+  setTimeout(()=>{
+    loader.style.display="none";
+  },300);
 
 });
 
 
-/* =========================================
+/* =========================
    DEMO STATUS
-   Позже сюда подключим API
-========================================= */
+   Сейчас тестовый режим.
+========================= */
 
-function setDemoStatus() {
+let currentStatus = "safe";
 
-  const status = "safe";
+function setStatus(status){
+
+  const card =
+    document.getElementById("statusCard");
 
   const text =
     document.getElementById("statusText");
@@ -1158,48 +1317,88 @@ function setDemoStatus() {
   const icon =
     document.getElementById("statusIcon");
 
+  if(status === "alert"){
 
-  if (status === "alert") {
+    card.classList.add("alert");
 
-    text.textContent =
-      "🔴 Повітряна тривога";
+    text.className="status red";
+    text.textContent="🔴 Повітряна тривога";
 
-    text.className =
-      "status red";
+    icon.textContent="🚨";
 
-    icon.textContent = "🚨";
+  }else{
 
-  } else {
+    card.classList.remove("alert");
 
-    text.textContent =
-      "🟢 Спокійно";
+    text.className="status green";
+    text.textContent="🟢 Спокійно";
 
-    text.className =
-      "status green";
-
-    icon.textContent = "🛡️";
-
+    icon.textContent="🛡️";
   }
 
+  document.getElementById("updated").textContent="щойно";
 }
 
-setDemoStatus();
+setStatus(currentStatus);
 
 
-/* =========================================
-   PWA SERVICE WORKER
-========================================= */
+/* =========================
+   SETTINGS SWITCHES
+========================= */
 
-if ("serviceWorker" in navigator) {
+function setupSwitch(id){
 
-  window.addEventListener("load", () => {
+  const button =
+    document.getElementById(id);
+
+  button.addEventListener("click",()=>{
+
+    button.classList.toggle("active");
+
+  });
+}
+
+setupSwitch("notificationsSwitch");
+setupSwitch("vibrationSwitch");
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+document
+  .querySelectorAll(".nav-item")
+  .forEach(item=>{
+
+    item.addEventListener("click",()=>{
+
+      document
+        .querySelectorAll(".nav-item")
+        .forEach(nav=>{
+          nav.classList.remove("active");
+        });
+
+      item.classList.add("active");
+
+    });
+
+  });
+
+
+/* =========================
+   SERVICE WORKER
+========================= */
+
+if("serviceWorker" in navigator){
+
+  window.addEventListener("load",()=>{
 
     navigator.serviceWorker
       .register("./service-worker.js")
-      .then(() => {
-        console.log("Odesa Alert PWA: OK");
+      .then(()=>{
+        console.log("Odesa Alert PWA ready");
       })
-      .catch(error => {
+      .catch(error=>{
         console.log(
           "Service Worker error:",
           error
@@ -1211,14 +1410,14 @@ if ("serviceWorker" in navigator) {
 }
 
 
-/* =========================================
+/* =========================
    PWA INSTALL
-========================================= */
+========================= */
 
 let deferredPrompt = null;
 
-const installBanner =
-  document.getElementById("installBanner");
+const installBox =
+  document.getElementById("installBox");
 
 const installButton =
   document.getElementById("installButton");
@@ -1229,13 +1428,13 @@ const closeInstall =
 
 window.addEventListener(
   "beforeinstallprompt",
-  event => {
+  event=>{
 
     event.preventDefault();
 
-    deferredPrompt = event;
+    deferredPrompt=event;
 
-    installBanner.classList.add("show");
+    installBox.classList.add("show");
 
   }
 );
@@ -1243,25 +1442,24 @@ window.addEventListener(
 
 installButton.addEventListener(
   "click",
-  async () => {
+  async()=>{
 
-    if (!deferredPrompt) {
+    if(!deferredPrompt){
 
       alert(
-        "На iPhone відкрийте сайт у Safari → Поділитися → На початковий екран."
+        "На iPhone: Safari → Поділитися → На початковий екран."
       );
 
       return;
-
     }
 
     deferredPrompt.prompt();
 
     await deferredPrompt.userChoice;
 
-    deferredPrompt = null;
+    deferredPrompt=null;
 
-    installBanner.classList.remove("show");
+    installBox.classList.remove("show");
 
   }
 );
@@ -1269,35 +1467,10 @@ installButton.addEventListener(
 
 closeInstall.addEventListener(
   "click",
-  () => {
-
-    installBanner.classList.remove("show");
-
+  ()=>{
+    installBox.classList.remove("show");
   }
 );
-
-
-/* =========================================
-   NAVIGATION
-========================================= */
-
-document
-  .querySelectorAll(".nav-item")
-  .forEach(item => {
-
-    item.addEventListener("click", () => {
-
-      document
-        .querySelectorAll(".nav-item")
-        .forEach(nav =>
-          nav.classList.remove("active")
-        );
-
-      item.classList.add("active");
-
-    });
-
-  });
 
 </script>
 
