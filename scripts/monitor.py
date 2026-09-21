@@ -222,7 +222,8 @@ def main():
     )
 
     neptun = get_neptun()
-
+    print("NEPTUN RESPONSE:")
+print(json.dumps(neptun, ensure_ascii=False, indent=2))
     active = odessa_alert_active(
         neptun
     )
@@ -345,7 +346,8 @@ def main():
         data
     )
 
-
+print("FINAL STATUS:")
+print(json.dumps(data, ensure_ascii=False, indent=2))
     save_status(
         data
     )
