@@ -22,7 +22,10 @@ def minutes_between(start, end):
     if not start or not end:
         return 0
     seconds = (end - start).total_seconds()
-    return max(0, round(seconds / 60))
+    return max(
+        0,
+        round(seconds / 60)
+    )
 def load_status():
     if not os.path.exists(STATUS_FILE):
         return {
@@ -66,6 +69,102 @@ def get_neptun():
     )
     response.raise_for_status()
     return response.json()
+def item_is_active(item):
+    """
+    Проверяем, является ли запись активной тревогой.
+    В разных версиях API состояние может храниться
+    в разных полях, поэтому проверяем несколько вариантов.
+    """
+    # Явные boolean-поля
+    for key in (
+        "active",
+        "is_active",
+        "isActive"
+    ):
+        if key in item:
+            value = item.get(key)
+            if isinstance(value, bool):
+                return value
+            if isinstance(value, str):
+                value_lower = value.lower().strip()
+                if value_lower in (
+                    "true",
+                    "1",
+                    "active",
+                    "alert",
+                    "тривога"
+                ):
+                    return True
+                if value_lower in (
+                    "false",
+                    "0",
+                    "inactive",
+                    "safe",
+                    "end",
+                    "ended",
+                    "finished",
+                    "відбій"
+                ):
+                    return False
+    # Поля status/state
+    for key in (
+        "status",
+        "state"
+    ):
+        if key in item:
+            value = item.get(key)
+            if isinstance(value, str):
+                value_lower = value.lower().strip()
+                if value_lower in (
+                    "alert",
+                    "active",
+                    "alarm",
+                    "тривога",
+                    "active_alert"
+                ):
+                    return True
+                if value_lower in (
+                    "safe",
+                    "inactive",
+                    "ended",
+                    "finished",
+                    "end",
+                    "відбій"
+                ):
+                    return False
+    # Если есть время окончания — тревога закончилась
+    for key in (
+        "finished_at",
+        "finishedAt",
+        "ended_at",
+        "endedAt",
+        "end",
+        "ended"
+    ):
+        if key in item and item.get(key):
+            return False
+    # Если есть since и нет признаков окончания,
+    # считаем запись активной.
+    if item.get("since"):
+        return True
+    return False
+def belongs_to_odessa(item):
+    """
+    Проверяет, относится ли запись к Одесской области.
+    """
+    names = [
+        item.get("name"),
+        item.get("oblast"),
+        item.get("region"),
+        item.get("region_name"),
+        item.get("oblast_name")
+    ]
+    for value in names:
+        if not value:
+            continue
+        if str(value).strip().lower() == REGION_NAME.lower():
+            return True
+    return False
 def odessa_alert_active(data):
     oblasts = data.get(
         "oblasts",
@@ -75,17 +174,34 @@ def odessa_alert_active(data):
         "raions",
         []
     )
-    # Тривога по всій області
+    # ==========================================
+    # ОДЕССКАЯ ОБЛАСТЬ
+    # ==========================================
     for item in oblasts:
-        if (
-            item.get("name") == REGION_NAME
-            or item.get("oblast") == REGION_NAME
-        ):
-            return True
-    # Тривога хоча б в одному районі області
+        if belongs_to_odessa(item):
+            active = item_is_active(item)
+            print(
+                "Oblast:",
+                item.get("name"),
+                "active:",
+                active
+            )
+            if active:
+                return True
+    # ==========================================
+    # РАЙОНЫ ОДЕССКОЙ ОБЛАСТИ
+    # ==========================================
     for item in raions:
-        if item.get("oblast") == REGION_NAME:
-            return True
+        if belongs_to_odessa(item):
+            active = item_is_active(item)
+            print(
+                "Raion:",
+                item.get("name"),
+                "active:",
+                active
+            )
+            if active:
+                return True
     return False
 def get_started_time(data):
     oblasts = data.get(
@@ -98,22 +214,21 @@ def get_started_time(data):
     )
     dates = []
     for item in oblasts:
-        if (
-            item.get("name") == REGION_NAME
-            or item.get("oblast") == REGION_NAME
-        ):
-            parsed = parse_date(
-                item.get("since")
-            )
-            if parsed:
-                dates.append(parsed)
+        if belongs_to_odessa(item):
+            if item_is_active(item):
+                parsed = parse_date(
+                    item.get("since")
+                )
+                if parsed:
+                    dates.append(parsed)
     for item in raions:
-        if item.get("oblast") == REGION_NAME:
-            parsed = parse_date(
-                item.get("since")
-            )
-            if parsed:
-                dates.append(parsed)
+        if belongs_to_odessa(item):
+            if item_is_active(item):
+                parsed = parse_date(
+                    item.get("since")
+                )
+                if parsed:
+                    dates.append(parsed)
     if not dates:
         return None
     return min(dates)
@@ -131,7 +246,12 @@ def update_statistics(data):
         )
     ]
     total = sum(
-        int(item.get("duration_minutes", 0))
+        int(
+            item.get(
+                "duration_minutes",
+                0
+            )
+        )
         for item in completed
     )
     count = len(completed)
@@ -146,25 +266,29 @@ def update_statistics(data):
         "average_minutes": average
     }
 def main():
-    # =========================
-    # Завантажуємо попередній стан
-    # =========================
+    # ==========================================
+    # ПРЕДЫДУЩИЙ СТАТУС
+    # ==========================================
     data = load_status()
     previous_status = data.get(
         "status",
         "safe"
     )
     previous_started = parse_date(
-        data.get("alert_started_at")
+        data.get(
+            "alert_started_at"
+        )
     )
-    # =========================
-    # Отримуємо NEPTUN
-    # =========================
+    # ==========================================
+    # ПОЛУЧАЕМ NEPTUN
+    # ==========================================
     neptun = get_neptun()
-    print("NEPTUN data received successfully")
-    # =========================
-    # Перевіряємо Одеську область
-    # =========================
+    print(
+        "NEPTUN data received successfully"
+    )
+    # ==========================================
+    # ПРОВЕРЯЕМ ОДЕССКУЮ ОБЛАСТЬ
+    # ==========================================
     active = odessa_alert_active(
         neptun
     )
@@ -182,9 +306,9 @@ def main():
         "Current status:",
         new_status
     )
-    # =========================
-    # НОВА ТРИВОГА
-    # =========================
+    # ==========================================
+    # НОВАЯ ТРЕВОГА
+    # ==========================================
     if (
         new_status == "alert"
         and previous_status != "alert"
@@ -211,9 +335,9 @@ def main():
         print(
             "NEW ALERT detected"
         )
-    # =========================
-    # ПРОДОВЖЕННЯ ТРИВОГИ
-    # =========================
+    # ==========================================
+    # ТРЕВОГА ПРОДОЛЖАЕТСЯ
+    # ==========================================
     elif (
         new_status == "alert"
         and previous_status == "alert"
@@ -225,9 +349,9 @@ def main():
         print(
             "Alert is still active"
         )
-    # =========================
-    # ВІДБІЙ
-    # =========================
+    # ==========================================
+    # ОТБОЙ
+    # ==========================================
     elif (
         new_status == "safe"
         and previous_status == "alert"
@@ -244,6 +368,7 @@ def main():
             "history",
             []
         )
+        # Закрываем последнюю незавершённую тревогу
         for item in data["history"]:
             if (
                 item.get("type") == "alert"
@@ -263,9 +388,9 @@ def main():
         print(
             "ALERT ENDED"
         )
-    # =========================
-    # ОБНОВЛЯЄМО ДАНІ
-    # =========================
+    # ==========================================
+    # ОБНОВЛЯЕМ ДАННЫЕ
+    # ==========================================
     data["status"] = new_status
     data["region"] = REGION_NAME
     data["updated_at"] = iso(
@@ -276,15 +401,13 @@ def main():
         "history",
         []
     )
-    # Оставляем последние 50 событий
+    # Последние 50 событий
     data["history"] = data[
         "history"
     ][:50]
-    # Обновляем статистику
     update_statistics(
         data
     )
-    # Сохраняем
     save_status(
         data
     )
