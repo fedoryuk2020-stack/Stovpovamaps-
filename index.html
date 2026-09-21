@@ -1,59 +1,732 @@
 <!DOCTYPE html>
-
 <html lang="uk">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odesa Alert — Повітряні тривоги</title>
 
-  <title>Карта повітряних тривог України</title>
+  <meta name="theme-color" content="#090b10">
+  <meta name="description" content="Odesa Alert — моніторинг повітряних тривог в Одесі та Одеській області">
 
   <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    html, body {
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #090b10;
+      color: #fff;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        sans-serif;
+    }
 
+    body {
+      min-height: 100vh;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding-bottom: 30px;
+    }
+
+    /* HEADER */
+
+    header {
+      padding:
+        calc(18px + env(safe-area-inset-top))
+        18px
+        16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: rgba(9, 11, 16, 0.94);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      position: sticky;
+      top: 0;
+      z-index: 20;
+
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: linear-gradient(145deg, #1c2430, #10141c);
+
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.08),
+        0 8px 25px rgba(0,0,0,0.3);
+
+      font-size: 21px;
+    }
+
+    .brand-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+
+    .brand-subtitle {
+      color: #7f8998;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      padding: 7px 10px;
+      border-radius: 999px;
+
+      background: rgba(42, 214, 125, 0.08);
+      color: #35dc86;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #35dc86;
+
+      box-shadow: 0 0 12px rgba(53,220,134,0.8);
+
+      animation: pulse 1.7s infinite;
+    }
+
+    @keyframes pulse {
+      50% {
+        opacity: .35;
+      }
+    }
+
+    /* STATUS */
+
+    .status-card {
+      margin: 16px;
+      padding: 20px;
+
+      border-radius: 22px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(25,30,39,0.98),
+          rgba(13,16,22,0.98)
+        );
+
+      border: 1px solid rgba(255,255,255,0.07);
+
+      box-shadow:
+        0 18px 50px rgba(0,0,0,0.3);
+    }
+
+    .status-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .status-label {
+      color: #8b95a4;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .status-title {
+      font-size: 27px;
+      font-weight: 850;
+      letter-spacing: -1px;
+    }
+
+    .status-icon {
+      width: 52px;
+      height: 52px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 16px;
+
+      background: rgba(53,220,134,0.1);
+
+      font-size: 25px;
+    }
+
+    .status-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+
+      margin-top: 18px;
+    }
+
+    .info {
+      padding: 12px;
+
+      border-radius: 14px;
+
+      background: rgba(255,255,255,0.035);
+    }
+
+    .info-label {
+      color: #737d8c;
+      font-size: 10px;
+      margin-bottom: 4px;
+    }
+
+    .info-value {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* BUTTONS */
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+
+      margin: 0 16px 16px;
+    }
+
+    .button {
+      min-height: 50px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      border-radius: 15px;
+
+      text-decoration: none;
+
+      font-size: 13px;
+      font-weight: 750;
+
+      transition: transform .15s ease;
+    }
+
+    .button:active {
+      transform: scale(.97);
+    }
+
+    .button-map {
+      color: #fff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2677ff,
+          #1656d8
+        );
+
+      box-shadow:
+        0 8px 25px rgba(38,119,255,0.2);
+    }
+
+    .button-telegram {
+      color: #fff;
+
+      background: #17202b;
+
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    /* MAP */
+
+    .section {
+      margin: 16px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 10px;
+    }
+
+    .section-title h2 {
       margin: 0;
 
-      padding: 0;
+      font-size: 16px;
+      letter-spacing: -0.3px;
+    }
 
-      height: 100%;
+    .section-title span {
+      color: #6f7887;
+      font-size: 11px;
+    }
+
+    .map-container {
+      overflow: hidden;
+
+      height: 480px;
+
+      border-radius: 20px;
 
       background: #111;
 
+      border: 1px solid rgba(255,255,255,0.07);
+
+      box-shadow:
+        0 15px 40px rgba(0,0,0,0.35);
     }
 
-    iframe {
-
+    .map-container iframe {
       width: 100%;
-
       height: 100%;
-
-      border: 0;
 
       display: block;
 
+      border: 0;
     }
 
-  </style>
+    /* HISTORY */
 
+    .history {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 13px 14px;
+
+      border-radius: 14px;
+
+      background: rgba(255,255,255,0.035);
+
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .history-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .history-icon {
+      width: 32px;
+      height: 32px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 10px;
+
+      background: rgba(53,220,134,0.08);
+    }
+
+    .history-name {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .history-date {
+      margin-top: 2px;
+
+      color: #6e7785;
+      font-size: 10px;
+    }
+
+    .history-time {
+      color: #a8b1bd;
+      font-size: 11px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      margin: 25px 16px 0;
+
+      padding-top: 18px;
+
+      border-top: 1px solid rgba(255,255,255,0.06);
+
+      text-align: center;
+
+      color: #646d7b;
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 500px) {
+
+      .status-title {
+        font-size: 24px;
+      }
+
+      .map-container {
+        height: 420px;
+      }
+    }
+
+    @media (min-width: 700px) {
+
+      .app {
+        padding-bottom: 50px;
+      }
+
+      .map-container {
+        height: 560px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <iframe
+<div class="app">
 
-    src="https://mapa.ua/embed"
+  <!-- HEADER -->
 
-    allowfullscreen
+  <header>
 
-    loading="lazy"
+    <div class="brand">
 
-    title="Карта повітряних тривог України — MAPA.UA">
+      <div class="logo">
+        🚨
+      </div>
 
-  </iframe>
+      <div>
+        <div class="brand-title">
+          Odesa Alert
+        </div>
+
+        <div class="brand-subtitle">
+          Одеса та Одеська область
+        </div>
+      </div>
+
+    </div>
+
+    <div class="live">
+      <span class="live-dot"></span>
+      LIVE
+    </div>
+
+  </header>
+
+
+  <!-- STATUS -->
+
+  <section class="status-card">
+
+    <div class="status-top">
+
+      <div>
+
+        <div class="status-label">
+          Поточний статус
+        </div>
+
+        <div
+          class="status-title"
+          id="statusTitle"
+        >
+          🟢 Спокійно
+        </div>
+
+      </div>
+
+      <div
+        class="status-icon"
+        id="statusIcon"
+      >
+        🟢
+      </div>
+
+    </div>
+
+
+    <div class="status-info">
+
+      <div class="info">
+
+        <div class="info-label">
+          РЕГІОН
+        </div>
+
+        <div class="info-value">
+          Одеса та область
+        </div>
+
+      </div>
+
+
+      <div class="info">
+
+        <div class="info-label">
+          ОНОВЛЕНО
+        </div>
+
+        <div
+          class="info-value"
+          id="updateTime"
+        >
+          Зараз
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ACTIONS -->
+
+  <section class="actions">
+
+    <a
+      class="button button-map"
+      href="https://mapa.ua/"
+      target="_blank"
+      rel="noopener"
+    >
+      🗺 Відкрити карту
+    </a>
+
+
+    <a
+      class="button button-telegram"
+      href="https://t.me/stovpovamapBot"
+      target="_blank"
+      rel="noopener"
+    >
+      🤖 Telegram бот
+    </a>
+
+  </section>
+
+
+  <!-- MAP -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        🗺 Карта повітряних тривог
+      </h2>
+
+      <span>
+        MAPA.UA
+      </span>
+
+    </div>
+
+
+    <div class="map-container">
+
+      <iframe
+        src="https://mapa.ua/embed"
+        allowfullscreen
+        loading="lazy"
+        title="Карта повітряних тривог України — MAPA.UA">
+      </iframe>
+
+    </div>
+
+  </section>
+
+
+  <!-- HISTORY -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        📜 Останні події
+      </h2>
+
+      <span>
+        Одеса
+      </span>
+
+    </div>
+
+
+    <div
+      class="history"
+      id="history"
+    >
+
+      <div class="history-item">
+
+        <div class="history-left">
+
+          <div class="history-icon">
+            🟢
+          </div>
+
+          <div>
+
+            <div class="history-name">
+              Спокійно
+            </div>
+
+            <div class="history-date">
+              Очікування нових даних
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="history-time">
+          —
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div>
+      Odesa Alert
+    </div>
+
+    <div>
+      Інформаційна панель повітряних тривог
+    </div>
+
+    <div>
+      Дані карти: MAPA.UA
+    </div>
+
+  </footer>
+
+</div>
+
+
+<script>
+
+  /*
+   * ЧАС КИЄВА
+   */
+
+  function updateTime() {
+
+    const now = new Date();
+
+    const formatter =
+      new Intl.DateTimeFormat(
+        "uk-UA",
+        {
+          timeZone: "Europe/Kyiv",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        }
+      );
+
+    document.getElementById("updateTime").textContent =
+      formatter.format(now);
+
+  }
+
+
+  updateTime();
+
+  setInterval(updateTime, 1000);
+
+
+  /*
+   * ПІДГОТОВКА ДО АВТОМАТИЧНОГО СТАТУСУ
+   *
+   * Пізніше сюди можна підключити
+   * джерело даних про тривоги.
+   */
+
+  function setStatus(type) {
+
+    const title =
+      document.getElementById("statusTitle");
+
+    const icon =
+      document.getElementById("statusIcon");
+
+
+    if (type === "alert") {
+
+      title.textContent =
+        "🔴 Повітряна тривога";
+
+      icon.textContent = "🚨";
+
+    } else {
+
+      title.textContent =
+        "🟢 Спокійно";
+
+      icon.textContent = "🟢";
+
+    }
+
+  }
+
+
+  /*
+   * ЗАРАЗ СТАТУС — СПОКІЙНО
+   *
+   * Автоматичне визначення додамо окремо,
+   * коли підключимо джерело даних.
+   */
+
+  setStatus("safe");
+
+</script>
 
 </body>
-
 </html>
