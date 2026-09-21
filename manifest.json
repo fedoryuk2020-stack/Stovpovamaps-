@@ -9,6 +9,7 @@
   "orientation": "portrait",
   "background_color": "#080b10",
   "theme_color": "#080b10",
+  "id": "./",
   "icons": [
     {
       "src": "./icon.svg",
