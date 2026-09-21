@@ -1,19 +1,17 @@
 const CACHE_NAME = "odesa-alert-v1";
 
-const APP_FILES = [
+const FILES = [
   "./",
   "./index.html",
-  "./manifest.json"
+  "./manifest.json",
+  "./icon.svg"
 ];
 
 self.addEventListener("install", event => {
 
   event.waitUntil(
-
-    caches
-      .open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_FILES))
-
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(FILES))
   );
 
   self.skipWaiting();
@@ -24,19 +22,17 @@ self.addEventListener("activate", event => {
 
   event.waitUntil(
 
-    caches
-      .keys()
-      .then(keys =>
+    caches.keys().then(keys => {
 
-        Promise.all(
+      return Promise.all(
 
-          keys
-            .filter(key => key !== CACHE_NAME)
-            .map(key => caches.delete(key))
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
 
-        )
+      );
 
-      )
+    })
 
   );
 
@@ -46,7 +42,7 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
 
-  if (event.request.method !== "GET") {
+  if(event.request.method !== "GET"){
     return;
   }
 
@@ -57,8 +53,7 @@ self.addEventListener("fetch", event => {
 
         const copy = response.clone();
 
-        caches
-          .open(CACHE_NAME)
+        caches.open(CACHE_NAME)
           .then(cache => {
             cache.put(event.request, copy);
           });
