@@ -516,7 +516,9 @@ a{
     </div>
     <div>
       <h1>Odesa Alert</h1>
-      <p>Одеса та Одеська область</p>
+      <p>
+        Одеса та Одеська область
+      </p>
     </div>
   </div>
   <div class="live">
@@ -1010,6 +1012,109 @@ function formatMinutes(minutes){
   );
 }
 /* =========================================
+   ПРОВЕРКА СЕГОДНЯ
+========================================= */
+function isToday(value){
+  if(!value){
+    return false;
+  }
+  const date =
+    new Date(value);
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return false;
+  }
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-CA",
+      {
+        timeZone:"Europe/Kyiv",
+        year:"numeric",
+        month:"2-digit",
+        day:"2-digit"
+      }
+    ).formatToParts(date);
+  const result = {};
+  parts.forEach(
+    part => {
+      if(part.type !== "literal"){
+        result[part.type] = part.value;
+      }
+    }
+  );
+  const today =
+    new Intl.DateTimeFormat(
+      "en-CA",
+      {
+        timeZone:"Europe/Kyiv",
+        year:"numeric",
+        month:"2-digit",
+        day:"2-digit"
+      }
+    ).formatToParts(
+      new Date()
+    );
+  const current = {};
+  today.forEach(
+    part => {
+      if(part.type !== "literal"){
+        current[part.type] = part.value;
+      }
+    }
+  );
+  return (
+    result.year === current.year &&
+    result.month === current.month &&
+    result.day === current.day
+  );
+}
+/* =========================================
+   СТАТИСТИКА
+========================================= */
+function calculateTodayStats(history){
+  if(!Array.isArray(history)){
+    return {
+      alerts:0,
+      total_minutes:0,
+      average_minutes:0
+    };
+  }
+  const completed =
+    history.filter(
+      item =>
+        item &&
+        item.type === "alert" &&
+        item.duration_minutes !== null &&
+        item.duration_minutes !== undefined &&
+        isToday(item.time)
+    );
+  const alerts =
+    completed.length;
+  const total_minutes =
+    completed.reduce(
+      (sum,item) =>
+        sum +
+        Number(
+          item.duration_minutes || 0
+        ),
+      0
+    );
+  const average_minutes =
+    alerts
+      ? Math.round(
+          total_minutes / alerts
+        )
+      : 0;
+  return {
+    alerts,
+    total_minutes,
+    average_minutes
+  };
+}
+/* =========================================
    СТАТУС
 ========================================= */
 function applyStatus(data){
@@ -1042,7 +1147,9 @@ function applyStatus(data){
   const isAlert =
     data.status === "alert";
   if(isAlert){
-    card.classList.add("alert");
+    card.classList.add(
+      "alert"
+    );
     text.className =
       "status red";
     text.textContent =
@@ -1050,7 +1157,9 @@ function applyStatus(data){
     icon.textContent =
       "🚨";
   }else{
-    card.classList.remove("alert");
+    card.classList.remove(
+      "alert"
+    );
     text.className =
       "status green";
     text.textContent =
@@ -1279,35 +1388,43 @@ async function loadStatus(){
     renderHistory(
       data.history || []
     );
-    if(data.stats){
-      const statAlerts =
-        document.getElementById(
-          "statAlerts"
+    /*
+       Статистика считается
+       непосредственно из history,
+       чтобы "сьогодні" действительно
+       означало сегодняшний день.
+    */
+    const todayStats =
+      calculateTodayStats(
+        data.history || []
+      );
+    const statAlerts =
+      document.getElementById(
+        "statAlerts"
+      );
+    const statTotal =
+      document.getElementById(
+        "statTotal"
+      );
+    const statAverage =
+      document.getElementById(
+        "statAverage"
+      );
+    if(statAlerts){
+      statAlerts.textContent =
+        todayStats.alerts;
+    }
+    if(statTotal){
+      statTotal.textContent =
+        formatMinutes(
+          todayStats.total_minutes
         );
-      const statTotal =
-        document.getElementById(
-          "statTotal"
+    }
+    if(statAverage){
+      statAverage.textContent =
+        formatMinutes(
+          todayStats.average_minutes
         );
-      const statAverage =
-        document.getElementById(
-          "statAverage"
-        );
-      if(statAlerts){
-        statAlerts.textContent =
-          data.stats.alerts ?? "0";
-      }
-      if(statTotal){
-        statTotal.textContent =
-          formatMinutes(
-            data.stats.total_minutes
-          );
-      }
-      if(statAverage){
-        statAverage.textContent =
-          formatMinutes(
-            data.stats.average_minutes
-          );
-      }
     }
   }catch(error){
     console.error(
@@ -1352,143 +1469,72 @@ function updateNotificationUI(){
       "Натисніть для увімкнення";
   }
 }
-/*
-   ПРОВЕРКА PWA
-*/
-function isStandalone(){
-  return (
-    window.matchMedia &&
-    window.matchMedia(
-      "(display-mode: standalone)"
-    ).matches
-  ) ||
-  window.navigator.standalone === true;
-}
-/*
+/* =========================================
    ВКЛЮЧЕНИЕ УВЕДОМЛЕНИЙ
-*/
+========================================= */
 async function enableNotifications(){
   try{
-    /* Проверяем HTTPS */
-    if(
-      location.protocol !== "https:" &&
-      location.hostname !== "localhost"
-    ){
+    if(!("Notification" in window)){
       alert(
-        "Сповіщення працюють лише через HTTPS."
+        "Ваш iPhone не підтримує сповіщення для цього режиму."
       );
       return;
     }
-    /* Проверяем Notification API */
-    if(
-      !("Notification" in window)
-    ){
+    if(!("serviceWorker" in navigator)){
       alert(
-        "Цей браузер не підтримує сповіщення."
+        "Service Worker не підтримується."
       );
       return;
     }
-    /*
-       На iPhone уведомления для PWA
-       должны включаться из установленного
-       приложения.
-    */
-    const iphone =
-      /iPhone|iPad|iPod/i.test(
-        navigator.userAgent
-      );
-    if(
-      iphone &&
-      !isStandalone()
-    ){
-      alert(
-        "На iPhone спочатку додайте Odesa Alert на початковий екран через Safari → Поділитися → На початковий екран. Потім відкрийте Odesa Alert з іконки та увімкніть сповіщення."
-      );
-      return;
-    }
-    /*
-       Проверяем Service Worker
-    */
-    if(
-      !("serviceWorker" in navigator)
-    ){
-      alert(
-        "Service Worker не підтримується цим браузером."
-      );
-      return;
-    }
-    /*
-       Получаем регистрацию
-    */
-    let registration =
-      serviceWorkerRegistration;
+    const registration =
+      serviceWorkerRegistration ||
+      await navigator.serviceWorker.ready;
     if(!registration){
-      registration =
-        await navigator.serviceWorker.ready;
-    }
-    if(!registration){
-      throw new Error(
-        "Service Worker registration missing"
+      alert(
+        "Odesa Alert ще не готовий. Оновіть сторінку."
       );
-    }
-    serviceWorkerRegistration =
-      registration;
-    /*
-       Запрашиваем разрешение
-    */
-    let permission =
-      Notification.permission;
-    if(
-      permission === "default"
-    ){
-      permission =
-        await Notification.requestPermission();
+      return;
     }
     console.log(
-      "Notification permission:",
-      permission
+      "Notification permission BEFORE:",
+      Notification.permission
     );
-    if(
-      permission !== "granted"
-    ){
+    let permission =
+      Notification.permission;
+    if(permission === "default"){
+      permission =
+        await Notification.requestPermission();
+      console.log(
+        "Notification permission AFTER:",
+        permission
+      );
+    }
+    if(permission === "granted"){
+      localStorage.setItem(
+        "notifications",
+        "on"
+      );
+      updateNotificationUI();
+      alert(
+        "🔔 Сповіщення увімкнено!"
+      );
+      return;
+    }
+    if(permission === "denied"){
       localStorage.setItem(
         "notifications",
         "off"
       );
       updateNotificationUI();
       alert(
-        "Дозвіл на сповіщення не надано. Перевірте Налаштування iPhone → Сповіщення → Odesa Alert."
+        "Сповіщення заблоковані.\n\n" +
+        "Відкрийте:\n" +
+        "Налаштування → Сповіщення → Odesa Alert → Дозволити сповіщення."
       );
       return;
     }
-    /*
-       Сохраняем состояние
-    */
-    localStorage.setItem(
-      "notifications",
-      "on"
-    );
-    updateNotificationUI();
-    /*
-       ТЕСТОВОЕ УВЕДОМЛЕНИЕ
-    */
-    await registration.showNotification(
-      "🔔 Odesa Alert",
-      {
-        body:
-          "Сповіщення увімкнено. Odesa Alert готовий повідомляти про тривогу.",
-        icon:
-          "./icon.svg",
-        badge:
-          "./icon.svg",
-        tag:
-          "odesa-alert-test",
-        renotify:
-          true,
-        data:{
-          url:"./"
-        }
-      }
+    alert(
+      "Не вдалося визначити дозвіл на сповіщення."
     );
   }catch(error){
     console.error(
@@ -1501,13 +1547,14 @@ async function enableNotifications(){
     );
     updateNotificationUI();
     alert(
-      "Не вдалося увімкнути сповіщення. Відкрийте Odesa Alert саме з головного екрана iPhone та перевірте дозволи в Налаштуваннях → Сповіщення."
+      "Помилка сповіщень.\n\n" +
+      "Спробуйте відкрити Odesa Alert з головного екрана iPhone."
     );
   }
 }
-/*
+/* =========================================
    КНОПКА УВЕДОМЛЕНИЙ
-*/
+========================================= */
 notificationsSwitch.addEventListener(
   "click",
   async () => {
@@ -1654,12 +1701,12 @@ document
   await registerServiceWorker();
   await loadStatus();
 })();
-/*
-   Обновляем статус каждые 30 секунд
-*/
+/* =========================================
+   ОБНОВЛЕНИЕ КАЖДЫЕ 10 СЕКУНД
+========================================= */
 setInterval(
   loadStatus,
-  30000
+  10000
 );
 </script>
 </body>
