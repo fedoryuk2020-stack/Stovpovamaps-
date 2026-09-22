@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b10">
@@ -1224,21 +1226,84 @@ async function enablePush(){
 
   try{
 
-    const registration =
-      await navigator.serviceWorker.ready;
+    if(
+      !("serviceWorker" in navigator)
+    ){
+
+      throw new Error(
+        "Service Worker не підтримується."
+      );
+    }
+
+    if(
+      !("PushManager" in window)
+    ){
+
+      throw new Error(
+        "Push-сповіщення не підтримуються в цьому режимі."
+      );
+    }
+
+    if(
+      !("Notification" in window)
+    ){
+
+      throw new Error(
+        "Сповіщення не підтримуються."
+      );
+    }
 
     if(
       Notification.permission !==
       "granted"
     ){
-      return false;
+
+      throw new Error(
+        "Дозвіл на сповіщення не надано."
+      );
+    }
+
+    console.log(
+      "PUSH: чекаємо Service Worker..."
+    );
+
+    const registration =
+      await navigator.serviceWorker.ready;
+
+    if(!registration){
+
+      throw new Error(
+        "Service Worker не готовий."
+      );
+    }
+
+    console.log(
+      "PUSH: Service Worker готовий"
+    );
+
+    if(
+      !registration.pushManager
+    ){
+
+      throw new Error(
+        "PushManager недоступний. Відкрийте Odesa Alert з головного екрана iPhone."
+      );
     }
 
     let subscription =
       await registration.pushManager
         .getSubscription();
 
+    console.log(
+      "PUSH: існуюча підписка:",
+      subscription
+    );
+
     if(!subscription){
+
+      console.log(
+        "PUSH: створюємо нову підписку..."
+      );
 
       subscription =
         await registration.pushManager.subscribe({
@@ -1251,7 +1316,22 @@ async function enablePush(){
             )
 
         });
+
+      console.log(
+        "PUSH: підписку створено"
+      );
     }
+
+    if(!subscription){
+
+      throw new Error(
+        "Не вдалося створити Push-підписку."
+      );
+    }
+
+    console.log(
+      "PUSH: відправляємо підписку на сервер..."
+    );
 
     const response =
       await fetch(
@@ -1274,7 +1354,7 @@ async function enablePush(){
     if(!response.ok){
 
       throw new Error(
-        "Push server HTTP " +
+        "Сервер Push повернув HTTP " +
         response.status
       );
     }
@@ -1283,9 +1363,19 @@ async function enablePush(){
       await response.json();
 
     console.log(
-      "Push subscription saved:",
+      "PUSH: сервер відповів:",
       result
     );
+
+    if(
+      !result ||
+      result.ok !== true
+    ){
+
+      throw new Error(
+        "Сервер не підтвердив підписку."
+      );
+    }
 
     return true;
 
@@ -1297,7 +1387,7 @@ async function enablePush(){
     );
 
     alert(
-      "Помилка Push-сповіщень:\n\n" +
+      "❌ Не вдалося увімкнути Push.\n\n" +
       error.message
     );
 
