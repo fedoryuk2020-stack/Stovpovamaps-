@@ -11,6 +11,7 @@
 <meta name="description" content="Odesa Alert — повітряні тривоги Одеси та Одеської області">
 <link rel="manifest" href="./manifest.json">
 <title>Odesa Alert</title>
+
 <style>
 *{
   box-sizing:border-box;
@@ -624,87 +625,146 @@ a{
 }
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <header class="header" id="top">
+
   <div class="brand">
+
     <div class="logo">
+
       <svg viewBox="0 0 64 64" fill="none">
+
         <path
           d="M32 6L52 14V29C52 42 44 53 32 58C20 53 12 42 12 29V14L32 6Z"
           stroke="white"
           stroke-width="5"
           stroke-linejoin="round"
         />
+
         <path
           d="M32 18V35"
           stroke="white"
           stroke-width="6"
           stroke-linecap="round"
         />
+
         <circle
           cx="32"
           cy="44"
           r="3"
           fill="white"
         />
+
       </svg>
+
     </div>
+
     <div>
+
       <h1>Odesa Alert</h1>
-      <p>Одеса та Одеська область</p>
+
+      <p>
+        Одеса та Одеська область
+      </p>
+
     </div>
+
   </div>
+
   <div class="live">
+
     <span class="live-dot"></span>
+
     LIVE
+
   </div>
+
 </header>
 
 <section class="status-card" id="statusCard">
+
   <div class="status-top">
+
     <div>
+
       <div class="status-label">
         ПОТОЧНИЙ СТАТУС
       </div>
-      <div class="status green" id="statusText">
+
+      <div
+        class="status green"
+        id="statusText"
+      >
         🟢 Спокійно
       </div>
-      <div class="region" id="regionText">
+
+      <div
+        class="region"
+        id="regionText"
+      >
         Одеська область
       </div>
+
     </div>
-    <div class="status-icon" id="statusIcon">
+
+    <div
+      class="status-icon"
+      id="statusIcon"
+    >
       🛡️
     </div>
+
   </div>
 
-  <div class="alert-duration" id="alertDuration">
+  <div
+    class="alert-duration"
+    id="alertDuration"
+  >
     🚨 Триває: 0 хв
   </div>
 
   <div class="info-row">
+
     <div class="info-box">
+
       <div class="info-title">
         Час Київ
       </div>
-      <div class="info-value" id="kyivTime">
+
+      <div
+        class="info-value"
+        id="kyivTime"
+      >
         --:--:--
       </div>
+
     </div>
 
     <div class="info-box">
+
       <div class="info-title">
         Оновлено
       </div>
-      <div class="info-value" id="updated">
+
+      <div
+        class="info-value"
+        id="updated"
+      >
         завантаження...
       </div>
+
     </div>
+
   </div>
+
 </section>
 
 <div class="actions">
+
   <a
     class="action primary"
     href="https://mapa.ua/embed"
@@ -722,22 +782,37 @@ a{
   >
     🤖 Telegram канал
   </a>
+
 </div>
 
-<section class="section" id="map">
+<section
+  class="section"
+  id="map"
+>
+
   <div class="section-head">
+
     <div class="section-title">
       Карта цілей
     </div>
+
     <div class="section-link">
       MAPA.UA
     </div>
+
   </div>
 
   <div class="map-card">
+
     <div class="map">
-      <div class="map-loading" id="mapLoading">
+
+      <div
+        class="map-loading"
+        id="mapLoading"
+      >
+
         <div class="spinner"></div>
+
       </div>
 
       <iframe
@@ -746,168 +821,276 @@ a{
         loading="lazy"
         title="Карта повітряних тривог України"
       ></iframe>
+
     </div>
+
   </div>
+
 </section>
 
-<section class="section" id="history">
+<section
+  class="section"
+  id="history"
+>
+
   <div class="section-head">
+
     <div class="section-title">
       Останні події
     </div>
+
     <div class="section-link">
       сьогодні
     </div>
+
   </div>
 
-  <div class="history" id="historyList">
+  <div
+    class="history"
+    id="historyList"
+  >
+
     <div class="history-item">
+
       <div class="history-left">
+
         <div class="history-icon">
           ⏳
         </div>
+
         <div>
+
           <div class="history-name">
             Завантаження історії
           </div>
+
           <div class="history-time">
             Будь ласка, зачекайте
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 </section>
 
 <section class="section">
+
   <div class="section-head">
+
     <div class="section-title">
       Статистика
     </div>
+
     <div class="section-link">
       сьогодні
     </div>
+
   </div>
 
   <div class="stats">
+
     <div class="stat">
-      <div class="stat-number" id="statAlerts">
+
+      <div
+        class="stat-number"
+        id="statAlerts"
+      >
         —
       </div>
+
       <div class="stat-label">
         ТРИВОГИ
       </div>
+
     </div>
 
     <div class="stat">
-      <div class="stat-number" id="statTotal">
+
+      <div
+        class="stat-number"
+        id="statTotal"
+      >
         —
       </div>
+
       <div class="stat-label">
         ЗАГАЛОМ
       </div>
+
     </div>
 
     <div class="stat">
-      <div class="stat-number" id="statAverage">
+
+      <div
+        class="stat-number"
+        id="statAverage"
+      >
         —
       </div>
+
       <div class="stat-label">
         СЕРЕДНЯ
       </div>
+
     </div>
+
   </div>
+
 </section>
 
 <section class="section">
+
   <div class="section-head">
+
     <div class="section-title">
       Активність за добу
     </div>
-    <div class="section-link" id="activityDate">
+
+    <div
+      class="section-link"
+      id="activityDate"
+    >
       сьогодні
     </div>
+
   </div>
 
   <div class="activity-card">
+
     <div class="activity-summary">
+
       <div class="activity-mini">
+
         <div class="activity-mini-title">
           ТРИВОГ
         </div>
-        <div class="activity-mini-value" id="activityAlerts">
+
+        <div
+          class="activity-mini-value"
+          id="activityAlerts"
+        >
           0
         </div>
+
       </div>
 
       <div class="activity-mini">
+
         <div class="activity-mini-title">
           ЗАГАЛОМ
         </div>
-        <div class="activity-mini-value" id="activityMinutes">
+
+        <div
+          class="activity-mini-value"
+          id="activityMinutes"
+        >
           0 хв
         </div>
+
       </div>
+
     </div>
 
-    <div class="timeline" id="timeline"></div>
+    <div
+      class="timeline"
+      id="timeline"
+    ></div>
 
     <div class="timeline-labels">
+
       <span>00:00</span>
       <span>06:00</span>
       <span>12:00</span>
       <span>18:00</span>
       <span>24:00</span>
+
     </div>
 
-    <div class="no-activity" id="noActivity">
+    <div
+      class="no-activity"
+      id="noActivity"
+    >
       Сьогодні тривог не зафіксовано
     </div>
+
   </div>
+
 </section>
 
 <section class="section">
+
   <div class="section-head">
+
     <div class="section-title">
       Останні 7 днів
     </div>
+
     <div class="section-link">
       статистика
     </div>
+
   </div>
 
   <div class="week-card">
-    <div class="week-list" id="weekList">
+
+    <div
+      class="week-list"
+      id="weekList"
+    >
+
       <div class="week-empty">
         Завантаження...
       </div>
+
     </div>
+
   </div>
+
 </section>
 
-<section class="section" id="settings">
+<section
+  class="section"
+  id="settings"
+>
+
   <div class="section-head">
+
     <div class="section-title">
       Налаштування
     </div>
+
   </div>
 
   <div class="settings">
+
     <div class="setting">
+
       <div class="setting-left">
+
         <div class="setting-icon">
           🔔
         </div>
 
         <div>
+
           <div class="setting-title">
             Сповіщення
           </div>
 
-          <div class="setting-sub" id="notificationText">
+          <div
+            class="setting-sub"
+            id="notificationText"
+          >
             Натисніть для увімкнення
           </div>
+
         </div>
+
       </div>
 
       <button
@@ -916,15 +1099,19 @@ a{
         type="button"
         aria-label="Сповіщення"
       ></button>
+
     </div>
 
     <div class="setting">
+
       <div class="setting-left">
+
         <div class="setting-icon">
           📳
         </div>
 
         <div>
+
           <div class="setting-title">
             Вібрація
           </div>
@@ -932,7 +1119,9 @@ a{
           <div class="setting-sub">
             При зміні статусу
           </div>
+
         </div>
+
       </div>
 
       <button
@@ -941,24 +1130,37 @@ a{
         type="button"
         aria-label="Вібрація"
       ></button>
+
     </div>
+
   </div>
+
 </section>
 
-<section class="section" id="info">
+<section
+  class="section"
+  id="info"
+>
+
   <div class="section-head">
+
     <div class="section-title">
       Про Odesa Alert
     </div>
+
   </div>
 
   <div class="info-card">
+
     <p>
+
       <strong>Odesa Alert</strong>
       — інформаційна панель для швидкого перегляду ситуації з повітряними тривогами в Одесі та Одеській області.
+
       <br><br>
 
       Дані про статус тривог отримуються через
+
       <a
         href="https://neptun.in.ua/"
         target="_blank"
@@ -976,18 +1178,30 @@ a{
       <br><br>
 
       Сервіс не є офіційним державним ресурсом.
+
     </p>
+
   </div>
+
 </section>
 
 <div class="footer">
+
   Odesa Alert · Інформаційний сервіс
+
   <br>
+
   Версія 1.1
-</div>
+
 </div>
 
-<div class="install" id="installBox">
+</div>
+
+<div
+  class="install"
+  id="installBox"
+>
+
   <div class="install-title">
     📱 Встановити Odesa Alert
   </div>
@@ -997,41 +1211,68 @@ a{
   </div>
 
   <div class="install-buttons">
-    <button id="installButton" type="button">
+
+    <button
+      id="installButton"
+      type="button"
+    >
       Встановити
     </button>
 
-    <button class="close" id="closeInstall" type="button">
+    <button
+      class="close"
+      id="closeInstall"
+      type="button"
+    >
       Пізніше
     </button>
+
   </div>
+
 </div>
 
 <nav class="bottom-nav">
-  <a class="nav-item active" href="#top">
+
+  <a
+    class="nav-item active"
+    href="#top"
+  >
     <span class="nav-icon">⌂</span>
     Головна
   </a>
 
-  <a class="nav-item" href="#map">
+  <a
+    class="nav-item"
+    href="#map"
+  >
     <span class="nav-icon">🗺</span>
     Карта
   </a>
 
-  <a class="nav-item" href="#history">
+  <a
+    class="nav-item"
+    href="#history"
+  >
     <span class="nav-icon">◷</span>
     Історія
   </a>
 
-  <a class="nav-item" href="#settings">
+  <a
+    class="nav-item"
+    href="#settings"
+  >
     <span class="nav-icon">⚙</span>
     Налаштування
   </a>
 
-  <a class="nav-item" href="#info">
+  <a
+    class="nav-item"
+    href="#info"
+  >
     <span class="nav-icon">ⓘ</span>
     Інфо
   </a>
+
 </nav>
 
 <script>
@@ -1046,6 +1287,132 @@ a{
 */
 const DATA_URL =
   "https://alert.quickcardgo.site/status.json";
+
+/*
+   PUSH NOTIFICATIONS
+*/
+const VAPID_PUBLIC_KEY =
+  "BAzmIVI3bkRgcXd7DrlmsGcX52t93gnXbh0kegj9hIrFgr1QYnGlIieurJvDveoRHvNqRuDJeT7H8zBfedqiX1g";
+
+const PUSH_URL =
+  "https://alert.quickcardgo.site/push/subscribe";
+
+function urlBase64ToUint8Array(
+  base64String
+){
+
+  const padding =
+    "=".repeat(
+      (4 - base64String.length % 4) % 4
+    );
+
+  const base64 =
+    (
+      base64String +
+      padding
+    )
+    .replace(
+      /-/g,
+      "+"
+    )
+    .replace(
+      /_/g,
+      "/"
+    );
+
+  const rawData =
+    window.atob(
+      base64
+    );
+
+  return Uint8Array.from(
+    [...rawData].map(
+      char =>
+        char.charCodeAt(0)
+    )
+  );
+}
+
+async function enablePush(){
+
+  try{
+
+    const registration =
+      await navigator.serviceWorker.ready;
+
+    if(
+      Notification.permission !==
+      "granted"
+    ){
+      return false;
+    }
+
+    let subscription =
+      await registration.pushManager
+        .getSubscription();
+
+    if(!subscription){
+
+      subscription =
+        await registration.pushManager.subscribe({
+
+          userVisibleOnly:true,
+
+          applicationServerKey:
+            urlBase64ToUint8Array(
+              VAPID_PUBLIC_KEY
+            )
+
+        });
+    }
+
+    const response =
+      await fetch(
+        PUSH_URL,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(
+              subscription
+            )
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "Push server HTTP " +
+        response.status
+      );
+    }
+
+    console.log(
+      "Push subscription saved"
+    );
+
+    return true;
+
+  }catch(error){
+
+    console.error(
+      "PUSH ERROR:",
+      error
+    );
+
+    alert(
+      "Помилка Push-сповіщень:\n\n" +
+      error.message
+    );
+
+    return false;
+  }
+}
 
 const STATUS_CACHE_KEY =
   "odesa-alert-last-status";
@@ -1063,6 +1430,7 @@ let statusLoading = false;
 ========================================= */
 
 function updateKyivTime(){
+
   const element =
     document.getElementById(
       "kyivTime"
@@ -1096,14 +1464,18 @@ setInterval(
 ========================================= */
 
 async function registerServiceWorker(){
+
   if(!("serviceWorker" in navigator)){
+
     console.warn(
       "Service Worker не підтримується"
     );
+
     return null;
   }
 
   try{
+
     serviceWorkerRegistration =
       await navigator.serviceWorker.register(
         "./service-worker.js",
@@ -1119,20 +1491,24 @@ async function registerServiceWorker(){
     navigator.serviceWorker.ready
       .then(
         registration => {
+
           serviceWorkerRegistration =
             registration;
 
           console.log(
             "Service Worker готовий"
           );
+
         }
       )
       .catch(
         error => {
+
           console.warn(
             "Service Worker ready error:",
             error
           );
+
         }
       );
 
@@ -1177,11 +1553,14 @@ if(mapFrame){
 
       setTimeout(
         () => {
+
           loader.style.display =
             "none";
+
         },
         300
       );
+
     }
   );
 }
@@ -1204,6 +1583,7 @@ function parseDate(value){
       date.getTime()
     )
   ){
+
     return null;
   }
 
@@ -1244,6 +1624,7 @@ function formatMinutes(minutes){
       Number(minutes)
     )
   ){
+
     return "—";
   }
 
@@ -1321,9 +1702,12 @@ function kyivDateKey(value){
       if(
         part.type !== "literal"
       ){
+
         result[part.type] =
           part.value;
+
       }
+
     }
   );
 
@@ -1403,6 +1787,7 @@ function calculateTodayStats(
         item.type !== "alert" ||
         !isToday(item.time)
       ){
+
         return;
       }
 
@@ -1448,6 +1833,7 @@ function calculateTodayStats(
       alerts++;
 
       totalMinutes += duration;
+
     }
   );
 
@@ -1657,6 +2043,7 @@ function calculateWeekStats(
 
         result[key].alerts++;
         result[key].minutes += duration;
+
       }
     );
   }
@@ -2426,7 +2813,9 @@ function renderTimeline(
     )
     .forEach(
       line => {
+
         line.style.zIndex = "2";
+
       }
     );
 
@@ -2988,6 +3377,21 @@ async function enableNotifications(){
 
     if(permission === "granted"){
 
+      const pushEnabled =
+        await enablePush();
+
+      if(!pushEnabled){
+
+        localStorage.setItem(
+          "notifications",
+          "off"
+        );
+
+        updateNotificationUI();
+
+        return;
+      }
+
       localStorage.setItem(
         "notifications",
         "on"
@@ -3226,6 +3630,7 @@ document
                 nav.classList.remove(
                   "active"
                 );
+
               }
             );
 
@@ -3358,5 +3763,6 @@ setInterval(
   60000
 );
 </script>
+
 </body>
 </html>
