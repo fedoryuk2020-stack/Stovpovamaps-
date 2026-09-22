@@ -3366,6 +3366,16 @@ async function enableNotifications(){
       return;
     }
 
+    if(!("PushManager" in window)){
+
+      alert(
+        "❌ Push-сповіщення недоступні в цьому режимі.\n\n" +
+        "На iPhone відкрийте Odesa Alert у Safari → Поділитися → На початковий екран, а потім запускайте його з іконки."
+      );
+
+      return;
+    }
+
     if(
       Notification.permission ===
       "denied"
@@ -3467,12 +3477,11 @@ async function enableNotifications(){
     updateNotificationUI();
 
     alert(
-      "Не вдалося увімкнути сповіщення.\n\n" +
-      "Перевірте дозвіл на сповіщення для Odesa Alert."
+      "❌ Помилка сповіщень.\n\n" +
+      error.message
     );
   }
 }
-
 /* =========================================
    КНОПКА УВЕДОМЛЕНИЙ
 ========================================= */
