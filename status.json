@@ -1,13 +1,18 @@
 {
-  "status": "alert",
+  "status": "safe",
   "region": "Одеська область",
-  "updated_at": "2026-09-22T19:54:19.642639+00:00",
-  "alert_started_at": "2026-09-22T19:32:17.360219+00:00",
+  "updated_at": "2026-09-22T22:26:42.464088+00:00",
+  "alert_started_at": null,
   "history": [
+    {
+      "type": "end",
+      "time": "2026-09-22T22:26:42.464088+00:00",
+      "duration_minutes": 174
+    },
     {
       "type": "alert",
       "time": "2026-09-22T19:32:17.360219+00:00",
-      "duration_minutes": null
+      "duration_minutes": 174
     },
     {
       "type": "end",
@@ -36,11 +41,11 @@
     }
   ],
   "stats": {
-    "alerts": 2,
-    "total_minutes": 768,
-    "average_minutes": 384,
-    "today_alerts": 1,
-    "today_minutes": 288
+    "alerts": 3,
+    "total_minutes": 942,
+    "average_minutes": 314,
+    "today_alerts": 2,
+    "today_minutes": 462
   },
   "source": "NEPTUN"
 }
