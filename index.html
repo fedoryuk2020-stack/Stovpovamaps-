@@ -660,66 +660,50 @@ a{
     LIVE
   </div>
 </header>
-<section
-  class="status-card"
-  id="statusCard"
->
+
+<section class="status-card" id="statusCard">
   <div class="status-top">
     <div>
       <div class="status-label">
         ПОТОЧНИЙ СТАТУС
       </div>
-      <div
-        class="status green"
-        id="statusText"
-      >
+      <div class="status green" id="statusText">
         🟢 Спокійно
       </div>
-      <div
-        class="region"
-        id="regionText"
-      >
+      <div class="region" id="regionText">
         Одеська область
       </div>
     </div>
-    <div
-      class="status-icon"
-      id="statusIcon"
-    >
+    <div class="status-icon" id="statusIcon">
       🛡️
     </div>
   </div>
-  <div
-    class="alert-duration"
-    id="alertDuration"
-  >
+
+  <div class="alert-duration" id="alertDuration">
     🚨 Триває: 0 хв
   </div>
+
   <div class="info-row">
     <div class="info-box">
       <div class="info-title">
         Час Київ
       </div>
-      <div
-        class="info-value"
-        id="kyivTime"
-      >
+      <div class="info-value" id="kyivTime">
         --:--:--
       </div>
     </div>
+
     <div class="info-box">
       <div class="info-title">
         Оновлено
       </div>
-      <div
-        class="info-value"
-        id="updated"
-      >
+      <div class="info-value" id="updated">
         завантаження...
       </div>
     </div>
   </div>
 </section>
+
 <div class="actions">
   <a
     class="action primary"
@@ -729,6 +713,7 @@ a{
   >
     🗺 Відкрити карту
   </a>
+
   <a
     class="action"
     href="https://t.me/stovpovamapBot"
@@ -738,10 +723,8 @@ a{
     🤖 Telegram
   </a>
 </div>
-<section
-  class="section"
-  id="map"
->
+
+<section class="section" id="map">
   <div class="section-head">
     <div class="section-title">
       Карта тривог
@@ -750,14 +733,13 @@ a{
       MAPA.UA
     </div>
   </div>
+
   <div class="map-card">
     <div class="map">
-      <div
-        class="map-loading"
-        id="mapLoading"
-      >
+      <div class="map-loading" id="mapLoading">
         <div class="spinner"></div>
       </div>
+
       <iframe
         src="https://mapa.ua/embed"
         allowfullscreen
@@ -767,10 +749,8 @@ a{
     </div>
   </div>
 </section>
-<section
-  class="section"
-  id="history"
->
+
+<section class="section" id="history">
   <div class="section-head">
     <div class="section-title">
       Останні події
@@ -779,10 +759,8 @@ a{
       сьогодні
     </div>
   </div>
-  <div
-    class="history"
-    id="historyList"
-  >
+
+  <div class="history" id="historyList">
     <div class="history-item">
       <div class="history-left">
         <div class="history-icon">
@@ -800,6 +778,7 @@ a{
     </div>
   </div>
 </section>
+
 <section class="section">
   <div class="section-head">
     <div class="section-title">
@@ -809,34 +788,28 @@ a{
       сьогодні
     </div>
   </div>
+
   <div class="stats">
     <div class="stat">
-      <div
-        class="stat-number"
-        id="statAlerts"
-      >
+      <div class="stat-number" id="statAlerts">
         —
       </div>
       <div class="stat-label">
         ТРИВОГИ
       </div>
     </div>
+
     <div class="stat">
-      <div
-        class="stat-number"
-        id="statTotal"
-      >
+      <div class="stat-number" id="statTotal">
         —
       </div>
       <div class="stat-label">
         ЗАГАЛОМ
       </div>
     </div>
+
     <div class="stat">
-      <div
-        class="stat-number"
-        id="statAverage"
-      >
+      <div class="stat-number" id="statAverage">
         —
       </div>
       <div class="stat-label">
@@ -845,47 +818,40 @@ a{
     </div>
   </div>
 </section>
+
 <section class="section">
   <div class="section-head">
     <div class="section-title">
       Активність за добу
     </div>
-    <div
-      class="section-link"
-      id="activityDate"
-    >
+    <div class="section-link" id="activityDate">
       сьогодні
     </div>
   </div>
+
   <div class="activity-card">
     <div class="activity-summary">
       <div class="activity-mini">
         <div class="activity-mini-title">
           ТРИВОГ
         </div>
-        <div
-          class="activity-mini-value"
-          id="activityAlerts"
-        >
+        <div class="activity-mini-value" id="activityAlerts">
           0
         </div>
       </div>
+
       <div class="activity-mini">
         <div class="activity-mini-title">
           ЗАГАЛОМ
         </div>
-        <div
-          class="activity-mini-value"
-          id="activityMinutes"
-        >
+        <div class="activity-mini-value" id="activityMinutes">
           0 хв
         </div>
       </div>
     </div>
-    <div
-      class="timeline"
-      id="timeline"
-    ></div>
+
+    <div class="timeline" id="timeline"></div>
+
     <div class="timeline-labels">
       <span>00:00</span>
       <span>06:00</span>
@@ -893,14 +859,13 @@ a{
       <span>18:00</span>
       <span>24:00</span>
     </div>
-    <div
-      class="no-activity"
-      id="noActivity"
-    >
+
+    <div class="no-activity" id="noActivity">
       Сьогодні тривог не зафіксовано
     </div>
   </div>
 </section>
+
 <section class="section">
   <div class="section-head">
     <div class="section-title">
@@ -910,44 +875,41 @@ a{
       статистика
     </div>
   </div>
+
   <div class="week-card">
-    <div
-      class="week-list"
-      id="weekList"
-    >
+    <div class="week-list" id="weekList">
       <div class="week-empty">
         Завантаження...
       </div>
     </div>
   </div>
 </section>
-<section
-  class="section"
-  id="settings"
->
+
+<section class="section" id="settings">
   <div class="section-head">
     <div class="section-title">
       Налаштування
     </div>
   </div>
+
   <div class="settings">
     <div class="setting">
       <div class="setting-left">
         <div class="setting-icon">
           🔔
         </div>
+
         <div>
           <div class="setting-title">
             Сповіщення
           </div>
-          <div
-            class="setting-sub"
-            id="notificationText"
-          >
+
+          <div class="setting-sub" id="notificationText">
             Натисніть для увімкнення
           </div>
         </div>
       </div>
+
       <button
         class="switch"
         id="notificationsSwitch"
@@ -955,20 +917,24 @@ a{
         aria-label="Сповіщення"
       ></button>
     </div>
+
     <div class="setting">
       <div class="setting-left">
         <div class="setting-icon">
           📳
         </div>
+
         <div>
           <div class="setting-title">
             Вібрація
           </div>
+
           <div class="setting-sub">
             При зміні статусу
           </div>
         </div>
       </div>
+
       <button
         class="switch active"
         id="vibrationSwitch"
@@ -978,20 +944,20 @@ a{
     </div>
   </div>
 </section>
-<section
-  class="section"
-  id="info"
->
+
+<section class="section" id="info">
   <div class="section-head">
     <div class="section-title">
       Про Odesa Alert
     </div>
   </div>
+
   <div class="info-card">
     <p>
       <strong>Odesa Alert</strong>
       — інформаційна панель для швидкого перегляду ситуації з повітряними тривогами в Одесі та Одеській області.
       <br><br>
+
       Дані про статус тривог отримуються через
       <a
         href="https://neptun.in.ua/"
@@ -1001,108 +967,111 @@ a{
       >
         NEPTUN
       </a>.
+
       <br><br>
+
       Дані можуть оновлюватися із затримкою.
       У разі загрози завжди орієнтуйтеся на офіційні повідомлення та сигнали повітряної тривоги.
+
       <br><br>
+
       Сервіс не є офіційним державним ресурсом.
     </p>
   </div>
 </section>
+
 <div class="footer">
   Odesa Alert · Інформаційний сервіс
   <br>
   Версія 1.1
 </div>
 </div>
-<div
-  class="install"
-  id="installBox"
->
+
+<div class="install" id="installBox">
   <div class="install-title">
     📱 Встановити Odesa Alert
   </div>
+
   <div class="install-text">
     Додай застосунок на головний екран для швидкого запуску.
   </div>
+
   <div class="install-buttons">
-    <button
-      id="installButton"
-      type="button"
-    >
+    <button id="installButton" type="button">
       Встановити
     </button>
-    <button
-      class="close"
-      id="closeInstall"
-      type="button"
-    >
+
+    <button class="close" id="closeInstall" type="button">
       Пізніше
     </button>
   </div>
 </div>
+
 <nav class="bottom-nav">
-  <a
-    class="nav-item active"
-    href="#top"
-  >
+  <a class="nav-item active" href="#top">
     <span class="nav-icon">⌂</span>
     Головна
   </a>
-  <a
-    class="nav-item"
-    href="#map"
-  >
+
+  <a class="nav-item" href="#map">
     <span class="nav-icon">🗺</span>
     Карта
   </a>
-  <a
-    class="nav-item"
-    href="#history"
-  >
+
+  <a class="nav-item" href="#history">
     <span class="nav-icon">◷</span>
     Історія
   </a>
-  <a
-    class="nav-item"
-    href="#settings"
-  >
+
+  <a class="nav-item" href="#settings">
     <span class="nav-icon">⚙</span>
     Налаштування
   </a>
-  <a
-    class="nav-item"
-    href="#info"
-  >
+
+  <a class="nav-item" href="#info">
     <span class="nav-icon">ⓘ</span>
     Інфо
   </a>
 </nav>
+
 <script>
 "use strict";
+
 /* =========================================
    НАСТРОЙКИ
 ========================================= */
-const DATA_URL = "./status.json";
+
+/*
+   ДАННЫЕ ТЕПЕРЬ БЕРУТСЯ С VPS
+*/
+const DATA_URL =
+  "https://alert.quickcardgo.site/status.json";
+
 const STATUS_CACHE_KEY =
   "odesa-alert-last-status";
+
 const STATUS_TIMEOUT =
   6000;
+
 let previousStatus = null;
 let serviceWorkerRegistration = null;
 let currentStatusData = null;
 let statusLoading = false;
+
 /* =========================================
    ВРЕМЯ КИЕВ
 ========================================= */
+
 function updateKyivTime(){
   const element =
     document.getElementById(
       "kyivTime"
     );
+
   if(!element){
     return;
   }
+
   element.textContent =
     new Intl.DateTimeFormat(
       "uk-UA",
@@ -1114,15 +1083,18 @@ function updateKyivTime(){
       }
     ).format(new Date());
 }
+
 updateKyivTime();
+
 setInterval(
   updateKyivTime,
   1000
 );
+
 /* =========================================
    SERVICE WORKER
-   НЕ БЛОКИРУЕТ ЗАПУСК СТРАНИЦЫ
 ========================================= */
+
 async function registerServiceWorker(){
   if(!("serviceWorker" in navigator)){
     console.warn(
@@ -1130,6 +1102,7 @@ async function registerServiceWorker(){
     );
     return null;
   }
+
   try{
     serviceWorkerRegistration =
       await navigator.serviceWorker.register(
@@ -1138,18 +1111,17 @@ async function registerServiceWorker(){
           scope:"./"
         }
       );
+
     console.log(
       "Service Worker зареєстровано"
     );
-    /*
-       Не чекаємо navigator.serviceWorker.ready
-       перед завантаженням status.json.
-    */
+
     navigator.serviceWorker.ready
       .then(
         registration => {
           serviceWorkerRegistration =
             registration;
+
           console.log(
             "Service Worker готовий"
           );
@@ -1163,34 +1135,46 @@ async function registerServiceWorker(){
           );
         }
       );
+
     return serviceWorkerRegistration;
+
   }catch(error){
+
     console.error(
       "Service Worker error:",
       error
     );
+
     return null;
   }
 }
+
 /* =========================================
    MAP
 ========================================= */
+
 const mapFrame =
   document.querySelector(
     ".map iframe"
   );
+
 if(mapFrame){
+
   mapFrame.addEventListener(
     "load",
     () => {
+
       const loader =
         document.getElementById(
           "mapLoading"
         );
+
       if(!loader){
         return;
       }
+
       loader.style.opacity = "0";
+
       setTimeout(
         () => {
           loader.style.display =
@@ -1201,15 +1185,20 @@ if(mapFrame){
     }
   );
 }
+
 /* =========================================
    ДАТА
 ========================================= */
+
 function parseDate(value){
+
   if(!value){
     return null;
   }
+
   const date =
     new Date(value);
+
   if(
     Number.isNaN(
       date.getTime()
@@ -1217,14 +1206,19 @@ function parseDate(value){
   ){
     return null;
   }
+
   return date;
 }
+
 function formatDate(value){
+
   const date =
     parseDate(value);
+
   if(!date){
     return "—";
   }
+
   return new Intl.DateTimeFormat(
     "uk-UA",
     {
@@ -1236,10 +1230,13 @@ function formatDate(value){
     }
   ).format(date);
 }
+
 /* =========================================
    МИНУТЫ
 ========================================= */
+
 function formatMinutes(minutes){
+
   if(
     minutes === undefined ||
     minutes === null ||
@@ -1249,6 +1246,7 @@ function formatMinutes(minutes){
   ){
     return "—";
   }
+
   minutes =
     Math.max(
       0,
@@ -1256,24 +1254,31 @@ function formatMinutes(minutes){
         Number(minutes)
       )
     );
+
   if(minutes < 60){
+
     return (
       minutes +
       " хв"
     );
   }
+
   const hours =
     Math.floor(
       minutes / 60
     );
+
   const mins =
     minutes % 60;
+
   if(mins === 0){
+
     return (
       hours +
       " год"
     );
   }
+
   return (
     hours +
     " год " +
@@ -1281,17 +1286,22 @@ function formatMinutes(minutes){
     " хв"
   );
 }
+
 /* =========================================
    КИЕВСКАЯ ДАТА
 ========================================= */
+
 function kyivDateKey(value){
+
   const date =
     value instanceof Date
       ? value
       : parseDate(value);
+
   if(!date){
     return null;
   }
+
   const parts =
     new Intl.DateTimeFormat(
       "en-CA",
@@ -1302,9 +1312,12 @@ function kyivDateKey(value){
         day:"2-digit"
       }
     ).formatToParts(date);
+
   const result = {};
+
   parts.forEach(
     part => {
+
       if(
         part.type !== "literal"
       ){
@@ -1313,6 +1326,7 @@ function kyivDateKey(value){
       }
     }
   );
+
   return (
     result.year +
     "-" +
@@ -1321,20 +1335,27 @@ function kyivDateKey(value){
     result.day
   );
 }
+
 function isToday(value){
+
   const key =
     kyivDateKey(value);
+
   const today =
     kyivDateKey(new Date());
+
   return (
     key !== null &&
     key === today
   );
 }
+
 /* =========================================
    ПОЛУЧЕНИЕ ДЛИТЕЛЬНОСТИ
 ========================================= */
+
 function getItemDuration(item){
+
   if(
     item &&
     item.duration_minutes !== undefined &&
@@ -1343,31 +1364,40 @@ function getItemDuration(item){
       Number(item.duration_minutes)
     )
   ){
+
     return Math.max(
       0,
       Number(item.duration_minutes)
     );
   }
+
   return null;
 }
+
 /* =========================================
    СТАТИСТИКА ЗА СЕГОДНЯ
 ========================================= */
+
 function calculateTodayStats(
   history,
   data
 ){
+
   if(!Array.isArray(history)){
+
     return {
       alerts:0,
       total_minutes:0,
       average_minutes:0
     };
   }
+
   let alerts = 0;
   let totalMinutes = 0;
+
   history.forEach(
     item => {
+
       if(
         !item ||
         item.type !== "alert" ||
@@ -1375,8 +1405,10 @@ function calculateTodayStats(
       ){
         return;
       }
+
       let duration =
         getItemDuration(item);
+
       if(
         duration === null &&
         data &&
@@ -1388,11 +1420,14 @@ function calculateTodayStats(
           new Date()
         )
       ){
+
         const start =
           parseDate(
             data.alert_started_at
           );
+
         if(start){
+
           duration =
             Math.max(
               0,
@@ -1405,13 +1440,17 @@ function calculateTodayStats(
             );
         }
       }
+
       if(duration === null){
         return;
       }
+
       alerts++;
+
       totalMinutes += duration;
     }
   );
+
   if(
     data &&
     data.status === "alert" &&
@@ -1423,15 +1462,18 @@ function calculateTodayStats(
         item.time === data.alert_started_at
     )
   ){
+
     const start =
       parseDate(
         data.alert_started_at
       );
+
     if(
       start &&
       kyivDateKey(start) ===
       kyivDateKey(new Date())
     ){
+
       const duration =
         Math.max(
           0,
@@ -1442,10 +1484,12 @@ function calculateTodayStats(
             ) / 60000
           )
         );
+
       alerts++;
       totalMinutes += duration;
     }
   }
+
   return {
     alerts,
     total_minutes:
@@ -1461,12 +1505,16 @@ function calculateTodayStats(
         : 0
   };
 }
+
 /* =========================================
    СТАТИСТИКА ПО ДНЯМ
 ========================================= */
+
 function getDayKeyOffset(offset){
+
   const now =
     new Date();
+
   const parts =
     new Intl.DateTimeFormat(
       "en-CA",
@@ -1477,24 +1525,28 @@ function getDayKeyOffset(offset){
         day:"2-digit"
       }
     ).formatToParts(now);
+
   const y =
     Number(
       parts.find(
         p => p.type === "year"
       ).value
     );
+
   const m =
     Number(
       parts.find(
         p => p.type === "month"
       ).value
     );
+
   const d =
     Number(
       parts.find(
         p => p.type === "day"
       ).value
     );
+
   const utc =
     new Date(
       Date.UTC(
@@ -1503,10 +1555,12 @@ function getDayKeyOffset(offset){
         d
       )
     );
+
   utc.setUTCDate(
     utc.getUTCDate() +
     offset
   );
+
   return (
     utc.getUTCFullYear() +
     "-" +
@@ -1519,9 +1573,12 @@ function getDayKeyOffset(offset){
     ).padStart(2,"0")
   );
 }
+
 function getDayLabel(key){
+
   const parts =
     key.split("-");
+
   const date =
     new Date(
       Date.UTC(
@@ -1530,6 +1587,7 @@ function getDayLabel(key){
         Number(parts[2])
       )
     );
+
   const weekday =
     new Intl.DateTimeFormat(
       "uk-UA",
@@ -1538,21 +1596,26 @@ function getDayLabel(key){
         timeZone:"UTC"
       }
     ).format(date);
+
   return weekday
     .replace(".","")
     .slice(0,2)
     .toUpperCase();
 }
+
 function calculateWeekStats(
   history,
   data
 ){
+
   const result = {};
+
   for(
     let offset = -6;
     offset <= 0;
     offset++
   ){
+
     result[
       getDayKeyOffset(offset)
     ] = {
@@ -1560,50 +1623,64 @@ function calculateWeekStats(
       minutes:0
     };
   }
+
   if(Array.isArray(history)){
+
     history.forEach(
       item => {
+
         if(
           !item ||
           item.type !== "alert"
         ){
           return;
         }
+
         const key =
           kyivDateKey(
             item.time
           );
+
         if(
           !key ||
           !result[key]
         ){
           return;
         }
+
         const duration =
           getItemDuration(item);
+
         if(duration === null){
           return;
         }
+
         result[key].alerts++;
         result[key].minutes += duration;
       }
     );
   }
+
   if(
     data &&
     data.status === "alert" &&
     data.alert_started_at
   ){
+
     const key =
       kyivDateKey(
         data.alert_started_at
       );
+
     if(result[key]){
+
       const start =
         parseDate(
           data.alert_started_at
         );
+
       if(start){
+
         const minutes =
           Math.max(
             0,
@@ -1614,6 +1691,7 @@ function calculateWeekStats(
               ) / 60000
             )
           );
+
         const exists =
           Array.isArray(history) &&
           history.some(
@@ -1623,79 +1701,107 @@ function calculateWeekStats(
               item.time ===
                 data.alert_started_at
           );
+
         if(!exists){
+
           result[key].alerts++;
           result[key].minutes += minutes;
         }
       }
     }
   }
+
   return result;
 }
+
 /* =========================================
    СТАТУС
 ========================================= */
+
 function applyStatus(data){
+
   if(
     !data ||
     typeof data !== "object"
   ){
     return;
   }
+
   currentStatusData =
     data;
+
   const card =
     document.getElementById(
       "statusCard"
     );
+
   const text =
     document.getElementById(
       "statusText"
     );
+
   const icon =
     document.getElementById(
       "statusIcon"
     );
+
   const region =
     document.getElementById(
       "regionText"
     );
+
   const updated =
     document.getElementById(
       "updated"
     );
+
   const isAlert =
     data.status === "alert";
+
   if(isAlert){
+
     card.classList.add(
       "alert"
     );
+
     text.className =
       "status red";
+
     text.textContent =
       "🔴 Повітряна тривога";
+
     icon.textContent =
       "🚨";
+
   }else{
+
     card.classList.remove(
       "alert"
     );
+
     text.className =
       "status green";
+
     text.textContent =
       "🟢 Спокійно";
+
     icon.textContent =
       "🛡️";
   }
+
   region.textContent =
     data.region ||
     "Одеська область";
+
   if(data.updated_at){
+
     const updatedDate =
       parseDate(
         data.updated_at
       );
+
     if(updatedDate){
+
       updated.textContent =
         new Intl.DateTimeFormat(
           "uk-UA",
@@ -1708,17 +1814,22 @@ function applyStatus(data){
           updatedDate
         );
     }
+
   }else{
+
     updated.textContent =
       "щойно";
   }
+
   if(
     previousStatus !== null &&
     previousStatus !== data.status &&
     data.status === "alert"
   ){
+
     handleNewAlert();
   }
+
   if(
     previousStatus !== null &&
     previousStatus !== data.status &&
@@ -1727,49 +1838,67 @@ function applyStatus(data){
     ) !== "off" &&
     "vibrate" in navigator
   ){
+
     try{
+
       navigator.vibrate(
         [500,200,500]
       );
+
     }catch(error){
+
       console.log(
         "Vibration unavailable"
       );
     }
   }
+
   previousStatus =
     data.status;
+
   updateAlertDuration();
 }
+
 /* =========================================
    ТАЙМЕР АКТИВНОЙ ТРЕВОГИ
 ========================================= */
+
 function updateAlertDuration(){
+
   const element =
     document.getElementById(
       "alertDuration"
     );
+
   if(!element){
     return;
   }
+
   if(
     !currentStatusData ||
     currentStatusData.status !== "alert" ||
     !currentStatusData.alert_started_at
   ){
+
     element.textContent =
       "🚨 Триває: 0 хв";
+
     return;
   }
+
   const start =
     parseDate(
       currentStatusData.alert_started_at
     );
+
   if(!start){
+
     element.textContent =
       "🚨 Триває";
+
     return;
   }
+
   const minutes =
     Math.max(
       0,
@@ -1780,20 +1909,25 @@ function updateAlertDuration(){
         ) / 60000
       )
     );
+
   element.textContent =
     "🚨 Триває: " +
     formatMinutes(
       minutes
     );
 }
+
 setInterval(
   updateAlertDuration,
   1000
 );
+
 /* =========================================
    НОВОЕ УВЕДОМЛЕНИЕ
 ========================================= */
+
 async function handleNewAlert(){
+
   if(
     localStorage.getItem(
       "notifications"
@@ -1801,71 +1935,91 @@ async function handleNewAlert(){
   ){
     return;
   }
+
   if(
     !("Notification" in window)
   ){
     return;
   }
+
   if(
     Notification.permission !== "granted"
   ){
     return;
   }
+
   try{
+
     const registration =
       serviceWorkerRegistration ||
       await navigator.serviceWorker.ready;
+
     if(!registration){
       return;
     }
+
     await registration.showNotification(
       "🚨 Odesa Alert",
       {
         body:
           "Повітряна тривога — Одеса та Одеська область",
+
         tag:
           "odesa-alert",
+
         renotify:
           true,
+
         requireInteraction:
           true,
+
         data:{
           url:"./"
         }
       }
     );
+
   }catch(error){
+
     console.error(
       "Notification error:",
       error
     );
   }
 }
+
 /* =========================================
    ИСТОРИЯ
 ========================================= */
+
 function renderHistory(history){
+
   const list =
     document.getElementById(
       "historyList"
     );
+
   if(!list){
     return;
   }
+
   if(
     !Array.isArray(history) ||
     history.length === 0
   ){
+
     list.innerHTML = `
       <div class="history-item">
         <div class="history-left">
           <div class="history-icon">
             🟢
           </div>
+
           <div>
             <div class="history-name">
               Подій ще немає
             </div>
+
             <div class="history-time">
               Очікування даних
             </div>
@@ -1873,23 +2027,30 @@ function renderHistory(history){
         </div>
       </div>
     `;
+
     return;
   }
+
   list.innerHTML =
     history
       .slice(0,20)
       .map(
         item => {
+
           const isAlert =
             item &&
             item.type === "alert";
+
           const duration =
             getItemDuration(
               item
             );
+
           return `
             <div class="history-item">
+
               <div class="history-left">
+
                 <div class="history-icon ${
                   isAlert
                     ? "alert"
@@ -1901,7 +2062,9 @@ function renderHistory(history){
                       : "🟢"
                   }
                 </div>
+
                 <div>
+
                   <div class="history-name">
                     ${
                       isAlert
@@ -1909,11 +2072,15 @@ function renderHistory(history){
                         : "Відбій тривоги"
                     }
                   </div>
+
                   <div class="history-time">
                     ${formatDate(item?.time)}
                   </div>
+
                 </div>
+
               </div>
+
               <div class="history-duration">
                 ${
                   duration !== null
@@ -1925,92 +2092,119 @@ function renderHistory(history){
                       : ""
                 }
               </div>
+
             </div>
           `;
         }
       )
       .join("");
 }
+
 /* =========================================
    АКТИВНІСТЬ ЗА ДОБУ
 ========================================= */
+
 function renderTodayActivity(
   history,
   data
 ){
+
   const stats =
     calculateTodayStats(
       history,
       data
     );
+
   const alertsElement =
     document.getElementById(
       "activityAlerts"
     );
+
   const minutesElement =
     document.getElementById(
       "activityMinutes"
     );
+
   const noActivity =
     document.getElementById(
       "noActivity"
     );
+
   if(alertsElement){
+
     alertsElement.textContent =
       stats.alerts;
   }
+
   if(minutesElement){
+
     minutesElement.textContent =
       formatMinutes(
         stats.total_minutes
       );
   }
+
   renderTimeline(
     history,
     data,
     noActivity
   );
 }
+
 /* =========================================
    TIMELINE
 ========================================= */
+
 function renderTimeline(
   history,
   data,
   noActivity
 ){
+
   const timeline =
     document.getElementById(
       "timeline"
     );
+
   if(!timeline){
     return;
   }
+
   timeline.innerHTML = "";
+
   [6,12,18].forEach(
     hour => {
+
       const line =
         document.createElement(
           "div"
         );
+
       line.className =
         "timeline-hour";
+
       line.style.left =
         (
           hour / 24 * 100
         ) + "%";
+
       timeline.appendChild(
         line
       );
     }
   );
+
   const now =
     new Date();
+
   if(isToday(now)){
+
     const currentHour =
       getKyivHour(now);
+
     const currentMinute =
       getKyivMinute(now);
+
     const percent =
       (
         (
@@ -2019,25 +2213,33 @@ function renderTimeline(
         ) /
         1440
       ) * 100;
+
     const nowLine =
       document.createElement(
         "div"
       );
+
     nowLine.className =
       "timeline-now";
+
     nowLine.style.left =
       Math.min(
         99.5,
         percent
       ) + "%";
+
     timeline.appendChild(
       nowLine
     );
   }
+
   let hasActivity = false;
+
   if(Array.isArray(history)){
+
     history.forEach(
       item => {
+
         if(
           !item ||
           item.type !== "alert" ||
@@ -2045,72 +2247,90 @@ function renderTimeline(
         ){
           return;
         }
+
         const start =
           parseDate(
             item.time
           );
+
         if(!start){
           return;
         }
+
         let end = null;
+
         const duration =
           getItemDuration(
             item
           );
+
         if(duration !== null){
+
           end =
             new Date(
               start.getTime() +
               duration * 60000
             );
+
         }else if(
           data &&
           data.status === "alert" &&
           data.alert_started_at === item.time
         ){
+
           end =
             new Date();
         }
+
         if(!end){
           return;
         }
+
         const startKey =
           kyivDateKey(start);
+
         if(
           startKey !==
           kyivDateKey(new Date())
         ){
           return;
         }
+
         const startMinutes =
           Math.max(
             0,
             getKyivHour(start) * 60 +
             getKyivMinute(start)
           );
+
         const endMinutes =
           Math.min(
             1440,
             getKyivHour(end) * 60 +
             getKyivMinute(end)
           );
+
         if(
           endMinutes <= startMinutes
         ){
           return;
         }
+
         const bar =
           document.createElement(
             "div"
           );
+
         bar.className =
           "timeline-alert";
+
         bar.style.left =
           (
             startMinutes /
             1440 *
             100
           ) + "%";
+
         bar.style.width =
           (
             (
@@ -2120,13 +2340,16 @@ function renderTimeline(
             1440 *
             100
           ) + "%";
+
         timeline.appendChild(
           bar
         );
+
         hasActivity = true;
       }
     );
   }
+
   if(
     data &&
     data.status === "alert" &&
@@ -2142,33 +2365,42 @@ function renderTimeline(
       )
     )
   ){
+
     const start =
       parseDate(
         data.alert_started_at
       );
+
     if(
       start &&
       isToday(start)
     ){
+
       const startMinutes =
         getKyivHour(start) * 60 +
         getKyivMinute(start);
+
       const nowMinutes =
         getKyivHour(new Date()) * 60 +
         getKyivMinute(new Date());
+
       if(nowMinutes > startMinutes){
+
         const bar =
           document.createElement(
             "div"
           );
+
         bar.className =
           "timeline-alert";
+
         bar.style.left =
           (
             startMinutes /
             1440 *
             100
           ) + "%";
+
         bar.style.width =
           (
             (
@@ -2178,13 +2410,16 @@ function renderTimeline(
             1440 *
             100
           ) + "%";
+
         timeline.appendChild(
           bar
         );
+
         hasActivity = true;
       }
     }
   }
+
   timeline
     .querySelectorAll(
       ".timeline-hour"
@@ -2194,14 +2429,18 @@ function renderTimeline(
         line.style.zIndex = "2";
       }
     );
+
   if(noActivity){
+
     noActivity.style.display =
       hasActivity
         ? "none"
         : "block";
   }
 }
+
 function getKyivHour(date){
+
   const parts =
     new Intl.DateTimeFormat(
       "en-US",
@@ -2211,14 +2450,18 @@ function getKyivHour(date){
         hour12:false
       }
     ).formatToParts(date);
+
   const value =
     parts.find(
       part =>
         part.type === "hour"
     )?.value;
+
   return Number(value || 0);
 }
+
 function getKyivMinute(date){
+
   const parts =
     new Intl.DateTimeFormat(
       "en-US",
@@ -2227,36 +2470,45 @@ function getKyivMinute(date){
         minute:"2-digit"
       }
     ).formatToParts(date);
+
   const value =
     parts.find(
       part =>
         part.type === "minute"
     )?.value;
+
   return Number(value || 0);
 }
+
 /* =========================================
    7 ДНЕЙ
 ========================================= */
+
 function renderWeekStats(
   history,
   data
 ){
+
   const list =
     document.getElementById(
       "weekList"
     );
+
   if(!list){
     return;
   }
+
   const week =
     calculateWeekStats(
       history,
       data
     );
+
   const keys =
     Object.keys(
       week
     );
+
   const maxMinutes =
     Math.max(
       1,
@@ -2265,12 +2517,15 @@ function renderWeekStats(
           week[key].minutes
       )
     );
+
   list.innerHTML =
     keys
       .map(
         key => {
+
           const day =
             week[key];
+
           const width =
             day.minutes > 0
               ? Math.max(
@@ -2281,17 +2536,23 @@ function renderWeekStats(
                   ) * 100
                 )
               : 0;
+
           return `
             <div class="week-row">
+
               <div class="week-day">
                 ${getDayLabel(key)}
               </div>
+
               <div class="week-bar">
+
                 <div
                   class="week-fill"
                   style="width:${width}%"
                 ></div>
+
               </div>
+
               <div class="week-minutes">
                 ${
                   day.minutes > 0
@@ -2301,116 +2562,152 @@ function renderWeekStats(
                     : "0 хв"
                 }
               </div>
+
             </div>
           `;
         }
       )
       .join("");
 }
+
 /* =========================================
    КЭШ ПОСЛЕДНЕГО СТАТУСА
 ========================================= */
+
 function saveStatusCache(data){
+
   try{
+
     localStorage.setItem(
       STATUS_CACHE_KEY,
       JSON.stringify(data)
     );
+
   }catch(error){
+
     console.warn(
       "Не вдалося зберегти кеш:",
       error
     );
   }
 }
+
 function loadStatusCache(){
+
   try{
+
     const cached =
       localStorage.getItem(
         STATUS_CACHE_KEY
       );
+
     if(!cached){
       return null;
     }
+
     const data =
       JSON.parse(
         cached
       );
+
     if(
       !data ||
       typeof data !== "object"
     ){
       return null;
     }
+
     return data;
+
   }catch(error){
+
     console.warn(
       "Не вдалося прочитати кеш:",
       error
     );
+
     return null;
   }
 }
+
 /* =========================================
    ПРИМЕНЕНИЕ ВСЕХ ДАННЫХ
 ========================================= */
+
 function renderStatusData(data){
+
   if(
     !data ||
     typeof data !== "object"
   ){
     return;
   }
+
   currentStatusData =
     data;
+
   applyStatus(
     data
   );
+
   const history =
     Array.isArray(
       data.history
     )
       ? data.history
       : [];
+
   renderHistory(
     history
   );
+
   renderTodayActivity(
     history,
     data
   );
+
   renderWeekStats(
     history,
     data
   );
+
   const todayStats =
     calculateTodayStats(
       history,
       data
     );
+
   const statAlerts =
     document.getElementById(
       "statAlerts"
     );
+
   const statTotal =
     document.getElementById(
       "statTotal"
     );
+
   const statAverage =
     document.getElementById(
       "statAverage"
     );
+
   if(statAlerts){
+
     statAlerts.textContent =
       todayStats.alerts;
   }
+
   if(statTotal){
+
     statTotal.textContent =
       formatMinutes(
         todayStats.total_minutes
       );
   }
+
   if(statAverage){
+
     statAverage.textContent =
       todayStats.alerts
         ? formatMinutes(
@@ -2419,38 +2716,46 @@ function renderStatusData(data){
         : "0 хв";
   }
 }
+
 /* =========================================
    МГНОВЕННЫЙ СТАРТ ИЗ КЭША
 ========================================= */
+
 function showCachedStatus(){
+
   const cached =
     loadStatusCache();
+
   if(!cached){
     return false;
   }
+
   console.log(
     "Показуємо кешований статус"
   );
+
   renderStatusData(
     cached
   );
+
   return true;
 }
+
 /* =========================================
    STATUS.JSON
-   БЫСТРЫЙ ЗАПРОС С ТАЙМАУТОМ
 ========================================= */
+
 async function loadStatus(){
-  /*
-     Не допускаємо одночасних
-     запитів.
-  */
+
   if(statusLoading){
     return;
   }
+
   statusLoading = true;
+
   const controller =
     new AbortController();
+
   const timeout =
     setTimeout(
       () => {
@@ -2458,7 +2763,9 @@ async function loadStatus(){
       },
       STATUS_TIMEOUT
     );
+
   try{
+
     const response =
       await fetch(
         DATA_URL +
@@ -2470,348 +2777,458 @@ async function loadStatus(){
             controller.signal
         }
       );
+
     if(!response.ok){
+
       throw new Error(
         "HTTP " +
         response.status
       );
     }
+
     const data =
       await response.json();
-    /*
-       Сохраняем только
-       нормальный объект.
-    */
+
     if(
       !data ||
       typeof data !== "object"
     ){
+
       throw new Error(
         "Некоректний status.json"
       );
     }
+
     saveStatusCache(
       data
     );
+
     renderStatusData(
       data
     );
+
     console.log(
       "Status updated"
     );
+
   }catch(error){
+
     if(
       error &&
       error.name === "AbortError"
     ){
+
       console.warn(
         "Status request timeout"
       );
+
     }else{
+
       console.error(
         "Status error:",
         error
       );
     }
-    /*
-       Если сеть недоступна,
-       оставляем ранее показанный
-       кешированный статус.
-    */
+
     if(!currentStatusData){
+
       const cached =
         loadStatusCache();
+
       if(cached){
+
         renderStatusData(
           cached
         );
       }
     }
+
     const updated =
       document.getElementById(
         "updated"
       );
+
     if(
       updated &&
       !currentStatusData
     ){
+
       updated.textContent =
         "помилка";
     }
+
   }finally{
+
     clearTimeout(
       timeout
     );
+
     statusLoading = false;
   }
 }
+
 /* =========================================
    УВЕДОМЛЕНИЯ
 ========================================= */
+
 const notificationsSwitch =
   document.getElementById(
     "notificationsSwitch"
   );
+
 const notificationText =
   document.getElementById(
     "notificationText"
   );
+
 function updateNotificationUI(){
+
   const permission =
     "Notification" in window
       ? Notification.permission
       : "denied";
+
   if(permission === "denied"){
+
     localStorage.setItem(
       "notifications",
       "off"
     );
   }
+
   const enabled =
     localStorage.getItem(
       "notifications"
     ) === "on" &&
     permission === "granted";
+
   notificationsSwitch.classList.toggle(
     "active",
     enabled
   );
+
   if(enabled){
+
     notificationText.textContent =
       "Сповіщення увімкнено";
+
   }else if(
     permission === "denied"
   ){
+
     notificationText.textContent =
       "Дозвіл заблоковано";
+
   }else{
+
     notificationText.textContent =
       "Натисніть для увімкнення";
   }
 }
+
 /* =========================================
    ВКЛЮЧЕНИЕ УВЕДОМЛЕНИЙ
 ========================================= */
+
 async function enableNotifications(){
+
   try{
+
     if(!("Notification" in window)){
+
       alert(
         "Цей браузер не підтримує сповіщення."
       );
+
       return;
     }
+
     if(!("serviceWorker" in navigator)){
+
       alert(
         "Service Worker не підтримується."
       );
+
       return;
     }
+
     if(
       Notification.permission ===
       "denied"
     ){
+
       localStorage.setItem(
         "notifications",
         "off"
       );
+
       updateNotificationUI();
+
       alert(
         "Сповіщення заблоковані.\n\n" +
         "Відкрийте Налаштування iPhone → Сповіщення → Odesa Alert та дозвольте сповіщення."
       );
+
       return;
     }
+
     let permission =
       Notification.permission;
+
     if(permission === "default"){
+
       permission =
         await Notification.requestPermission();
     }
+
     console.log(
       "Notification permission:",
       permission
     );
+
     if(permission === "granted"){
+
       localStorage.setItem(
         "notifications",
         "on"
       );
+
       updateNotificationUI();
+
       alert(
         "🔔 Сповіщення увімкнено!"
       );
+
       return;
     }
+
     if(permission === "denied"){
+
       localStorage.setItem(
         "notifications",
         "off"
       );
+
       updateNotificationUI();
+
       alert(
         "Сповіщення заблоковані.\n\n" +
         "Відкрийте Налаштування → Сповіщення → Odesa Alert → Дозволити сповіщення."
       );
+
       return;
     }
+
     alert(
       "Не вдалося визначити дозвіл на сповіщення."
     );
+
   }catch(error){
+
     console.error(
       "Notification error:",
       error
     );
+
     localStorage.setItem(
       "notifications",
       "off"
     );
+
     updateNotificationUI();
+
     alert(
       "Не вдалося увімкнути сповіщення.\n\n" +
       "Перевірте дозвіл на сповіщення для Odesa Alert."
     );
   }
 }
+
 /* =========================================
    КНОПКА УВЕДОМЛЕНИЙ
 ========================================= */
+
 notificationsSwitch.addEventListener(
   "click",
   async () => {
+
     const enabled =
       localStorage.getItem(
         "notifications"
       ) === "on";
+
     if(enabled){
+
       localStorage.setItem(
         "notifications",
         "off"
       );
+
       updateNotificationUI();
+
       return;
     }
+
     await enableNotifications();
   }
 );
+
 updateNotificationUI();
+
 /* =========================================
    ВИБРАЦИЯ
 ========================================= */
+
 const vibrationSwitch =
   document.getElementById(
     "vibrationSwitch"
   );
+
 function updateVibrationUI(){
+
   const enabled =
     localStorage.getItem(
       "vibration"
     ) !== "off";
+
   vibrationSwitch.classList.toggle(
     "active",
     enabled
   );
 }
+
 vibrationSwitch.addEventListener(
   "click",
   () => {
+
     const enabled =
       localStorage.getItem(
         "vibration"
       ) !== "off";
+
     localStorage.setItem(
       "vibration",
       enabled
         ? "off"
         : "on"
     );
+
     updateVibrationUI();
   }
 );
+
 updateVibrationUI();
+
 /* =========================================
    PWA INSTALL
 ========================================= */
+
 let deferredPrompt = null;
+
 const installBox =
   document.getElementById(
     "installBox"
   );
+
 const installButton =
   document.getElementById(
     "installButton"
   );
+
 const closeInstall =
   document.getElementById(
     "closeInstall"
   );
+
 window.addEventListener(
   "beforeinstallprompt",
   event => {
+
     event.preventDefault();
+
     deferredPrompt =
       event;
+
     installBox.classList.add(
       "show"
     );
   }
 );
+
 installButton.addEventListener(
   "click",
   async () => {
+
     if(!deferredPrompt){
+
       alert(
         "На iPhone: Safari → Поділитися → На початковий екран."
       );
+
       return;
     }
+
     try{
+
       deferredPrompt.prompt();
+
       await deferredPrompt.userChoice;
+
     }catch(error){
+
       console.error(
         "Install error:",
         error
       );
     }
+
     deferredPrompt =
       null;
+
     installBox.classList.remove(
       "show"
     );
   }
 );
+
 closeInstall.addEventListener(
   "click",
   () => {
+
     installBox.classList.remove(
       "show"
     );
   }
 );
+
 /* =========================================
    NAVIGATION
 ========================================= */
+
 document
   .querySelectorAll(
     ".nav-item"
   )
   .forEach(
     item => {
+
       item.addEventListener(
         "click",
         () => {
+
           document
             .querySelectorAll(
               ".nav-item"
             )
             .forEach(
               nav => {
+
                 nav.classList.remove(
                   "active"
                 );
               }
             );
+
           item.classList.add(
             "active"
           );
@@ -2819,105 +3236,115 @@ document
       );
     }
   );
+
 /* =========================================
    START
-   ВАЖНО:
-   СНАЧАЛА ДАННЫЕ,
-   ПОТОМ SERVICE WORKER
 ========================================= */
-/*
-   1. Сразу показываем сохранённые данные.
-   Это происходит практически мгновенно.
-*/
+
 showCachedStatus();
-/*
-   2. Сразу начинаем загрузку status.json.
-   Service Worker больше НЕ блокирует запуск.
-*/
+
 loadStatus();
-/*
-   3. Service Worker запускаем отдельно,
-   в фоне.
-*/
+
 registerServiceWorker();
+
 /* =========================================
    ОБНОВЛЕНИЕ КАЖДЫЕ 10 СЕКУНД
 ========================================= */
+
 setInterval(
   loadStatus,
   10000
 );
+
 /* =========================================
    ОБНОВЛЕНИЕ ПРИ ВОЗВРАТЕ В ПРИЛОЖЕНИЕ
 ========================================= */
+
 document.addEventListener(
   "visibilitychange",
   () => {
+
     if(
       document.visibilityState ===
       "visible"
     ){
+
       loadStatus();
     }
   }
 );
-/* =========================================
-   ОБНОВЛЕНИЕ ПРИ ВІДНОВЛЕННІ ІНТЕРНЕТУ
-========================================= */
+
 window.addEventListener(
   "online",
   () => {
+
     loadStatus();
   }
 );
+
 /* =========================================
    ОБНОВЛЕНИЕ TIMELINE КАЖДУЮ МИНУТУ
 ========================================= */
+
 setInterval(
   () => {
+
     if(currentStatusData){
+
       const history =
         Array.isArray(
           currentStatusData.history
         )
           ? currentStatusData.history
           : [];
+
       renderTodayActivity(
         history,
         currentStatusData
       );
+
       renderWeekStats(
         history,
         currentStatusData
       );
+
       const stats =
         calculateTodayStats(
           history,
           currentStatusData
         );
+
       const statAlerts =
         document.getElementById(
           "statAlerts"
         );
+
       const statTotal =
         document.getElementById(
           "statTotal"
         );
+
       const statAverage =
         document.getElementById(
           "statAverage"
         );
+
       if(statAlerts){
+
         statAlerts.textContent =
           stats.alerts;
       }
+
       if(statTotal){
+
         statTotal.textContent =
           formatMinutes(
             stats.total_minutes
           );
       }
+
       if(statAverage){
+
         statAverage.textContent =
           stats.alerts
             ? formatMinutes(
@@ -2926,6 +3353,7 @@ setInterval(
             : "0 хв";
       }
     }
+
   },
   60000
 );
