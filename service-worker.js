@@ -141,3 +141,51 @@ self.addEventListener(
     );
   }
 );
+self.addEventListener("push", event => {
+
+    let data = {};
+
+    try {
+        data = event.data
+            ? event.data.json()
+            : {};
+    } catch (error) {
+        data = {
+            title: "Odesa Alert",
+            body: "Нове повідомлення"
+        };
+    }
+
+    const title =
+        data.title ||
+        "Odesa Alert";
+
+    const options = {
+        body:
+            data.body ||
+            "Оновлення статусу",
+        icon: "./icon.svg",
+        badge: "./icon.svg",
+        tag:
+            data.tag ||
+            "odesa-alert",
+        renotify: true,
+        vibrate: [
+            200,
+            100,
+            200
+        ],
+        data: {
+            url:
+                data.url ||
+                "./"
+        }
+    };
+
+    event.waitUntil(
+        self.registration.showNotification(
+            title,
+            options
+        )
+    );
+});
