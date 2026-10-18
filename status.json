@@ -1,7 +1,7 @@
 {
   "status": "safe",
   "region": "Одеська область",
-  "updated_at": "2026-10-17T22:59:58.476406+00:00",
+  "updated_at": "2026-10-18T00:40:43.008771+00:00",
   "alert_started_at": null,
   "history": [
     {
@@ -364,8 +364,8 @@
     "alerts": 35,
     "total_minutes": 18085,
     "average_minutes": 517,
-    "today_alerts": 1,
-    "today_minutes": 142
+    "today_alerts": 0,
+    "today_minutes": 0
   },
   "source": "NEPTUN"
 }
